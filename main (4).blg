@@ -1,0 +1,18 @@
+[0] Config.pm:308> INFO - This is Biber 2.20
+[0] Config.pm:311> INFO - Logfile is 'main.blg'
+[162] biber-MSWIN64:340> INFO - === 
+[230] Biber.pm:420> INFO - Reading 'main.bcf'
+[429] Biber.pm:994> INFO - Found 11 citekeys in bib section 0
+[454] Biber.pm:4463> INFO - Processing section 0
+[474] Biber.pm:4654> INFO - Looking for bibtex file 'referencias.bib' for section 0
+[545] bibtex.pm:1713> INFO - LaTeX decoding ...
+[569] bibtex.pm:1519> INFO - Found BibTeX data source 'referencias.bib'
+[769] UCollate.pm:68> INFO - Overriding locale 'pt-BR' defaults 'variable = shifted' with 'variable = non-ignorable'
+[769] UCollate.pm:68> INFO - Overriding locale 'pt-BR' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[772] Biber.pm:4283> INFO - Sorting list 'nty/global//global/global/global' of type 'entry' with template 'nty' and locale 'pt-BR'
+[772] Biber.pm:4289> INFO - No sort tailoring available for locale 'pt-BR'
+[795] bbl.pm:676> INFO - Writing 'main.bbl' with encoding 'UTF-8'
+[810] bbl.pm:779> INFO - Output to main.bbl
+[811] Biber.pm:131> WARN - Possible typo (case mismatch) between citation and datasource keys: 'CANNY' and 'Canny' in file 'referencias.bib'
+[811] Biber.pm:131> WARN - I didn't find a database entry for 'CANNY' (section 0)
+[811] Biber.pm:133> INFO - WARNINGS: 2

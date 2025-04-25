@@ -1,0 +1,173 @@
+% ELEMENTOS PRÉ-TEXTUAIS
+\makeoddhead{chapfirst}{}{}{}
+% ----------------------------------------------------------
+% Capa
+% ----------------------------------------------------------
+ \ifthenelse{\equal{\terCapa}{Sim}}{\imprimircapa}{}
+
+% Folha de rosto
+% ----------------------------------------------------------
+\imprimirfolhaderosto*
+
+% Inserir a ficha bibliografica
+% ----------------------------------------------------------
+ \ifthenelse{\equal{\terFichaCatalografica}{Sim}}
+ {\insereFichaCatalografica{}\cleardoublepage}
+ {}
+
+% Inserir errata
+% ----------------------------------------------------------
+ \ifthenelse{\equal{\terErrata}{Sim}}
+ {\begin{errata}%\color{blue}
+   \imprimirerrata
+  \end{errata}}
+ {}
+
+% Inserir folha de aprovação
+% ----------------------------------------------------------
+\ifthenelse{\equal{\terTermoAprovacao}{Sim}}{
+\insereAprovacao}{}
+
+% Dedicatória
+% ----------------------------------------------------------
+\ifthenelse{\equal{\terDedicatoria}{Sim}}{
+\begin{dedicatoria}
+   \vspace*{\fill}
+   \centering
+   \noindent
+   \DedicatoriaTexto
+   \vspace*{\fill}
+\end{dedicatoria}
+}{}
+
+% Agradecimentos
+% ----------------------------------------------------------
+
+ \ifthenelse{\equal{\terAgradecimentos}{Sim}}
+ {\begin{agradecimentos}
+    \AgradecimentosTexto
+  \end{agradecimentos}
+  }{}
+% Epígrafe
+% ----------------------------------------------------------
+
+\ifthenelse{\equal{\terEpigrafe}{Sim}}{
+\begin{epigrafe}
+    \vspace*{\fill}
+	\begin{flushright}
+        \EpigrafeTexto
+	\end{flushright}
+\end{epigrafe}
+}{}
+
+% RESUMOS
+% ----------------------------------------------------------
+% resumo em português
+%\setlength{\absparsep}{18pt} % ajusta o espaçamento dos parágrafos do resumo
+ \ifthenelse{\equal{\terResumos}{Sim}}{
+\begin{resumo}
+    \ResumoTexto
+    
+    %\vspace{\onelineskip}
+    \noindent 
+    \textbf{Palavras-chaves}: \PalavraschaveTexto
+\end{resumo}
+
+%% resumo em inglês
+\begin{resumo}[ABSTRACT]
+ \begin{otherlanguage*}{english}
+   \AbstractTexto
+   
+   %\vspace{\onelineskip}
+   \noindent 
+   \textbf{Key-words}: \KeywordsTexto
+ \end{otherlanguage*}
+\end{resumo}
+
+
+% resumo em francês 
+\ifthenelse{\equal{\Resume}{}}
+{}
+{
+ \begin{resumo}[RESUME]%Résumé
+  \begin{otherlanguage*}{french}
+     \Resume
+     
+     %\vspace{\onelineskip}
+     \noindent      
+     \textbf{Mots clés}: \Motscles
+  \end{otherlanguage*}
+ \end{resumo}
+} 
+
+% resumo em espanhol
+\ifthenelse{\equal{\Resume}{}}{}
+{ \begin{resumo}[RESUMEN]
+  \begin{otherlanguage*}{spanish}
+    \Resumen 
+   
+   %\vspace{\onelineskip}
+   \noindent    
+    \textbf{Palabras clave}: \Palabrasclave
+  \end{otherlanguage*}
+ \end{resumo}
+}
+}{}
+
+% inserir lista de ilustrações
+% ----------------------------------------------------------
+\ifthenelse{\equal{\terListaFiguras}{Sim}}{
+%\pdfbookmark[0]{\listfigurename}{lof}
+\listoffigures*
+\cleardoublepage
+}{}
+
+% inserir lista de quadros
+% ----------------------------------------------------------
+\ifthenelse{\equal{\terListaQuadros}{Sim}}{
+%\pdfbookmark[0]{\listtablename}{lot}
+\listofquadros*
+\cleardoublepage
+}{}
+
+% inserir lista de tabelas
+% ----------------------------------------------------------
+\ifthenelse{\equal{\terListaTabelas}{Sim}}{
+%\pdfbookmark[0]{\listtablename}{lot}
+\listoftables*
+\cleardoublepage
+}{}
+
+
+
+% inserir lista de abreviaturas e siglas 
+% ----------------------------------------------------------
+
+ \ifthenelse{\equal{\terSiglasAbrev}{Sim}}{
+    \imprimirlistadesiglas
+    \cleardoublepage
+}{}
+
+
+% inserir lista de símbolos
+% ----------------------------------------------------------
+
+ \ifthenelse{\equal{\terSimbolos}{Sim}}{
+    \imprimirlistadesimbolos
+    \cleardoublepage
+ }{}
+
+% inserir o sumario
+\makeoddhead{chapfirst}{}{}{}
+% ----------------------------------------------------------
+\ifthenelse{\equal{\terSumario}{Sim}}{
+%\pdfbookmark[0]{\contentsname}{toc}
+\pagestyle{empty}
+\tableofcontents*
+\thispagestyle{empty}
+%\cleardoublepage
+}{}
+ 
+
+ 
+ 

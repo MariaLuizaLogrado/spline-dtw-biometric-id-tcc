@@ -1,0 +1,139 @@
+% Pacotes básicos 
+% ----------------------------------------------------------
+%\usepackage{lmodern}			% Usa a fonte Latin Modern			
+\usepackage[T1]{fontenc}		% Selecao de codigos de fonte.
+\usepackage[utf8]{inputenc}		% Codificacao do documento (conversão automática dos acentos)
+\usepackage{lastpage}			% Usado pela Ficha catalográfica
+\usepackage{indentfirst}		% Indenta o primeiro parágrafo de cada seção.
+\usepackage{microtype} 			% para melhorias de justificação
+\usepackage{ifthen}		    	% para montar condicionais
+\usepackage[brazil]{babel}		% para utilizar termos em portugues
+\usepackage[final]{pdfpages}    % para incluir páginas de arquivos pdf
+\usepackage{amsmath}			% simbolos matematicos
+
+% Pacotes de citações BibLaTeX
+% ----------------------------------------------------------
+\usepackage[style=abnt,
+	backref=true,
+	backend=biber,
+	citecounter=true,
+	backrefstyle=three, 
+ 	repeatfields=true,
+	url=true,
+	maxbibnames=99,
+    mincitenames=1,
+    maxcitenames=2,
+    backref=true,
+    hyperref=true,
+    giveninits=true,
+    uniquename=false,
+    uniquelist=false]{biblatex}
+
+% Norma NBR10.520/2023 - Sobrenomes em minúsculas
+\renewcommand*{\mkbibnamefamily}[1]{#1}%
+
+% Espaçamento entre os itens nas referências (espço de uma linha simples)
+% ----------------------------------------------------------
+\setlength\bibitemsep{\baselineskip}
+
+% Texto padrão para as referências
+% ----------------------------------------------------------
+\DefineBibliographyStrings{brazil}{%
+	 backrefpage  = {Citado \arabic{citecounter} vez na página},		% originally "cited on page"
+	 backrefpages = {Citado \arabic{citecounter} vezes nas páginas},	% originally "cited on pages"
+	 urlfrom      = {Dispon\'ivel em},
+}
+
+% Ajusta indentação de Referencias no ToC
+% ----------------------------------------------------------
+\defbibheading{bay}[\bibname]{%
+  \chapter*{#1}%
+  \markboth{#1}{#1}%
+  \addcontentsline{toc}{chapter}
+  %{\protect\numberline{}\bibname}
+  {\bibname}
+}
+
+% Formatando o avançao dos títulos no sumário 
+% ----------------------------------------------------------
+\makeatletter
+	\pretocmd{\chapter}{\addtocontents{toc}{\protect\addvspace{-12\p@}}}{}{}
+	\pretocmd{\section}{\addtocontents{toc}{\protect\addvspace{-3\p@}}}{}{}
+\makeatother
+
+% https://groups.google.com/g/abntex2/c/ZYwE4t9uTFM
+\makeatletter
+\let\oldcontentsline\contentsline
+\def\contentsline#1#2{%
+	\expandafter\ifx\csname l@#1\endcsname\l@section
+	\expandafter\@firstoftwo
+	\else
+	\expandafter\@secondoftwo
+	\fi
+	{%
+		\oldcontentsline{#1}{\MakeTextUppercase{#2}}%
+	}{%
+		\oldcontentsline{#1}{#2}%
+	}%
+}
+\makeatother
+
+% Para retirar os símbolos <> da URL  
+% ----------------------------------------------------------
+\DeclareFieldFormat{illustrated}{\addspace #1\isdot}%
+%\DeclareFieldFormat{url}{\bibstring{urlform}\addcolon\addspace<\url{#1}>}%
+%\DeclareFieldFormat{url}{\bibstring{urlfrom}\addcolon\addspace<\url{#1}>}%
+\DeclareFieldFormat{url}{\bibstring{urlfrom}\addcolon \space\addspace{#1}} 
+% remove <> em urls de acordo com abnt-6023:2018	
+
+% Ajustar o espaço para a formatação da data
+% ----------------------------------------------------------
+\DeclareFieldFormat{urldate}{\bibstring{urlseen}\addcolon\addspace #1}%
+\DeclareFieldFormat*{note}{\addspace #1}%
+
+% Para ajustar o tamanho da fonte do número da primeira página do capítulo
+% comando utilizado na parte textual 
+% ----------------------------------------------------------
+\makepagestyle{chapfirst}% Just for the first page of a chapter
+\makeoddhead{chapfirst}{}{}{\footnotesize{\thepage}}
+
+%%criar um novo estilo de cabeçalhos e rodapés
+\makepagestyle{simplestextual}
+  %%cabeçalhos
+  \makeevenhead{simplestextual} %%pagina par
+     {}{}{\footnotesize \thepage}
+     
+  \makeoddhead{simplestextual} %%pagina ímpar ou com oneside
+     {}{}{\footnotesize \thepage}
+  %\makeheadrule{simplestextual}{\textwidth}{\normalrulethickness} %linha
+  %% rodapé
+  \makeevenfoot{simplestextual}
+     {}{}{} %%pagina par
+      
+  \makeoddfoot{simplestextual} %%pagina ímpar ou com oneside
+     {}{}{}
+     
+% Define a formatação dos capítulos póstextuais numerados
+% ----------------------------------------------------------
+%\newcommand{\refap}[1]{\hyperref[#1]{Apêndice~\ref{#1}}} 	% Referência apÊndices
+
+
+
+ %%%%%%%%%%% NBR 10520/23
+
+ % Norma NBR10.520/2023 - Sobrenomes em minúsculas
+\renewcommand*{\mkbibnamefamily}[1]{#1}%
+
+%fullcite com todos autores e não como cite
+\makeatletter
+\newcommand{\tempmaxup}[1]{\def\blx@maxcitenames{99}#1}
+\makeatother
+
+\DeclareCiteCommand{\fullcite}[\tempmaxup]
+{\usebibmacro{prenote}}
+{\usedriver
+	{}
+	{\thefield{entrytype}}}
+{\multicitedelim}
+{\usebibmacro{postnote}}
+

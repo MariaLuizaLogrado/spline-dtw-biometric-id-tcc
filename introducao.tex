@@ -1,0 +1,75 @@
+\chapter{INTRODUÇÃO} \label{cha:introd}
+
+O reconhecimento facial é uma das áreas mais promissoras e desafiadoras dentro do campo da biometria. Sua aplicação abrange desde sistemas de segurança até autenticação em dispositivos móveis, tornando-se cada vez mais presente no cotidiano. Nos últimos anos, métodos baseados em aprendizado profundo, especialmente redes neurais convolucionais (CNNs), têm dominado esse campo devido à sua alta acurácia. No entanto, tais métodos apresentam algumas limitações, especialmente no que diz respeito à interpretabilidade dos modelos e à necessidade de grandes volumes de dados para treinamento.
+
+Nesse contexto, a busca por alternativas mais eficientes e interpretáveis tem ganhado relevância. Uma dessas alternativas é o uso de \textit{splines}, funções matemáticas capazes de gerar curvas suaves a partir de um conjunto reduzido de pontos. Ao representar as características faciais por meio de curvas, é possível reduzir significativamente a redundância dos dados, além de tornar o processo de extração e análise mais estruturado e compreensível.
+
+Este trabalho propõe uma abordagem híbrida que combina a expressividade das \textit{splines} com técnicas de aprendizado de máquina para o reconhecimento facial. A metodologia baseia-se na extração de contornos das principais características do rosto, sua modelagem com \textit{splines} e posterior classificação utilizando algoritmos de comparação de sequências, como o \textit{Dynamic Time Warping} (DTW) \cite{SAKOE}. Espera-se, com isso, alcançar uma representação mais compacta e interpretável das feições faciais, sem comprometer o desempenho do sistema de identificação.
+
+A introdução dessa nova abordagem se justifica não apenas pela busca por eficiência computacional, mas também pela necessidade de modelos que ofereçam maior transparência quanto às decisões tomadas. Dessa forma, o presente trabalho contribui para a ampliação das possibilidades de representação biométrica e propõe caminhos para o desenvolvimento de sistemas mais acessíveis, leves e explicáveis.
+
+\section{OBJETIVO}
+
+O objetivo deste trabalho é investigar a viabilidade do uso de \textit{splines} como método de representação de características faciais em sistemas biométricos, avaliando sua eficácia na melhoria do desempenho da identificação de indivíduos. A abordagem proposta visa combinar a expressividade das \textit{splines} com a capacidade do \textit{Dynamic Time Warping} (DTW) para reconhecimento facial, buscando uma solução que seja ao mesmo tempo eficiente e interpretável.
+
+\section{JUSTIFICATIVA}
+
+Métodos convencionais baseados em redes neurais convolucionais (CNNs) e aprendizado profundo apresentam altos níveis de acurácia, mas muitos desses modelos operam como “caixas-pretas”, dificultando a interpretação das características extraídas e utilizadas para a tomada de decisão.
+
+Diante desse cenário, a abordagem baseada no uso de \textit{splines} surge como uma alternativa para representação de características faciais de forma mais estruturada e interpretável. As \textit{splines} são funções matemáticas que permitem a modelagem de curvas suaves a partir de um conjunto reduzido de pontos de controle, garantindo uma representação eficiente das características faciais sem a necessidade de armazenar grandes quantidades de dados redundantes.
+
+Além da compactação da informação, o uso de \textit{splines} facilita a extração de características relevantes, permitindo que apenas as estruturas mais significativas do rosto sejam utilizadas como entrada para o modelo de aprendizado. Isso pode melhorar a eficiência do DTW aumentando a precisão na identificação.
+
+Dessa forma, este trabalho se justifica pela necessidade de explorar métodos alternativos para reconhecimento facial que combinem eficiência computacional e interpretabilidade.
+
+\section{METODOLOGIA}
+
+A abordagem proposta para o reconhecimento facial baseada em \textit{splines} segue um fluxo estruturado, dividido em cinco etapas principais: detecção de características faciais, extração de contornos, redução de pontos, modelagem com \textit{splines} e classificação por DTW.
+
+É importante esclarecer que a primeria versão das 4 primeiras etapas do método proposto neste trabalho foi desenvolvida durante o Programa de Voluntariado Acadêmico (PVA) em 2024 e neste TCC será desenvolvida a última etapa, que é a classificação por \textit{Dynamic Time Warping}, além de algumas melhorias nas etapas anteriores.
+
+\subsection{Detecção de Características Faciais}
+
+Inicialmente, são identificadas as principais regiões do rosto, como olhos, boca e nariz. Para isso, é utilizado o modelo Haar Cascades \cite{BoostedCascade, HaarAplicacao} como a técnica de detecção. O modelo é ajustado para reconhecer padrões de características faciais em imagens, permitindo a localização das regiões de interesse.
+
+\subsection{Extração de Contornos} 
+
+Após a identificação das regiões faciais, são extraídos os contornos dessas características por meio da técnica de processamento de imagens de detecção de bordas utilizando o operador de Canny (segmentação baseada em gradientes) \cite{Canny,CannyAplicacao}. O objetivo é obter um conjunto inicial de pontos que descrevem as características faciais.
+
+\subsection{Redução de Pontos}
+
+Para evitar redundância e reduzir a complexidade computacional, os pontos extraídos nos contornos são submetidos a um processo de simplificação. Estruturas de dados como grafos e árvore geradora mínima são utilizadas para manter apenas os pontos mais significativos. Nesta etapa utilizamos o algoritimo que encontra a árvore geradora mínima através da biblioteca \textit{Scipy} \cite{Scipy}.
+
+\subsection{Modelagem com \textit{splines}}
+
+Com os pontos reduzidos, são traçadas curvas suaves utilizando \textit{splines} Catmull-Rom \cite{CatmullRom, CatRomDemonstration, RepresentationSplines}. Essa modelagem permite representar as feições faciais de forma contínua e diferenciável, garantindo uma estrutura mais compacta e interpretável.
+
+\subsection{Classificação por Dynamic Time Warping}
+
+Por fim, os pontos gerados a partir dessas curvas são utilizados como entrada para um algoritmo de \textit{Dynamic Time Warping} (DTW) \cite{SAKOE, tavenard.blog.dtw}. O DTW é um algoritmo que mede a similaridade entre duas sequências temporais, permitindo o alinhamento não linear entre elas. Essa abordagem é especialmente útil para lidar com variações na velocidade e, neste trabalho, na forma das características faciais.
+
+\section{REFERENCIAL TEÓRICO}
+
+A ideia de representar características faciais por meio de \textit{splines} é discutida em \cite{RepresentationSplines}, que apresenta uma abordagem baseada em \textit{splines} Catmull-Rom para modelagem de curvas suaves. 
+
+O uso do algoritmo de Dynamic Time Warping (DTW) para reconhecimento facial é abordado em \cite{DTW_LSTM}, em que os autores discutem a eficácia do DTW na comparação de sequências temporais, destacando sua aplicabilidade em tarefas de reconhecimento facial. No entanto, a abordagem proposta no artigo difere da adotada neste trabalho, uma vez que os autores concentram-se na análise das variações das cores dos pixels da imagem, em vez de explorar a forma ou a geometria das características faciais.
+
+\section{CRONOGRAMA}
+
+A Tabela \ref{tab:crono} apresenta o cronograma de atividades para o desenvolvimento do trabalho, com as datas previstas para cada etapa.
+
+\begin{table}[ht] 
+    \centering
+    \caption{Cronograma de Atividades}
+    \label{tab:crono}
+    \begin{tabular}{|c|c|c|c|c|}
+    \hline
+    \textbf{Atividade} & \textbf{Mês 1} & \textbf{Mês 2} & \textbf{Mês 3} & \textbf{Mês 4} \\ \hline
+    Refatoração do código & X &  &  & \\ \hline
+    Revisão Bibliográfica &  X & X & X & X \\ \hline
+    Estudo sobre \textit{Dynamic Time Warping} &  & X & X & \\ \hline
+    Implementação do DTW &  & X & X & \\ \hline
+    Escrita da Monografia & X & X & X & X \\ \hline
+    Defesa do Trabalho &  &  &  &  X\\ \hline
+    \end{tabular}
+\end{table}

@@ -1,0 +1,535 @@
+%%
+%% Customizações do abnTeX2 (http://abnTeX2.googlecode.com) 
+%%
+%% Tihs may be distributed and/or modified under the
+%% conditions of the LaTeX Project Public License, either version 1.3
+%% of this license or (at your option) any later version.
+%% The latest version of this license is in
+%%   http://www.latex-project.org/lppl.txt
+%% and version 1.3 or later is part of all distributions of LaTeX
+%% version 2005/12/01 or later.
+%%
+%% This work has the LPPL maintenance status `maintained'.
+%% 
+%% The Current Maintainer of this work is Emílio Eiji Kavamura,
+% eek.edu@outlook.com; emilio.kavamura@ufpr.br
+%
+%
+%% Further information about abnTeX2 are available on http://abntex2.googlecode.com/
+%%
+% https://code.google.com/p/abntex2/issues/ 
+%% Further information about abnTeX2 are available on 
+
+%%http://abntex2.googlecode.com/
+
+%% https://github.com/eekBR/ufpr-abntex/
+
+%%
+%% This work consists of the files 
+% 
+%          main.tex   programa principal
+%      00-dados.tex   entrada de dados 
+%    00-pacotes.tex   pacotes carregados no modelo
+% 00-pretextual.tex   processamento dos elementos pre-textuais
+%          UFPR.sty   ajusta do modelo canonico às normas  UFPR
+%
+%    referencias.bib
+% 
+\ProvidesPackage{UFPR}[2011/12/04 Criacao desta customizacao do abnTeX2 para UFPR]
+
+
+% Hifenizacao e caracteres especiais portugues-brasil por padrao
+%----------------------------------------------------------------------------
+\RequirePackage[brazil]{babel}
+
+\RequirePackage{suffix} % para comando \criarsigla*
+\RequirePackage{tikz} % TikZ ist kein Zeichenprogramm (mas usado para desenho)
+
+% Fontes em Helvet - Arial
+%----------------------------------------------------------------------------
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+
+% Criacao de listas de simbolos e abreviaturas
+%----------------------------------------------------------------------------
+\usepackage{datatool}
+
+% Espaçamentos entre linhas e parágrafos 
+%----------------------------------------------------------------------------
+% Retira espaço extra obsoleto entre as frases.
+\frenchspacing 
+
+% O tamanho do parágrafo é dado por:
+\setlength{\parindent}{15mm}
+
+% Controle do espaçamento entre um parágrafo e outro:
+\setlength{\parskip}{2 mm}  % tente também \onelineskip
+
+% Controle do espaçamento entre a legenda e a fonte (e nota) de figuras e tabelas}:
+\setlength{\abovecaptionskip}{0 mm}
+\setlength{\belowcaptionskip}{1 mm}
+
+% Fontes padroes de part, chapter, section, subsection e subsubsection
+%----------------------------------------------------------------------------- 
+\renewcommand{\ABNTEXchapterfont}{\bfseries}
+\renewcommand{\ABNTEXchapterfontsize}{\normalsize}
+
+\renewcommand{\ABNTEXpartfont}{\ABNTEXchapterfont}
+\renewcommand{\ABNTEXpartfontsize}{\ABNTEXchapterfontsize}
+
+\renewcommand{\ABNTEXsectionfont}{\normalfont}
+\renewcommand{\ABNTEXsectionfontsize}{\normalsize}
+
+\renewcommand{\ABNTEXsubsectionfont}{\ABNTEXsectionfont}
+\renewcommand{\ABNTEXsubsectionfontsize}{\normalsize}
+
+\renewcommand{\ABNTEXsubsubsectionfont}{\ABNTEXsubsectionfont}
+\renewcommand{\ABNTEXsubsubsectionfontsize}{\normalsize}
+
+\renewcommand{\ABNTEXsubsubsubsectionfont}{\ABNTEXsubsectionfont}
+\renewcommand{\ABNTEXsubsubsubsectionfontsize}{\normalsize}
+%----------------------------------------------------------------------------- 
+
+\renewcommand{\cftchapterpagefont}{\cftsectionfont}
+
+\renewcommand{\cftsectionfont}{\normalfont}
+\renewcommand{\cftsectionpagefont}{\cftsectionfont}
+
+\renewcommand{\cftsubsectionfont}{\normalfont}
+\renewcommand{\cftsubsectionpagefont}{\cftsectionfont}
+
+\renewcommand{\cftsubsubsectionfont}{\normalfont}
+\renewcommand{\cftsubsubsectionpagefont}{\cftsectionfont}
+
+%----------------------------------------------------------------------------- 
+% Nomes constantes do abnTeX2 em portugues (definicoes padroes)
+%----------------------------------------------------------------------------- 
+\renewcommand{\folhadeaprovacaoname}{TERMO DE APROVA\c{C}\~AO}
+\renewcommand{\anexosname}{ANEXOS}
+\renewcommand{\apendicesname}{AP\^ENDICES}
+\renewcommand{\orientadorname}{Orientador:}
+\renewcommand{\coorientadorname}{Coorientador:}
+\newcommand{\orientadoraname}{Orientadora:}     % 2015/12/05
+\newcommand{\coorientadoraname}{Coorientadora:} % 2015/12/05
+\newcommand{\scoorientadorname}{Coorientador:}  % 2015/12/05
+\newcommand{\scoorientadoraname}{Coorientadora:}% 2015/12/05
+\renewcommand{\fontename}{Fonte:~}% 2015/12/05
+\renewcommand{\notaname}{Nota:~}  % 2015/12/05
+\renewcommand{\bibname}{\uppercase{REFER\^ENCIAS}}
+\renewcommand{\indexname}{\'INDICE}
+
+% Adequando o uppercase titulo dos elementos nas suas respectivas LISTAS
+\renewcommand{\cftfigurename}{FIGURA\enspace}   
+\renewcommand{\cfttablename}{TABELA\enspace}
+
+
+% Comandos de dados - orientadora
+\providecommand{\imprimirorientadoraRotulo}{}
+\providecommand{\imprimirorientadora}{}
+\newcommand{\orientadora}[2][\orientadoraname]%
+  {\renewcommand{\imprimirorientadoraRotulo}{#1}%
+   \renewcommand{\imprimirorientadora}{#2}}
+
+% Comandos de dados - coorientadora
+\providecommand{\imprimircoorientadoraRotulo}{}
+\providecommand{\imprimircoorientadora}{}
+\newcommand{\coorientadora}[2][\coorientadoraname]%
+  {\renewcommand{\imprimircoorientadoraRotulo}{#1}%
+   \renewcommand{\imprimircoorientadora}{#2}}
+
+% Comandos de dados - segundo coorientador
+\providecommand{\imprimirscoorientadorRotulo}{}
+\providecommand{\imprimirscoorientador}{}
+\newcommand{\scoorientador}[2][\scoorientadorname]%
+  {\renewcommand{\imprimirscoorientadorRotulo}{#1}%
+   \renewcommand{\imprimirscoorientador}{#2}}
+   
+   % Comandos de dados - segunda coorientadora
+\providecommand{\imprimirscoorientadoraRotulo}{}
+\providecommand{\imprimirscoorientadora}{}
+\newcommand{\scoorientadora}[2][\scoorientadoraname]%
+  {\renewcommand{\imprimirscoorientadoraRotulo}{#1}%
+   \renewcommand{\imprimirscoorientadora}{#2}}
+
+
+% Impressão da Capa
+%----------------------------------------------------------------------------- 
+\renewcommand{\imprimircapa}{%
+  \begin{capa}%
+    \center
+    \begin{tikzpicture}[remember picture,overlay] 
+    	\node[anchor=south west, yshift= 25mm, xshift=-1.5mm] at 
+		(current page.south west) 
+		{\includegraphics[width = \paperwidth]{fig/capaufpr.png}};
+    \end{tikzpicture}
+    \center
+%    \ABNTEXchapterfont 
+    \MakeUppercase\imprimirinstituicao \vspace{-2mm}
+    
+%     \ifthenelse{\equal \ImprimirSetor{Nao}}{Nao}{
+% %    \ABNTEXchapterfont 
+%     \MakeUppercase\ImprimirSetor}
+%         \vspace{-2mm}
+    
+%     \ifthenelse{\equal \ImprimirProgramaPos{}}{}{
+% %    \ABNTEXchapterfont 
+%     \MakeUppercase\ImprimirProgramaPos}
+    
+%     \ifthenelse{\equal \ImprimirCurso{}}{}{
+% %    \ABNTEXchapterfont 
+%     \MakeUppercase\ImprimirCurso}
+    
+    \vspace{40mm}
+    
+%    \ABNTEXchapterfont 
+    \MakeUppercase\imprimirautor
+
+    \vspace{40mm}
+%    \ABNTEXchapterfont
+    \MakeUppercase\imprimirtitulo
+    \vfill
+    
+     %\large
+     \MakeUppercase\imprimirlocal
+     
+     %\large
+     \imprimirdata
+    
+    \vspace*{10mm}
+  \end{capa}
+}
+
+% Folha de rosto
+%-----------------------------------------------------------------------------
+%   usar \imprimirfolhaderosto* casodeseje imprimir algo no verso da
+%   página no caso de estar no modo twoside. Util para imprimir a Ficha
+%   Bibliografica. Porem, se estiver no modo oneside, a versao sem estrela
+%   é identica.
+%----------------------------------------------------------------------------- 
+\renewenvironment{folhaderosto}[1][\folhaderostoname]{\clearpage\PRIVATEbookmarkthis{#1}}{\cleardoublepage}
+\renewenvironment{folhaderosto*}[1][\folhaderostoname]{\clearpage\PRIVATEbookmarkthis{#1}}{\newpage}%
+
+
+% Conteudo padrao da Folha de Rosto
+%----------------------------------------------------------------------------- 
+\makeatletter
+\renewcommand{\folhaderostocontent}{
+  \begin{center}
+
+    %\vspace*{1cm}
+    {
+	%\ABNTEXchapterfont
+    %\large
+    \MakeUppercase\imprimirautor}
+	
+    \vspace*{\fill}%\vspace*{\fill}
+    \begin{center}
+%      \ABNTEXchapterfont
+      %\bfseries
+      %\Large
+      \MakeUppercase\imprimirtitulo
+    \end{center}
+    \vspace*{\fill}
+	
+    \abntex@ifnotempty{\imprimirpreambulo}{%
+      \hspace{.45\textwidth}
+      \begin{minipage}{.5\textwidth}
+      	\SingleSpacing\small
+         \imprimirpreambulo.\vspace*{2mm}
+         
+         \abntex@ifnotempty{\imprimirorientador}
+            {\imprimirorientadorRotulo~\imprimirorientador}
+         \ifthenelse{\equal{\imprimirorientador}{}}
+			{\imprimirorientadoraRotulo~\imprimirorientadora}
+			{}
+		 \abntex@ifnotempty{\imprimircoorientador}
+		    {\par\imprimircoorientadorRotulo~\imprimircoorientador}%
+			{\abntex@ifnotempty{\imprimircoorientadora}
+				{\par\imprimircoorientadoraRotulo~\imprimircoorientadora}%
+                        }
+			\ifthenelse{\equal{\imprimirscoorientadora}{} \AND \equal{\imprimirscoorientador}{}}{}
+			{
+			\ifthenelse{\equal{\imprimirscoorientador}{}}{}
+			{\par\imprimirscoorientadorRotulo~\imprimirscoorientador}
+			\ifthenelse{\equal{\imprimirscoorientadora}{}}{}
+			{\par\imprimirscoorientadoraRotulo~\imprimirscoorientadora}
+			}%
+			%
+       \end{minipage}%
+       \vspace*{\fill}
+    }%
+
+\vspace*{\fill}
+
+
+    {  \MakeUppercase\imprimirlocal}
+    \par
+    {    \imprimirdata}
+    \vspace*{1cm}
+
+  \end{center}
+}
+\makeatother
+
+% FICHA CATALOGRÁFICA
+%----------------------------------------------------------------------------- 
+
+% Isto é um exemplo de Ficha Catalográfica, ou ``Dados internacionais de
+% catalogação-na-publicação''. Você pode utilizar este modelo como referência. 
+% Porém, provavelmente a biblioteca da sua universidade lhe fornecerá um PDF
+% com a ficha catalográfica definitiva após a defesa do trabalho. Quando estiver
+% com o documento, salve-o como PDF no diretório do seu projeto e substitua todo
+% o conteúdo de implementação deste arquivo pelo comando abaixo:
+
+\newcommand{\insereFichaCatalografica}{ 
+ \begin{fichacatalografica}%\color{blue}
+
+ \IfFileExists{metadados/FichaC.pdf}
+    {\includepdf[pages=-]{metadados/FichaC}}
+    {
+	\vspace*{\fill}					% Posição vertical
+	\hrule							% Linha horizontal
+	\begin{center}					% Minipage Centralizado
+	\begin{minipage}[c]{12.5cm}		% Largura
+
+   \imprimirautor
+	
+	\hspace{0.5cm} \imprimirtitulo  / \imprimirautor. --
+	\imprimirlocal, \imprimirdata-
+	
+	\hspace{0.5cm} \pageref{LastPage} p. : il. (algumas color.) ; 30 cm.\\
+	
+	\hspace{0.5cm} 
+	\ifthenelse{\equal{\imprimirorientador}{}}
+			{\imprimirorientadoraRotulo~\imprimirorientadora}
+			{\imprimirorientadorRotulo~\imprimirorientador}
+	\\
+	
+	\hspace{5mm}
+	\parbox[t]{\textwidth}{\imprimirtipotrabalho~--~\imprimirinstituicao,
+	\imprimirdata.}\\
+	
+	  \hspace{5mm}
+	   \begin{minipage}{.80\textwidth}
+	    	1. \PalavraschaveTexto
+
+	    	I. 	\ifthenelse{\equal{\imprimirorientador}{}}
+			{\imprimirorientadoraRotulo~\imprimirorientadora}
+			{\imprimirorientadorRotulo~\imprimirorientador}.
+			
+		   II. \imprimirinstituicao
+		   
+		  III. \imprimirCurso
+		  
+		   IV. \imprimirtitulo\\ 
+		   
+	    \hspace{70mm} CDU \imprimircdu \\
+	  \end{minipage}
+	\end{minipage}
+	\end{center}
+	\hrule
+ }
+ \end{fichacatalografica}
+}
+
+% CONFIGURACAO DO SUMARIO   
+%----------------------------------------------------------------------------- 
+% Modifica o espaçamento no sumário 
+% Nao ha espacos, exceto para as entradas de capitulos 
+\setlength{\cftbeforeparagraphskip}{0pt} 
+\setlength{\cftbeforesubsectionskip}{0pt} 
+\setlength{\cftbeforesectionskip}{0pt} 
+\setlength{\cftbeforesubsubsectionskip}{0pt} 
+\setlength{\cftbeforechapterskip}{10pt} 
+
+%% Alteração da indentação dos itens do sumário
+%\cftsetindents{chapter}{0pt}{42pt}
+%\cftsetindents{section}{0pt}{42pt}
+%\cftsetindents{subsection}{0pt}{42pt}
+%\cftsetindents{subsubsection}{0pt}{42pt}
+
+% Modifica a formatacao dos textos 
+ 
+% Secao Primaria (Chapter): Caixa alta, Negrito, tamanho 12 
+\makeatletter 
+\settocpreprocessor{chapter}{% 
+  \let\tempf@rtoc\f@rtoc% 
+  \def\f@rtoc{% 
+  \texorpdfstring{\bfseries\MakeTextUppercase{\tempf@rtoc}}{\tempf@rtoc}}% 
+} 
+\makeatother 
+
+% Siglas
+%----------------------------------------------------------------------------- 
+\makeatletter
+
+	\newcommand\criarsigla[2]{%
+		\write\@auxout{\noexpand\@writefile{sig}
+			      {\noexpand\sortitem{#1} {#2}}}}
+	
+	\WithSuffix\newcommand\criarsigla*[2]{%
+		\write\@auxout{\noexpand\@writefile{sig}
+			      {\noexpand\sortitem{#1} {#2}}}
+		              #2~(#1)}
+		
+	\newcommand{\sortitem}[2]{%
+		\DTLnewrow{list}%
+		\DTLnewdbentry{list}{label}{#1}%
+		\DTLnewdbentry{list}{description}{#2}%
+	}
+
+	\newenvironment{sortedList}{%
+		\DTLifdbexists{list}{\DTLcleardb{list}}{\DTLnewdb{list}}%
+	}
+	{
+		\DTLsort{label}{list}%
+		\begin{description}[labelsep=15mm, align=left, 
+		                    labelwidth=25mm,
+		                    leftmargin=40mm, labelindent=0mm]%
+			
+\DTLforeach*{list}{\theLabel=label,\theDesc=description}{\item[\theLabel] \theDesc}		
+	
+		\end{description}
+	}
+
+	\newcommand\imprimirlistadesiglas{
+	
+		\begin{center}
+			{\ABNTEXchapterfont{LISTA DE ABREVIATURAS E DE 	SIGLAS}}
+			\vspace*{1.1cm}
+			\begin{sortedList}
+				\fontfamily{cmss}\@starttoc{sig}
+			\end{sortedList}
+		\end{center}
+	}
+
+\makeatother
+
+% Simbolos com a colaboração da Isabel Gebauer Soares 2020/02/24
+%----------------------------------------------------------------------------- 
+\makeatletter
+	\newcommand\criarsimbolo[2]{%
+		\write\@auxout{\noexpand\@writefile{sbl}{
+				\noexpand\sortitem{#1}{\ignorespaces#2}}} #1
+		}
+		        
+	\newenvironment{sortedsimb}{%
+		\DTLifdbexists{list}{\DTLcleardb{list}}{\DTLnewdb{list}}%
+	    }
+    	{
+		\DTLsort{description}{list}%
+		\begin{description}
+		    [labelsep=2mm, 
+		     labelwidth=25mm, 
+		     leftmargin = 22mm]%
+			
+            \DTLforeach*{list}
+                {\theLabel=label,\theDesc=description}
+                {\item[\theLabel] \theDesc}		
+		\end{description}
+	    }		        
+		        
+	\newcommand\imprimirlistadesimbolos{%
+		\begin{center}
+			{\ABNTEXchapterfont{LISTA DE S\'IMBOLOS}}
+			\vspace*{1.1cm}
+		\begin{sortedsimb}
+			  \@starttoc{sbl}
+		\end{sortedsimb}
+	    \end{center}
+	}
+\makeatother
+
+% Folha de Aprovação
+%----------------------------------------------------------------------------- 
+\newcommand{\insereAprovacao}{
+\IfFileExists{metadados/TermoA.pdf}
+    {\includepdf[pages=-]{metadados/TermoA.pdf}}
+{
+\begin{folhadeaprovacao}%\color{blue}
+
+  \begin{center}
+    {\ABNTEXchapterfont
+    {\bfseries\folhadeaprovacaoname}\par\phantom{}\par
+    %\large
+    \MakeUppercase\imprimirautor}
+
+    \vspace*{\fill}\vspace*{\fill}
+    \begin{center}
+      \ABNTEXchapterfont
+      %\bfseries\Large
+      \MakeUppercase\imprimirtitulo
+    \end{center}
+    \vspace*{\fill}
+    \begin{minipage}{\textwidth}
+    \hspace{.25\textwidth}
+    %\begin{minipage}{.5\textwidth}
+        \imprimirpreambulo, pela seguinte banca examinadora:
+    %\end{minipage}%
+    \end{minipage}
+
+
+    \vspace*{\fill}
+   \end{center}
+       \assinatura{\textbf{
+       \ifthenelse{\equal{\imprimirorientador}{}}
+			{\imprimirorientadora \\ Orientadora}
+			{\imprimirorientador \\ Orientador}} 
+       }
+   \AssinaAprovacao
+  
+\end{folhadeaprovacao}
+}
+}
+
+%
+\newcommand{\tocfont}{\normalsize}	% define tamanho de fonte para sumario como normal	
+
+% Configurações de aparência do PDF final
+% ----------------------------------------------------------
+
+% informações do PDF
+% ----------------------------------------------------------
+\makeatletter
+\hypersetup{
+    bookmarks=true,         % show bookmarks bar?
+    %unicode=false,          % non-Latin characters in Acrobat’s bookmarks
+    pdftoolbar=true,        % show Acrobat’s toolbar?
+    pdfmenubar=true,        % show Acrobat’s menu?
+    pdffitwindow=false,     % window fit to page when opened
+%    pdfstartview={FitW},    % fits the width of the page to the window
+    pdftitle={},     % title
+    pdfauthor={},    % author
+    pdfsubject={},   % subject of the document
+    pdfcreator={},   % creator of the document
+    pdfproducer={},  % producer of the document
+    pdfkeywords={},  % list of keywords
+    pdfnewwindow=true,    % links in new window
+    colorlinks=true,      % false: boxed links; true: colored links
+    linkcolor=black,      % color of internal links
+    citecolor=black,      % color of links to bibliography
+    filecolor=black,      % color of file links
+}
+\makeatother
+
+% citacao de acordo com a norma da UFPR 2015-agosto
+% ----------------------------------------------------------
+\renewenvironment{quotation}
+    {\vspace{.5\baselineskip}
+	\list{}{
+	    \listparindent 0em%
+		\SingleSpacing
+		\itemindent    
+		\listparindent
+		\rightmargin= 0mm
+        \leftmargin = 45mm
+        \parsep     = 0mm}%\z@ \@plus\p@}%
+        \item\relax}
+        {
+        \vspace{.5\baselineskip}
+        \endlist
+        }
+        
+\newenvironment{citacaodireta}
+{\begin{quotation}\footnotesize}
+{\end{quotation}}        
