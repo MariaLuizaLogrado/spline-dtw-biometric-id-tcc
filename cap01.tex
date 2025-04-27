@@ -70,7 +70,7 @@ Com o rosto isolado, aplicamos classificadores específicos para detectar o nari
 
 Essa abordagem, que realiza a detecção passo a passo, garante maior precisão na identificação das características menores, pois concentra a análise na área previamente delimitada pelo rosto.
 
-Como exemplo, considere a \autoref{fig:rosto} e a \autoref{fig:caracteristicas} , onde a sequência de detecção é ilustrada:
+Considere a  \autoref{fig:deteccao-caracteristicas} , onde a detecção das características faciais é realizada:
 
 \begin{enumerate}
 \item \textbf{Detecção do Rosto:} Para identificar e isolar o rosto na imagem usamos o classificador \texttt{haarcascade\_frontalface\_default.xml}.
@@ -81,8 +81,33 @@ Como exemplo, considere a \autoref{fig:rosto} e a \autoref{fig:caracteristicas} 
 \texttt{haarcascade\_mcs\_mouth.xml} para localizar a boca.
 \end{enumerate}
 
-% \imagem{Exemplo de detecção do rosto}{\includegraphics[width = 80mm]{fig/face}}{}{rosto}{}{}
-% \imagem{Exemplo de detecção das características faciais}{\includegraphics[width = 80mm]{fig/caracteristicas}}{}{caracteristicas}{}{}
+\begin{figure}[h!]
+    \caption{DETECÇÕES.}
+    \centering
+    \begin{minipage}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.9\linewidth]{fig/01_example_image.png}
+        \legend{FONTE: \cite{FERET1,FERET2}}
+        \label{fig:imagem}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.9\linewidth]{fig/02_face.png}
+        \legend{1º Detecção da face.}
+        \label{fig:face}
+    \end{minipage}
+
+    \vspace{1cm}
+
+    \begin{minipage}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.9\linewidth]{fig/02_detected_features.png}
+        \legend{2º Detecção das características.}
+        \label{fig:caracteristicas}
+    \end{minipage}
+    \label{fig:deteccao-caracteristicas}
+\end{figure}
 
 
 
@@ -117,12 +142,208 @@ Por exemplo, na Figura \autoref{fig:histerese}, a borda A está acima do \textit
 
 É crucial selecionar adequadamente os valores de \textit{minVal} e \textit{maxVal} para obter resultados precisos. Esse estágio também ajuda a remover pequenos ruídos de pixels, assumindo que as bordas são linhas longas e contínuas.
 
-\section{Resultado da Detecção de Bordas}
+\subsection{Resultado da Detecção de Bordas}
 \label{sec:resultado-deteccao-bordas}
 
 Ao aplicar o algoritmo de Canny para a detecção de bordas, obtemos um array binário onde os valores '0' e '255' representam diferentes tipos de pixels. Os pixels com valor '0' são considerados descartáveis, ou seja, não fazem parte das bordas detectadas. Em contraste, os pixels com valor '255' são os que definem as bordas, indicando regiões de mudança de intensidade significativa na imagem original.
 
-A seguir são apresentados os resultados da aplicação do algoritmo de Canny em imagens de exemplo. As Figuras ,  e mostram as imagens originais e as imagens com as bordas detectadas.
+A seguir são apresentados os resultados da aplicação do algoritmo de Canny em imagens de exemplo. A \autoref{fig:canny-aplicacao} mostra as características com as bordas detectadas.
 
 
+\begin{figure}[h!]
+    \caption{APLICAÇÃO DO ALGORITMO DE CANNY.}
+    \centering
+    \begin{minipage}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.9\linewidth]{fig/03_left_eye_edge.png}
+        \legend{Olho esquerdo.}
+        \label{fig:canny-esquerdo}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.9\linewidth]{fig/03_right_eye_edge.png}
+        \legend{Olho direito.}
+        \label{fig:canny-direito}
+    \end{minipage}
 
+    \vspace{1cm}
+
+    \begin{minipage}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.9\linewidth]{fig/03_nose_edge.png}
+        \legend{Nariz.}
+        \label{fig:canny-nariz}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.9\linewidth]{fig/03_mouth_edge.png}
+        \legend{Boca.}
+        \label{fig:canny-boca}
+    \end{minipage}
+    \label{fig:canny-aplicacao}
+\end{figure}
+% \newpage
+A detecção de bordas de Canny é uma técnica poderosa e eficiente para identificar contornos em imagens. Esses resultados demonstram como o algoritmo de Canny é eficaz para realçar as bordas em diferentes tipos de imagens, permitindo uma análise visual clara e detalhada das características principais em cada exemplo.
+
+\newpage
+
+\section{Redução de Pontos em Detecção de Bordas}
+\label{sec:reduzindo-pontos-deteccao-bordas}
+
+
+Embora o detector de bordas de Canny seja excelente para capturar as bordas, nem sempre é necessário utilizar todos os pontos detectados ao passar uma spline. Para a modelagem de contornos suaves e contínuos, é suficiente selecionar um subconjunto representativo dos pontos detectados. Esse processo pode envolver a amostragem ou a simplificação dos pontos de borda, garantindo que a spline mantenha a forma geral do contorno sem a complexidade de lidar com todos os pontos individuais.
+
+Esta parte é realizada em quatro etapas principais:
+\begin{enumerate}
+    \item \textbf{Construção do Grafo:} Os pontos de borda detectados são organizados em um grafo, onde cada ponto é um nó e as conexões entre eles representam as arestas. Essa estrutura facilita a análise e a manipulação dos pontos.
+    \item \textbf{Árvore Geradora Mínima:} A partir do grafo, uma árvore geradora mínima é construída. Essa árvore conecta todos os pontos de forma a minimizar o custo total das arestas, resultando em uma representação simplificada dos contornos.
+    \item \textbf{Otimização com Poda da Árvore:} A árvore geradora mínima é otimizada, removendo pontos que não contribuem significativamente para a forma geral do contorno. Essa poda reduz o número de pontos, mantendo apenas os mais relevantes.
+    \item \textbf{Filtragem Aleatória:} Por fim, uma filtragem aleatória é aplicada para suavizar ainda mais a representação, mantendo apenas os pontos iniciais e finais de cada segmento. Essa etapa garante que a spline resultante seja suave e contínua.
+\end{enumerate}
+
+\subsection{Grafos}
+
+Para a construção do grafo, utilizamos os pontos de borda detectados pelo algoritmo de Canny. Cada ponto é representado como um nó no grafo, e as conexões entre os pontos são representadas como arestas. Essa estrutura é chamada de matriz de adjacência, onde cada elemento indica a presença ou ausência de uma aresta entre dois nós.
+
+O código foi feito de forma autoral em Python, utilizando a fórmula Manhattan para calcular a distância entre os pontos. Essa fórmula é adequada para o nosso caso, pois considera apenas as distâncias horizontais e verticais, o que é suficiente para que o grafo represente adequadamente a estrutura dos contornos faciais.
+
+No processo de detecção de contornos, a matriz Canny e a matriz de adjacências são conceitos fundamentais para entender a construção dos grafos. O primeiro passo é aplicar a matriz Canny, que resulta na detecção de contornos da imagem. A seguir, apresentamos uma representação da matriz Canny e da matriz de adjacências.
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{c c c}
+        \begin{minipage}{0.4\textwidth}
+            \centering
+            \textbf{Matriz Canny}\\
+            \[
+            \begin{bmatrix}
+                255_1 & 0 & 0 & 0 & 0 \\
+                0 & 255_2 & 0 & 255_3 & 0 \\
+                255_4 & 0 & 0 & 0 & 255_5 \\
+            \end{bmatrix}
+            \]
+        \end{minipage}
+        \hspace{0.5cm}
+        
+        & $\rightarrow$ &
+        \begin{minipage}{0.4\textwidth}
+            \centering
+            \textbf{Contornos}\\ [0.2cm]
+            \includegraphics[width=0.9\textwidth]{fig/contorno_canny.jpeg}
+        \end{minipage}
+    \end{tabular}
+    \caption{Matriz Canny e seus contornos gerados}
+    \label{fig:canny-contornos}
+    \end{table}
+
+O próximo passo é a conversão dos contornos em grafos utilizando a matriz de adjacências.
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{c c c}
+        \textbf{Matriz de Adjacências}\\
+        \begin{minipage}{0.4\textwidth}
+            \centering
+            \[
+            \begin{bmatrix}
+                0 & 1 & 0 & 0 & 0 \\
+                1 & 0 & 0 & 1 & 0 \\
+                0 & 0 & 0 & 0 & 1 \\
+                0 & 1 & 0 & 0 & 0 \\
+                0 & 0 & 1 & 0 & 0 \\
+            \end{bmatrix}
+            \]
+        \end{minipage}
+        \hspace{0.5cm}
+        
+        & $\rightarrow$ &
+        \begin{minipage}{0.4\textwidth}
+            \centering
+            \textbf{Grafo}\\[0.2cm]
+            \includegraphics[width=0.9\textwidth]{fig/grafo.jpeg}
+        \end{minipage}
+    \end{tabular}
+    \caption{Matriz de adjacências e a construção do grafo}
+    \label{fig:adjacencias-grafo}
+    \end{table}
+
+\newpage
+
+\subsection{Grafos Conexos e Desconexos}
+
+Os grafos podem ser classificados em dois tipos principais: grafos conexos e grafos desconexos. Um grafo é considerado conexo se existe um caminho entre qualquer par de vértices, ou seja, é possível alcançar qualquer nó a partir de outro nó. Por outro lado, um grafo desconexo possui pelo menos um par de vértices que não estão conectados por um caminho.
+
+Um grafo desconexo pode ser dividido em componentes conexos, que são subgrafos conexos. Cada componente conexo é um subconjunto do grafo original onde todos os vértices estão conectados entre si, mas não há conexão com os vértices de outros componentes. Essa distinção é importante para entender a estrutura do grafo e como ele pode ser analisado e manipulado.
+
+
+\begin{figure}[ht]
+    \caption{COMPONENTES CONEXAS REPRESENTADAS POR GRAFOS.}
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \textbf{Componente Conexo 1} \\[0.2cm]
+        \begin{tikzpicture}
+            % Primeiro grafo (Triângulo) - Cor Azul
+            \node at (0,0) (n1) [circle, draw=blue, fill=blue!20] {1};
+            \node at (2,0) (n2) [circle, draw=blue, fill=blue!20] {2};
+            \node at (1,2) (n3) [circle, draw=blue, fill=blue!20] {3};
+            \draw[blue] (n1) -- (n2);
+            \draw[blue] (n2) -- (n3);
+            \draw[blue] (n3) -- (n1);
+        \end{tikzpicture}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \textbf{Componente Conexo 2} \\[0.2cm]
+        \begin{tikzpicture}
+            % Segundo grafo (Quadrado) - Cor Vermelha
+            \node at (0,0) (n1) [circle, draw=red, fill=red!20] {4};
+            \node at (2,0) (n2) [circle, draw=red, fill=red!20] {5};
+            \node at (2,2) (n3) [circle, draw=red, fill=red!20] {6};
+            \node at (0,2) (n4) [circle, draw=red, fill=red!20] {7};
+            \draw[red] (n1) -- (n2);
+            \draw[red] (n2) -- (n3);
+            \draw[red] (n3) -- (n4);
+            \draw[red] (n4) -- (n1);
+        \end{tikzpicture}
+    \end{minipage}
+    \label{fig:componentes_conexos}
+    \end{figure}
+
+Em problemas de processamento de imagens, frequentemente são utilizados grafos que representam os pixels da imagem. O objetivo é identificar componentes conexas, permitindo a seleção dos caminhos mais significativos e a filtragem de ruídos. Componentes com um grande número de nós indicam regiões de interesse, correspondendo a áreas com maior quantidade de pixels conectados. Por outro lado, componentes menores podem ser interpretadas como ruído ou regiões irrelevantes, que podem ser descartadas durante o processamento.
+
+\subsection{Resultado da Construção do Grafo}
+\label{sec:resultado-construcao-grafo}
+
+Podemos observar que a imagem original é composta por um grande número de pontos, porém utilizando a filtragem de pixles através de grafos com as componentes conexas, conseguimos reduzir a quantidade de pontos, mantendo apenas os mais relevantes. A \autoref{fig:resultado-grafo} mostra o resultado da construção do grafo e a filtragem dos pontos.
+
+\begin{figure}[h!]
+    \caption{COMPONENTES CONEXAS NARIZ.}
+    \centering
+    \begin{minipage}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.9\linewidth]{fig/02_detected_nose.png}
+        \legend{Nariz identificado.}
+        \label{fig:nariz}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.9\linewidth]{fig/03_nose_edge.png}
+        \legend{Ênfase nos contornos.}
+        \label{fig:canny-nariz}
+    \end{minipage}
+
+    \vspace{1cm}
+
+    \begin{minipage}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=1\linewidth]{fig/04_connected_components_nose.png}
+        \legend{Remoção de alguns pixels através de grafos.}
+        \label{fig:grafos-nariz}
+    \end{minipage}
+    \label{fig:resultado-grafo}
+\end{figure}
