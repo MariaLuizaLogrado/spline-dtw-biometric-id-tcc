@@ -651,7 +651,7 @@ INPUT .\fig\01_example_image.png
 INPUT .\fig\01_example_image.png
 INPUT .\fig\01_example_image.png
 INPUT .\fig\01_example_image.png
-INPUT C:\Users\Maria Luiza\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\helvetic\phvb8t.tfm
+INPUT C:\Users\Maria Luiza\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\helvetic\phvro8t.tfm
 INPUT .\fig\02_face.png
 INPUT .\fig\02_face.png
 INPUT .\fig\02_face.png
@@ -667,8 +667,8 @@ INPUT .\fig\02_detected_features.png
 INPUT .\fig\02_detected_features.png
 INPUT .\fig\02_detected_features.png
 INPUT .\fig\02_detected_features.png
-INPUT C:\Users\Maria Luiza\AppData\Local\Programs\MiKTeX\fonts\vf\adobe\helvetic\phvb8t.vf
-INPUT C:\Users\Maria Luiza\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\helvetic\phvb8r.tfm
+INPUT C:\Users\Maria Luiza\AppData\Local\Programs\MiKTeX\fonts\vf\adobe\helvetic\phvro8t.vf
+INPUT C:\Users\Maria Luiza\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\helvetic\phvro8r.tfm
 INPUT C:\Users\Maria Luiza\AppData\Local\Programs\MiKTeX\fonts\vf\adobe\helvetic\phvr8c.vf
 INPUT C:\Users\Maria Luiza\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\helvetic\phvr8t.tfm
 INPUT C:\Users\Maria Luiza\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\helvetic\phvr8t.tfm
@@ -681,7 +681,6 @@ INPUT .\fig\histerese.png
 INPUT .\fig\histerese.png
 INPUT .\fig\histerese.png
 INPUT .\fig\histerese.png
-INPUT C:\Users\Maria Luiza\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\helvetic\phvb8t.tfm
 INPUT .\fig\03_left_eye_edge.png
 INPUT .\fig\03_left_eye_edge.png
 INPUT .\fig\03_left_eye_edge.png
@@ -710,8 +709,6 @@ INPUT .\fig\03_mouth_edge.png
 INPUT .\fig\03_mouth_edge.png
 INPUT .\fig\03_mouth_edge.png
 INPUT .\fig\03_mouth_edge.png
-INPUT C:\Users\Maria Luiza\AppData\Local\Programs\MiKTeX\fonts\vf\adobe\helvetic\phvb8t.vf
-INPUT C:\Users\Maria Luiza\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\helvetic\phvb8r.tfm
 INPUT .\fig\contorno_canny.jpeg
 INPUT .\fig\contorno_canny.jpeg
 INPUT .\fig\contorno_canny.jpeg

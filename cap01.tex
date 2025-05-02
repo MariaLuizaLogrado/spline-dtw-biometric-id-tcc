@@ -279,7 +279,7 @@ Um grafo desconexo pode ser dividido em componentes conexos, que são subgrafos 
 
 
 \begin{figure}[ht]
-    \caption{COMPONENTES CONEXAS REPRESENTADAS POR GRAFOS.}
+    \caption{COMPONENTES conexos REPRESENTADAS POR GRAFOS.}
     \centering
     \begin{minipage}{0.45\textwidth}
         \centering
@@ -313,15 +313,15 @@ Um grafo desconexo pode ser dividido em componentes conexos, que são subgrafos 
     \label{fig:componentes_conexos}
     \end{figure}
 
-Em problemas de processamento de imagens, frequentemente são utilizados grafos que representam os pixels da imagem. O objetivo é identificar componentes conexas, permitindo a seleção dos caminhos mais significativos e a filtragem de ruídos. Componentes com um grande número de nós indicam regiões de interesse, correspondendo a áreas com maior quantidade de pixels conectados. Por outro lado, componentes menores podem ser interpretadas como ruído ou regiões irrelevantes, que podem ser descartadas durante o processamento.
+Em problemas de processamento de imagens, frequentemente são utilizados grafos que representam os pixels da imagem. O objetivo é identificar componentes conexos, permitindo a seleção dos caminhos mais significativos e a filtragem de ruídos. Componentes com um grande número de nós indicam regiões de interesse, correspondendo a áreas com maior quantidade de pixels conectados. Por outro lado, componentes menores podem ser interpretadas como ruído ou regiões irrelevantes, que podem ser descartadas durante o processamento.
 
 \subsection{Resultado da Construção do Grafo}
 \label{sec:resultado-construcao-grafo}
 
-Podemos observar que a imagem original é composta por um grande número de pontos, porém utilizando a filtragem de pixles através de grafos com as componentes conexas, conseguimos reduzir a quantidade de pontos, mantendo apenas os mais relevantes. A \autoref{fig:resultado-grafo} mostra o resultado da construção do grafo e a filtragem dos pontos.
+Podemos observar que a imagem original é composta por um grande número de pontos, porém utilizando a filtragem de pixles através de grafos com as componentes conexos, conseguimos reduzir a quantidade de pontos, mantendo apenas os mais relevantes. A \autoref{fig:resultado-grafo} mostra o resultado da construção do grafo e a filtragem dos pontos.
 
 \begin{figure}[h!]
-    \caption{COMPONENTES CONEXAS NARIZ.}
+    \caption{COMPONENTES conexos NARIZ.}
     \centering
     \begin{minipage}[b]{0.45\textwidth}
         \centering

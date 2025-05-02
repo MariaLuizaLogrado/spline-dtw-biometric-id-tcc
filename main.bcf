@@ -2490,17 +2490,17 @@
     <bcf:citekey order="17" intorder="1">Canny</bcf:citekey>
     <bcf:citekey order="18" intorder="1">CannyAplicacao</bcf:citekey>
     <bcf:citekey order="19" intorder="1">CannyAplicacao</bcf:citekey>
-    <bcf:citekeycount count="0">SAKOE</bcf:citekeycount>
-    <bcf:citekeycount count="0">BoostedCascade</bcf:citekeycount>
-    <bcf:citekeycount count="0">HaarAplicacao</bcf:citekeycount>
-    <bcf:citekeycount count="0">Canny</bcf:citekeycount>
-    <bcf:citekeycount count="0">CannyAplicacao</bcf:citekeycount>
-    <bcf:citekeycount count="0">Scipy</bcf:citekeycount>
-    <bcf:citekeycount count="0">CatmullRom</bcf:citekeycount>
-    <bcf:citekeycount count="0">CatRomDemonstration</bcf:citekeycount>
-    <bcf:citekeycount count="0">RepresentationSplines</bcf:citekeycount>
-    <bcf:citekeycount count="0">tavenard.blog.dtw</bcf:citekeycount>
-    <bcf:citekeycount count="0">DTW_LSTM</bcf:citekeycount>
+    <bcf:citekeycount count="2">SAKOE</bcf:citekeycount>
+    <bcf:citekeycount count="3">BoostedCascade</bcf:citekeycount>
+    <bcf:citekeycount count="2">HaarAplicacao</bcf:citekeycount>
+    <bcf:citekeycount count="3">Canny</bcf:citekeycount>
+    <bcf:citekeycount count="3">CannyAplicacao</bcf:citekeycount>
+    <bcf:citekeycount count="2">Scipy</bcf:citekeycount>
+    <bcf:citekeycount count="1">CatmullRom</bcf:citekeycount>
+    <bcf:citekeycount count="1">CatRomDemonstration</bcf:citekeycount>
+    <bcf:citekeycount count="2">RepresentationSplines</bcf:citekeycount>
+    <bcf:citekeycount count="1">tavenard.blog.dtw</bcf:citekeycount>
+    <bcf:citekeycount count="1">DTW_LSTM</bcf:citekeycount>
     <bcf:citekeycount count="0">FERET1</bcf:citekeycount>
     <bcf:citekeycount count="0">FERET2</bcf:citekeycount>
   </bcf:section>

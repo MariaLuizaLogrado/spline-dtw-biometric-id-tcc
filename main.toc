@@ -37,4 +37,7 @@
 \contentsline {subsection}{\numberline {2.3.3}Resultado da Construção do Grafo}{18}{subsection.2.3.3}%
 \vspace {\cftbeforechapterskip }
 \vspace {-6pt}
+\addvspace {-12\p@ }
+\setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
+\contentsline {chapter}{{REFER\^ENCIAS}}{19}{chapter*.6}%
 \vspace {4pt}
