@@ -1,1 +1,234 @@
-\chapter{SPLINES CÚBICAS} \label{cha:introd} 
+\chapter{\textit{SPLINES} CÚBICAS} \label{cha:splines}
+
+As \textit{splines} são funções definidas por partes que permitem a construção de curvas suaves a partir de um conjunto de pontos de controle. Elas são amplamente utilizadas em contextos onde é necessário representar formas complexas de maneira precisa e contínua, como na computação gráfica, modelagem geométrica e análise de dados. Dentre os diversos tipos, as \textit{splines} cúbicas se destacam por proporcionarem um bom equilíbrio entre flexibilidade e suavidade, garantindo continuidade até a segunda derivada e, consequentemente, uma transição harmoniosa entre os segmentos da curva.
+
+Na área de biometria facial, a representação precisa das características do rosto — como contornos da mandíbula, sobrancelhas, olhos e lábios — é essencial para o desempenho de sistemas de reconhecimento. Utilizar \textit{splines} para descrever essas formas permite capturar variações sutis da geometria facial com suavidade e fidelidade, o que é especialmente importante na comparação entre diferentes imagens. Além disso, a estrutura matemática das \textit{splines} facilita tanto a manipulação quanto a análise das curvas faciais, tornando-as uma ferramenta eficiente e robusta nesse tipo de aplicação.
+
+Neste capítulo, será abordado as \textit{splines} cúbicas, suas propriedades e aplicações. A construção de uma \textit{spline} cúbica envolve a definição de um conjunto de pontos de controle e a determinação dos coeficientes que definem os polinômios cúbicos entre esses pontos. A suavidade da curva é garantida pela imposição de condições de continuidade e derivabilidade, resultando em uma representação suave e flexível.
+
+\section{Definição de \textit{Splines} Cúbicas}
+\label{sec:definicao-splines-cubicas}
+Uma \textit{spline} cúbica é uma função definida por partes, onde cada parte é um polinômio cúbico. Seguimos então para os polinômios de grau 3, que são especificados na forma de Hermite:
+
+\begin{equation}
+    p(t) = c_0 + c_1t + c_2t^2 + c_3t^3
+\end{equation}
+
+, onde cada $c_i$ é um vetor no $\mathbb{R}^2$.
+
+O $p$ é a posição que estamos calculando e é com isso que nos importamos ao desenhar a curva, já que estamos plotando pontos com coordenadas $(x,y)$. As curvas de Hermite são definidas por equações paramétricas, tanto $x$ quanto $y$ são em função de alguma variável independente $t$. Para demonstrar este conceito, definimos $x$ em termos de $t$:
+
+\begin{equation}
+    x(t) = c_0 + c_1t + c_2t^2 + c_3t^3
+\end{equation}
+
+$y(t)$ aparecerá idêntico, mas possivelmente com coeficientes diferentes. O $t$ é um valor que representa o quão longe se está na curva, normalizado entre $0$ e $1$. $t$ é $0$ no início da curva e $1$ no final.
+
+Então expressar uma curva cúbica na forma Hermite significa fornecer os 4 valores de Hermite que informam tudo o que é preciso saber sobre a curva. Também fornecem informações suficientes para obter os coeficientes de $t$ na equação polinomial cúbica padrão e com isso temos a fórmula completa polinomial.
+
+A razão de usar Hermite é que podemos encontrar o valor das contantes usando apenas as informações das posições dos pontos inicial e final da curva e suas respectivas tangentes:
+
+\begin{equation}
+    p_0 = p(0)
+\end{equation}
+
+, posição do ponto inicial da curva.
+
+\begin{equation}
+    p_1 = p(1)
+\end{equation}
+
+, posição do ponto final da curva.
+
+\begin{equation}
+    v_0 = v(0)
+\end{equation}
+
+, a taxa de variação em $p_0$.
+
+\begin{equation}
+    v_1 = v(1)
+\end{equation}
+
+, a taxa de variação em $p_1$.
+
+Agora que sabemos como se dão os valores de Hermite, podemos resolvê-los através do seguinte sistema de equações:
+
+\begin{align}
+    p(0) &= c_0 + c_1(0) + c_2(0)^2 + c_3(0)^3 = c_0 \\
+    p(1) &= c_0 + c_1 + c_2 + c_3
+\end{align}
+
+
+Para encontrar $v_0$ e $v_1$ é apenas calcular a derivada da posição. Portanto:
+
+\begin{align}
+    v(t) &= p'(t) = c_1 + 2c_2t + 3c_3t^2\\
+    v(0) &= c_1\\
+    v(1) &= c_1 + 2c_2 + 3c_3
+\end{align}
+
+Então é possível obter a fórmula:
+
+\begin{align}
+    c_0 &= p_0\\
+    c_1 &= v_0\\
+    c_2 &= -3p_0 - 2v_0 - v_1 + 3p_1\\
+    c_3 &= 2p_0 + v_0 + v_1 - 2p_1
+\end{align}
+
+Escrevendo de forma matricial, temos:
+
+\begin{equation}
+    p(t) =  
+        \left(
+        \begin{array}{rrrr}
+            1 & t & t^2 & t^3
+        \end{array}\right)
+        \left(
+        \begin{array}{rrrr}
+            1 & 0 & 0 & 0 \\
+            0 & 0 & 1 & 0 \\
+            -3 & 3 & -2 & -1 \\
+                2 & -2 & 1 & 1
+        \end{array}\right)
+    \left(
+        \begin{array}{r}
+            p_0 \\
+            p_1 \\
+            v_0 \\
+                v_1
+        \end{array}\right)
+ \end{equation}
+
+ \subsection{Criação da \textit{Spline}}
+
+ Supondo que existem 4 pontos e é desejado criar uma \textit{spline} que passe por todos eles. Para isso, é necessário criar 3 segmentos de curvas cúbicas, cada uma passando por dois pontos consecutivos. Assim, a \textit{spline} será composta por 3 segmentos cúbicos, cada um definido por 4 pontos de controle. \cite{CatmullRom}
+
+ A primeira curva irá de $p_0$ a $p_1$, a segunda de $p_1$ a $p_2$ e a final de $p2$ a $p_3$. Então aplicaremos a fórmula que derivamos acima para $p_t$, mas em 3 variantes diferentes, cada variante com um par diferente de pontos finais. A fórmula da primeira curva tera pontos finais $p_0$ e $p_1$, a segunda em $p_1$ e $p_2$ e a terceira em $p_2$ e $p_3$, como podemos ver na Figura \ref{fig0}. 
+ 
+ Para as tangentes, Edwin Catmull e Raphael Rom descobriram que uma forma de fazer isso é subtrair o ponto anterior do ponto seguinte. Então para calcular a tangente para o ponto $p_2$ é só fazer ($p_3 - p_1$). Também é comum dividir por 2, pois tende a gerar curvas esteticamente agradáveis.
+
+\begin{figure}[h!]
+    \caption{CURVAS CÚBICAS DE CATMULL-ROM}
+    \centering
+    \includegraphics[width=0.8\textwidth]{fig/s1.jpg}
+    \legend{Spline cúbica com 4 pontos de controle}
+    \vspace{0.5em} % Espaçamento vertical entre as imagens
+    \includegraphics[width=0.8\textwidth]{fig/s2.jpg}
+    \legend{Tangentes coincidentes nas conexões das cúbicas em cada ponto.}
+    \label{fig:spline_tangentes}
+\end{figure}
+
+Logo é possível reescrever a equação em termos de 4 pontos $p_0$ a $p_3$.
+
+Outra complicação que surge é que se precisar usar o ponto anterior e o próximo para calcular a tangente, surge a dúvida de qual será o ponto anterior de $p_i$ e o próximo ponto de $p_f$. Uma solução para isso é adicionar pontos fantasmas que não fazem parte da curva.
+
+
+Então ficamos com:
+\begin{equation}
+    p(t) =  
+        \left(
+        \begin{array}{rrrr}
+            1 & t & t^2 & t^3
+        \end{array}
+        \right)
+        \left(
+        \begin{array}{rrrr}
+            1 & 0 & 0 & 0 \\
+            0 & 0 & 1 & 0 \\
+            -3 & 3 & -2 & -1 \\
+                2 & -2 & 1 & 1
+        \end{array}
+        \right)
+    \left(
+        \begin{array}{r}
+            p_1 \\
+            p_2 \\
+            \frac{p_2 - p_0}{2\tau} \\
+                \frac{p_3 - p_1}{2\tau}
+        \end{array}
+        \right)
+\end{equation}
+, onde $\tau$ é um fator de escala que pode ser ajustado para controlar a suavidade da curva. O valor de $\tau$ pode ser definido com base na distância entre os pontos de controle ou em outras considerações geométricas.
+
+Com isso é possível chegar no formato de Catmull-Rom:
+
+\begin{equation}
+    p(t) = \frac{1}{2}
+       \left(
+ 	\begin{array}{rrrr}
+ 		1 & t & t^2 & t^3
+ 	\end{array}
+    \right)
+    \left(
+ 	\begin{array}{rrrr}
+ 		0 & 2 & 0 & 0 \\
+ 	    -\tau & 0 & \tau & 0 \\
+ 		2\tau & \tau-6 & -2(\tau-3) & -\tau \\
+            -\tau & 4-\tau & \tau-4 & \tau
+ 	\end{array}
+    \right)
+   \left(
+ 	\begin{array}{r}
+ 		p_0 \\
+ 	    p_1 \\
+ 		p_2 \\
+            p_3
+ 	\end{array}
+    \right)
+\end{equation}
+
+Nas seguintes figuras é possível observar que quanto menor a tensão $\tau$, menos suave fica a curva:
+
+\begin{figure}[h!]
+    \caption{TENSÃO DA CURVA}
+    \centering
+    \begin{minipage}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=1\linewidth]{fig/cat_rom_t1.png}
+        \legend{$\tau$ = 1}
+        \label{fig:tesao1}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=1\linewidth]{fig/cat_rom_t05.png}
+        \legend{$\tau$ = 0.5}
+        \label{fig:tensao05}
+    \end{minipage}
+
+    \vspace{1cm}
+
+    \begin{minipage}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=1\linewidth]{fig/cat_rom_t025.png}
+        \legend{$\tau$ = 0.25}
+        \label{fig:tensao025}
+    \end{minipage}
+    \label{fig:tensao}
+\end{figure}
+
+\subsection{Resultados}
+
+Foi implementado um algoritmo autoral que gera uma \textit{spline} cúbica a partir de um conjunto de pontos de controle. O algoritmo utiliza a fórmula de Catmull-Rom para calcular os coeficientes da curva, garantindo suavidade e continuidade. 
+
+A seguir, são apresentados os resultados obtidos em conjuntos de pontos de controle que foram extraídos da imagem pelo processo explicado no Capítulo \ref{cha:processamento-imagem}.
+
+\begin{figure}[h!]
+    \caption{SPLINES NOS PONTOS EXTRAÍDOS.}
+    \centering
+    \begin{minipage}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=1\linewidth]{fig/07_sorted_points_right_eye.png}
+        \legend{Reordenação dos pontos.}
+        \label{fig:reordenacao}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=1\linewidth]{fig/08_spline_plot_right_eye.png}
+        \legend{Splines.}
+        \label{fig:spline}
+    \end{minipage}
+\end{figure}
