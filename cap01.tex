@@ -122,7 +122,7 @@ O algoritmo de detecção de bordas de Canny é composto por várias etapas, con
 \begin{enumerate}
     \item \textbf{Redução de Ruído}: A imagem é suavizada com um filtro Gaussiano para minimizar a interferência do ruído na detecção de bordas.
 
-    \item \textbf{Cálculo do Gradiente de Intensidade}: Os gradientes de intensidade são calculados nas direções horizontal \(G_x\) e vertical \(G_y\) usando operadores Sobel. A mag   nitude do gradiente é dada por:
+    \item \textbf{Cálculo do Gradiente de Intensidade}: Os gradientes de intensidade são calculados nas direções horizontal \(G_x\) e vertical \(G_y\) usando operadores Sobel. A magnitude do gradiente é dada por:
     \[G_x = \frac{\partial I}{\partial x} \quad G_y = \frac{\partial I}{\partial y}\]
     \[Borda\_Gradiente(G) = \sqrt{G_{x}^{2} + G_{y}^{2}}\]
 
@@ -330,7 +330,7 @@ Em problemas de processamento de imagens, frequentemente são utilizados grafos 
 \subsection{Resultado da Construção do Grafo}
 \label{sec:resultado-construcao-grafo}
 
-Podemos observar que a imagem original é composta por um grande número de pontos, porém utilizando a filtragem de pixles através de grafos com as componentes conexos, conseguimos reduzir a quantidade de pontos, mantendo apenas os mais relevantes. A \autoref{fig:resultado-grafo} mostra o resultado da construção do grafo e a filtragem dos pontos.
+Podemos observar que a imagem original é composta por um grande número de pontos, porém utilizando a filtragem de pixels através de grafos com as componentes conexos, conseguimos reduzir a quantidade de pontos, mantendo apenas os mais relevantes. A \autoref{fig:resultado-grafo} mostra o resultado da construção do grafo e a filtragem dos pontos.
 
 \begin{figure}[h!]
     \caption{COMPONENTES CONEXOS OLHO DIREITO.}
@@ -377,7 +377,7 @@ Esse processo ajuda a representar o caminho essencial de uma região conectada, 
 
 Para otimizar a análise, aplicamos uma \textbf{poda da árvore} na AGM para identificar o caminho principal e eliminar os pontos que não contribuem significativamente para a forma geral do contorno. Essa poda é realizada com base em critérios de distância e relevância, garantindo que apenas os pontos mais significativos sejam mantidos na representação final.
 
-O algoritmo para a otimização da árvore encontrando o maior caminho foi feito de forma autoral em Python, foi construpido da seguinte forma:
+O algoritmo para a otimização da árvore encontrando o maior caminho foi feito de forma autoral em Python, foi construído da seguinte forma:
 
 \begin{enumerate}
     \item \textbf{Calculando a Altura da Árvore} medindo a profundidade máxima a partir da raiz até as folhas.
@@ -422,7 +422,7 @@ O algoritmo para a otimização da árvore encontrando o maior caminho foi feito
     \legend{LEGENDA: Em verde: nós que fazem parte do maior caminho. Em cinza: nós que não fazem parte do maior caminho.}
 \end{figure}
 
-Pela \autoref{fig:poda-arvore-geradora-minima} podemos observar como funciona o algoritmo que realiza a poda da AGM, mantendo apenas os nós que fazem parte do maior caminho. Esta estapa é essencial para simplificar a representação dos contornos e facilitar a modelagem das \textit{splines}.
+Pela \autoref{fig:poda-arvore-geradora-minima} podemos observar como funciona o algoritmo que realiza a poda da AGM, mantendo apenas os nós que fazem parte do maior caminho. Esta etapa é essencial para simplificar a representação dos contornos e facilitar a modelagem das \textit{splines}.
 
 \subsection{Resultado da AGM}
 \label{sec:resultado-agm}
