@@ -9,12 +9,10 @@ Neste capítulo, será abordado as \textit{splines} cúbicas, suas propriedades 
 \section{Definição de \textit{Splines} Cúbicas}
 \label{sec:definicao-splines-cubicas}
 Uma \textit{spline} cúbica é uma função definida por partes, onde cada parte é um polinômio cúbico. Seguimos então para os polinômios de grau 3, que são especificados na forma de Hermite:
-
 \begin{equation}
-    p(t) = c_0 + c_1t + c_2t^2 + c_3t^3
+    p(t) = c_0 + c_1t + c_2t^2 + c_3t^3,
 \end{equation}
-
-, onde cada $c_i$ é um vetor no $\mathbb{R}^2$.
+onde cada $c_i$ é um vetor no $\mathbb{R}^2$.
 
 O $p$ é a posição que estamos calculando e é com isso que nos importamos ao desenhar a curva, já que estamos plotando pontos com coordenadas $(x,y)$. As curvas de Hermite são definidas por equações paramétricas, tanto $x$ quanto $y$ são em função de alguma variável independente $t$. Para demonstrar este conceito, definimos $x$ em termos de $t$:
 
@@ -232,3 +230,36 @@ A seguir, são apresentados os resultados obtidos em conjuntos de pontos de cont
         \label{fig:spline}
     \end{minipage}
 \end{figure}
+
+
+
+
+
+% \begin{algorithm}[H]
+%     \renewcommand{\algorithmcfname}{Algoritmo}%
+%     \SetAlgoLined
+%     \eSe{$n\leq r$}{
+%         Calcule a fatoração $\vetor{M}=\vetor{LU}$ por outro método\;
+%     }{
+%         Calcule a fatoração $\left[\begin{array}{cc} \vetor{A}\\\vetor{C}\end{array}\right]=\left[\begin{array}{cc} \vetor{L_{11}}\\\vetor{L_{21}}\end{array}\right]\vetor{U_{11}}$\;
+%         Calcule $\vetor{U_{12}}=\vetor{L_{11}^{-1}}\vetor{B}$ pela solução do sistema linear $\vetor{L_{11}}\vetor{U_{12}}=\vetor{B}$\;
+%         $\vetor{\tilde{D}} \gets \vetor{D}-\vetor{L_{21}}\vetor{U_{12}}$\;
+%         Calcule a fatoração $\vetor{\tilde{D}}=\vetor{L_{22}}\vetor{U_{22}}$ recursivamente\;
+%         Retorne $\vetor{L}=\left[\begin{array}{cc} \vetor{L_{11}} & \vetor{0}\\\vetor{L_{21}} & \vetor{L_{22}}\end{array}\right]$ e $\vetor{U}=\left[\begin{array}{cc} \vetor{U_{11}} & \vetor{U_{12}}\\\vetor{0} & \vetor{U_{22}}\end{array}\right]$\;
+%     }
+% \end{algorithm}
+
+% \begin{algorithm}
+%     \caption{Fatoração QR magra de uma matriz $\vetor{A}\in\R^{m\times n}$ usando Gram-Schmidt.}
+%     \SetAlgoLined
+%     \Para{$k$ de $1$ até $n$}{
+%         $\vetor{v_k} \gets \vetor{A}[:,k]$\;
+%         \Para{$i$ de $1$ até $k-1$}{
+%             $\vetor{R}[i,k] \gets \vetor{Q}[:,i]^{\vetor{T}}\vetor{A}[:,k]$\;
+%             $\vetor{v_k} \gets \vetor{v_k}-\vetor{R}[i,k]\vetor{Q}[:,i]$\;
+%         }
+%         $\vetor{R}[k,k]\gets\left\|\vetor{v_k}\right\|_2$\;
+%         $\vetor{Q}[:,k]\gets\dfrac{1}{\vetor{R}[k,k]}\vetor{v_k}$\;
+%     }
+%     \label{alg:QRmagra}
+% \end{algorithm}

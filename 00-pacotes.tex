@@ -12,6 +12,8 @@
 \usepackage{amsmath}			% simbolos matematicos
 \usepackage{amsfonts}
 
+% \usepackage{lstlistings}			% para listagem de codigos
+% \usepackage[vlined,portuguese,onelanguage,algochapter]{algorithm2e}
 
 % Pacotes de citações BibLaTeX
 % ----------------------------------------------------------
@@ -29,7 +31,8 @@
     hyperref=true,
     giveninits=true,
     uniquename=false,
-    uniquelist=false]{biblatex}
+    uniquelist=false,
+	natbib=true]{biblatex}
 
 % Norma NBR10.520/2023 - Sobrenomes em minúsculas
 \renewcommand*{\mkbibnamefamily}[1]{#1}%
@@ -139,3 +142,6 @@
 {\multicitedelim}
 {\usebibmacro{postnote}}
 
+
+% \SetKwIF{Se}{SenaoSe}{Senao}{se}{então}{senão se}{senão}{fim-se}%
+% \SetKwFor{Para}{para}{faça}{fim para}%
