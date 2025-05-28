@@ -10,11 +10,11 @@ A introdução dessa nova abordagem se justifica não apenas pela busca por efic
 
 \section{OBJETIVO}
 
-O objetivo deste trabalho é investigar a viabilidade do uso de \textit{splines} como método de representação de características faciais em sistemas biométricos, avaliando sua eficácia na melhoria do desempenho da identificação de indivíduos. A abordagem proposta visa combinar a expressividade das \textit{splines} com a capacidade do \textit{Dynamic Time Warping} (DTW) para reconhecimento facial, buscando uma solução que seja ao mesmo tempo eficiente e interpretável.
+O objetivo deste trabalho é investigar a viabilidade do uso de \textit{splines} como método de representação de características faciais em sistemas biométricos, avaliando sua eficácia na melhoria do desempenho da identificação de indivíduos. A abordagem proposta visa combinar a expressividade das \textit{splines} com a capacidade do DTW para reconhecimento facial, buscando uma solução que seja ao mesmo tempo eficiente e interpretável.
 
 \section{JUSTIFICATIVA}
 
-Métodos convencionais baseados em redes neurais convolucionais (CNNs) e aprendizado profundo apresentam altos níveis de acurácia, mas muitos desses modelos operam como “caixas-pretas”, dificultando a interpretação das características extraídas e utilizadas para a tomada de decisão.
+Métodos convencionais baseados em CNNs e aprendizado profundo apresentam altos níveis de acurácia, mas muitos desses modelos operam como “caixas-pretas”, dificultando a interpretação das características extraídas e utilizadas para a tomada de decisão.
 
 Diante desse cenário, a abordagem baseada no uso de \textit{splines} surge como uma alternativa para representação de características faciais de forma mais estruturada e interpretável. As \textit{splines} são funções matemáticas que permitem a modelagem de curvas suaves a partir de um conjunto reduzido de pontos de controle, garantindo uma representação eficiente das características faciais sem a necessidade de armazenar grandes quantidades de dados redundantes.
 
@@ -26,7 +26,7 @@ Dessa forma, este trabalho se justifica pela necessidade de explorar métodos al
 
 A abordagem proposta para o reconhecimento facial baseada em \textit{splines} segue um fluxo estruturado, dividido em cinco etapas principais: detecção de características faciais, extração de contornos, redução de pontos, modelagem com \textit{splines} e classificação por DTW.
 
-É importante esclarecer que a primeria versão das 4 primeiras etapas do método proposto neste trabalho foi desenvolvida durante o Programa de Voluntariado Acadêmico (PVA) em 2024 e neste TCC será desenvolvida a última etapa, que é a classificação por \textit{Dynamic Time Warping}, além de algumas melhorias nas etapas anteriores.
+É importante esclarecer que a primeira versão das 4 primeiras etapas do método proposto neste trabalho foi desenvolvida durante o Programa de Voluntariado Acadêmico (PVA) em 2024 e neste TCC será desenvolvida a última etapa, que é a classificação por DTW, além de algumas melhorias nas etapas anteriores.
 
 \subsection{Detecção de Características Faciais}
 
@@ -38,7 +38,7 @@ Após a identificação das regiões faciais, são extraídos os contornos dessa
 
 \subsection{Redução de Pontos}
 
-Para evitar redundância e reduzir a complexidade computacional, os pontos extraídos nos contornos são submetidos a um processo de simplificação. Estruturas de dados como grafos e árvore geradora mínima são utilizadas para manter apenas os pontos mais significativos. Nesta etapa utilizamos o algoritimo que encontra a árvore geradora mínima através da biblioteca \textit{Scipy} \cite{Scipy}.
+Para evitar redundância e reduzir a complexidade computacional, os pontos extraídos nos contornos são submetidos a um processo de simplificação. Estruturas de dados como grafos e árvore geradora mínima são utilizadas para manter apenas os pontos mais significativos. Nesta etapa utilizamos o algoritmo que encontra a árvore geradora mínima através da biblioteca \textit{Scipy} \cite{Scipy}.
 
 \subsection{Modelagem com \textit{splines}}
 
@@ -46,13 +46,13 @@ Com os pontos reduzidos, são traçadas curvas suaves utilizando \textit{splines
 
 \subsection{Classificação por Dynamic Time Warping}
 
-Por fim, os pontos gerados a partir dessas curvas são utilizados como entrada para um algoritmo de \textit{Dynamic Time Warping} (DTW) \cite{SAKOE, tavenard.blog.dtw}. O DTW é um algoritmo que mede a similaridade entre duas sequências temporais, permitindo o alinhamento não linear entre elas. Essa abordagem é especialmente útil para lidar com variações na velocidade e, neste trabalho, na forma das características faciais.
+Por fim, os pontos gerados a partir dessas curvas são utilizados como entrada para um algoritmo de DTW \cite{SAKOE, tavenard.blog.dtw}. O DTW é um algoritmo que mede a similaridade entre duas sequências temporais, permitindo o alinhamento não linear entre elas. Essa abordagem é especialmente útil para lidar com variações na velocidade e, neste trabalho, na forma das características faciais.
 
 \section{REFERENCIAL TEÓRICO}
 
 A ideia de representar características faciais por meio de \textit{splines} é discutida por \citet{RepresentationSplines}, que apresentam uma abordagem baseada em \textit{splines} Catmull-Rom para modelagem de curvas suaves. 
 
-O uso do algoritmo de Dynamic Time Warping (DTW) para reconhecimento facial é abordado por \citet{DTW_LSTM}, que discutem a eficácia do DTW na comparação de sequências temporais, destacando sua aplicabilidade em tarefas de reconhecimento facial. No entanto, a abordagem proposta no artigo difere da adotada neste trabalho, uma vez que os autores concentram-se na análise das variações das cores dos pixels da imagem, em vez de explorar a forma ou a geometria das características faciais.
+O uso do algoritmo de DTW para reconhecimento facial é abordado por \citet{DTW_LSTM}, que discutem a eficácia do DTW na comparação de sequências temporais, destacando sua aplicabilidade em tarefas de reconhecimento facial. No entanto, a abordagem proposta no artigo difere da adotada neste trabalho, uma vez que os autores concentram-se na análise das variações das cores dos pixels da imagem, em vez de explorar a forma ou a geometria das características faciais.
 
 \section{CRONOGRAMA}
 

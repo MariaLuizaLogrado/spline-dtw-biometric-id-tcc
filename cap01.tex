@@ -205,9 +205,9 @@ Esta parte é realizada em quatro etapas principais:
 
 \subsection{Grafos}
 
-Para a construção do grafo, utilizamos os pontos de borda detectados pelo algoritmo de Canny. Cada ponto é representado como um nó no grafo, e as conexões entre os pontos são representadas como arestas. Essa estrutura é chamada de matriz de adjacência, onde cada elemento indica a presença ou ausência de uma aresta entre dois nós.
+Para a construção do grafo, utilizamos os pontos de borda detectados pelo algoritmo de Canny. Cada ponto é representado como um nó no grafo, e as conexões entre os nós são representadas como arestas. Essa estrutura é chamada de matriz de adjacência, onde cada elemento indica a presença ou ausência de uma aresta entre dois nós.
 
-O código foi feito de forma autoral em Python, utilizando a fórmula Manhattan para calcular a distância entre os pontos. Essa fórmula é adequada para o nosso caso, pois considera apenas as distâncias horizontais e verticais, o que é suficiente para que o grafo represente adequadamente a estrutura dos contornos faciais.
+O código foi feito de forma autoral em Python, utilizando a fórmula Manhattan para calcular a distância entre os nós. Essa fórmula é adequada para o nosso caso, pois considera apenas as distâncias horizontais e verticais, o que é suficiente para que o grafo represente adequadamente a estrutura dos contornos faciais.
 
 No processo de detecção de contornos, a matriz Canny e a matriz de adjacências são conceitos fundamentais para entender a construção dos grafos. O primeiro passo é aplicar a matriz Canny, que resulta na detecção de contornos da imagem. A seguir, apresentamos uma representação da matriz Canny e da matriz de adjacências.
 
@@ -283,11 +283,11 @@ O próximo passo é a conversão dos contornos em grafos utilizando a matriz de 
 
 \newpage
 
-\subsection{Grafos Conexos e Desconexos}
+\subsection{Grafos Conexos e Desconexo  s}
 
-Os grafos podem ser classificados em dois tipos principais: grafos conexos e grafos desconexos. Um grafo é considerado conexo se existe um caminho entre qualquer par de vértices, ou seja, é possível alcançar qualquer nó a partir de outro nó. Por outro lado, um grafo desconexo possui pelo menos um par de vértices que não estão conectados por um caminho.
+Os grafos podem ser classificados em dois tipos principais: grafos conexos e grafos desconexos. Um grafo é considerado conexo se existe pelo menos um caminho entre qualquer par de nós do grafo. Por outro lado, um grafo desconexo possui pelo menos um par de nós que não estão conectados por um caminho.
 
-Um grafo desconexo pode ser dividido em componentes conexos, que são subgrafos conexos. Cada componente conexo é um subconjunto do grafo original onde todos os vértices estão conectados entre si, mas não há conexão com os vértices de outros componentes. Essa distinção é importante para entender a estrutura do grafo e como ele pode ser analisado e manipulado.
+Um grafo desconexo pode ser dividido em componentes conexos, que são subgrafos conexos. Cada componente conexo é um subconjunto do grafo original onde todos os nós estão conectados entre si, mas não há conexão com os nós de outros componentes. Essa distinção é importante para entender a estrutura do grafo e como ele pode ser analisado e manipulado.
 
 
 \begin{figure}[ht]
@@ -368,12 +368,13 @@ A árvore geradora mínima (AGM) é uma estrutura de dados fundamental em teoria
 Cada nó na AGM tem uma relação hierárquica com outros nós:
 
 \begin{itemize}
-    \item O nó raiz é o ponto de partida da árvore.
-    \item Os nós filhos são os pontos conectados diretamente a outros nós.
-    \item Os nós folhas são os pontos que não têm filhos, ou seja, não estão conectados a outros pontos na AGM.
+    \item O nó raiz é o nó inicial a partir do qual a árvore é construída ou percorrida.
+    \item Um nó filho é aquele que se origina de outro nó — chamado de pai — seguindo essa ideia de crescimento ou expansão da árvore.
+    \item É um nó que não tem filhos, ou seja, ele está no fim de um caminho na árvore
 \end{itemize}
 
-Esse processo ajuda a representar o caminho essencial de uma região conectada, eliminando ciclos e redundâncias.
+
+Para a construção adequada das splines, é essencial definir uma ordem consistente para os pontos que descrevem as características faciais. Sem uma ordem definida, as splines podem ser traçadas de maneira incoerente, resultando em representações visuais incorretas ou deformadas. Além disso, a ordenação contribui para evitar ciclos ou conexões redundantes entre os pontos, o que poderia comprometer a suavidade e continuidade das curvas. Foi utilizada a biblioteca \textit{Scipy} \cite{Scipy} para encontrar a AGM.
 
 Para otimizar a análise, aplicamos uma \textbf{poda da árvore} na AGM para identificar o caminho principal e eliminar os pontos que não contribuem significativamente para a forma geral do contorno. Essa poda é realizada com base em critérios de distância e relevância, garantindo que apenas os pontos mais significativos sejam mantidos na representação final.
 
@@ -388,7 +389,7 @@ O algoritmo para a otimização da árvore encontrando o maior caminho foi feito
 
 \begin{figure}[ht]
     \centering
-    \caption{PODA DA ÁRVORE GERADORA MÍNIMA}
+    \caption{PODA DA AGM.}
     \label{fig:poda-arvore-geradora-minima}
     \begin{tikzpicture}[
       level distance=1.5cm,
@@ -456,3 +457,6 @@ A \autoref{fig:resultado-agm} mostra o resultado da AGM, onde os pontos que não
     \end{minipage}
     \label{fig:resultado-agm}
 \end{figure}
+
+
+%%% explicar melhor porque estamos usando a AGM: ordem para a construção da spline, evitar ciclos, etc.
