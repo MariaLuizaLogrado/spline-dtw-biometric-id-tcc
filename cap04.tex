@@ -2,33 +2,66 @@
 
 Para a avaliação dos métodos propostos neste trabalho, foi utilizada uma amostra do banco de dados FERET \cite{FERET1,FERET2}. A seleção consistiu em um total de 24 imagens, pertencentes a quatro indivíduos distintos. É importante ressaltar que há um desbalanceamento na quantidade de imagens por indivíduo e todas as imagens foram capturadas sob condições controladas em orientação frontal, sem grandes variações de ângulo ou expressões faciais.
 
-Na sequência, serão apresentados os resultados obtidos nas principais etapas do processamento, com foco na representação facial por curvas spline e sua aplicação na distinção entre os indivíduos presentes no conjunto.
+% Na sequência, serão apresentados os resultados obtidos nas principais etapas do processamento, com foco na representação facial por curvas spline e sua aplicação na distinção entre os indivíduos presentes no .
+
+Para comparar sequências de características faciais extraídas de imagens, utilizei duas formas distintas. Uma delas foi segmentar três regiões distintas: olhos, nariz e boca, cada uma representada por um array bidimensional contendo as coordenadas dos pontos relevantes do contorno contendo as \textit{splines}.
+
+O DTW foi aplicado separadamente para cada uma dessas quatro representações, permitindo avaliar a similaridade local (por região).
+
+Além disso, uma outra versão com todas as características concatenadas foi utilizada como referência global da face.
+
+A seguir, estão apresentadas as tabelas com os valores de distância DTW para cada comparação.
+
 
 \begin{table}[h!]
     \centering
+    \caption{Testes realizados para as características concatenadas.}
     \begin{tabular}{|c|c|c|c|c|c|c|}
     \hline
-    \textbf{Passo Spline} & \textbf{Translação} & \textbf{Tensão} & \textbf{Array} & \textbf{Acurácia (\%)} & \textbf{Tempo} \\
+    \textbf{Passo Spline} & \textbf{Translação} & \textbf{Tensão} & \textbf{Acurácia (\%)} & \textbf{Tempo} \\
     \hline
-    0.5 & Não & 1 & Junto & 50 & 4min 21s\\
-    0.5 & Não & 0.5 & Junto & 54.16 & 4min 5s\\
-    0.5 & Não & 0.25 & Junto & 50 & 4min 13s\\
-    1 & Não & 1 & Junto & 50 & 2min 2s\\
-    1 & Não & 0.5 & Junto & 54.16 & 1min 48s\\
-    1 & Não & 0.25 & Junto & 45.83 & 2min\\
-    0.5 & Sim & 1 & Junto & 16.66 & 4min 33s \\
-    % 0.1 & Sim & 1 & Junto & 29.16 & 1h 15 min \\
-    0.5 & Sim & 0.5 & Junto & 41.66 & 3min 57s \\
-    0.5 & Não & 1 & Por Característica & 45.83 & 2 min \\
-    0.5 & Sim & 1 & Por Característica & 41.66 & 2 min \\
-    0.5 & Sim & 1 & Por Característica & 75.0 & 2 min \\
-    0.5 & Sim & 1 & Por Característica & 66.66 & 2 min \\
-    0.5 & Sim & 1 & Por Característica & 70.83 & 2 min \\
-    0.5 & Sim & 1 & Por Característica & 87.5 & 2 min \\
-    0.25 & Sim & 1 & Por Característica & 66.66 & 9 min \\
-    1 & Sim & 1 & Por Característica & 66.66 & 1 min \\
-    0.1 & Sim & 1 & Por Característica & 79.17 & 1h 6 min \\
+    0.5 & Não & 1 & 50 & 4min 21s\\
+    0.5 & Não & 0.5 & 54.16 & 4min 05s\\
+    0.5 & Não & 0.25 & 50 & 4min 13s\\
+
+    1 & Não & 1 & 50 & 2min 02s\\
+    1 & Não & 0.5 & 54.16 & 1min 48s\\
+    1 & Não & 0.25 & 45.83 & 2min 00s\\
+
+    0.5 & Sim & 1 & 16.66 & 4min 33s \\
+    0.5 & Sim & 0.5 & 41.66 & 3min 57s \\
+    0.5 & Sim & 0.25 & 37.5 & 5min 05s\\
+
+    1 & Sim & 1 & 33.33 & 1min 58s \\
+    1 & Sim & 0.5 & 33.33 & 2min 10s \\
+    1 & Sim & 0.25 & 33.33 & 2min 04s \\
     \hline
     \end{tabular}
-    \caption{Resumo dos testes realizados com suas configurações, acurácias e tempos de execução.}
+\end{table}
+
+\begin{table}[h!]
+    \centering
+    \caption{Testes realizados para as características segmentadas.}
+    \begin{tabular}{|c|c|c|c|c|c|c|}
+    \hline
+    \textbf{Passo Spline} & \textbf{Translação} & \textbf{Tensão} & \textbf{Acurácia (\%)} & \textbf{Tempo} \\
+    \hline
+
+    0.5 & Não & 1 & 41.66 & 2min 12s \\
+    0.5 & Não & 0.5 & 41.66 & 2min 39s \\
+    0.5 & Não & 0.25 & 41.66 & 2min 21s \\
+
+    1 & Não & 1 & 45.83 & 1min 07s \\
+    1 & Não & 0.5 & 37.5 & 1min 08s \\
+    1 & Não & 0.25 & 41.66 & 1min 08s \\
+
+    0.5 & Sim & 1 & 79.16 & 2min 43s \\
+    0.5 & Sim & 0.5 & 75 & 2min 39s \\
+    0.5 & Sim & 0.25 & 70.83 & 2min 27s \\
+ 
+    1 & Sim & 1 & 75 & 1min 04s \\
+    1 & Sim & 0.5 & 79.16 & 1min 09s \\
+    1 & Sim & 0.25 & 79.16 & 1min 13s \\
+    \hline
+    \end{tabular}
 \end{table}
