@@ -2,15 +2,15 @@
 
 Para a avaliação dos métodos propostos neste trabalho, foi utilizada uma amostra do banco de dados FERET \cite{FERET1,FERET2}. A seleção consistiu em um total de 24 imagens, pertencentes a quatro indivíduos distintos. É importante ressaltar que há um desbalanceamento na quantidade de imagens por indivíduo e todas as imagens foram capturadas sob condições controladas em orientação frontal, sem grandes variações de ângulo ou expressões faciais.
 
-% Na sequência, serão apresentados os resultados obtidos nas principais etapas do processamento, com foco na representação facial por curvas spline e sua aplicação na distinção entre os indivíduos presentes no .
+Para comparar sequências de características faciais extraídas de imagens, utilizei duas formas distintas uma de forma local e outra de global.
 
-Para comparar sequências de características faciais extraídas de imagens, utilizei duas formas distintas. Uma delas foi segmentar três regiões distintas: olhos, nariz e boca, cada uma representada por um array bidimensional contendo as coordenadas dos pontos relevantes do contorno contendo as \textit{splines}.
+Foi preciso segmentar três regiões distintas: olhos, nariz e boca, cada uma representada por um array bidimensional contendo as coordenadas dos pontos relevantes do contorno contendo as \textit{splines}.
 
 O DTW foi aplicado separadamente para cada uma dessas quatro representações, permitindo avaliar a similaridade local (por região).
 
 Além disso, uma outra versão com todas as características concatenadas foi utilizada como referência global da face.
 
-A seguir, estão apresentadas as tabelas com os valores de distância DTW para cada comparação.
+A seguir, estão apresentadas as tabelas com os resultados obtidos para cada uma das abordagens, considerando diferentes parâmetros de configuração, como o passo do spline, a translação e a tensão. Esses parâmetros influenciam diretamente na suavidade e na flexibilidade das curvas geradas, impactando a acurácia dos resultados obtidos pelo DTW.
 
 
 \begin{table}[h!]
