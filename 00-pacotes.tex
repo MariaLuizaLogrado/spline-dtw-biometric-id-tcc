@@ -12,9 +12,33 @@
 \usepackage{amsmath}			% simbolos matematicos
 \usepackage{amsfonts}
 
-% \usepackage{lstlistings}			% para listagem de codigos
+\usepackage{listings}			% para listagem de codigos
+\usepackage{xcolor}			% para cores
 % \usepackage[vlined,portuguese,onelanguage,algochapter]{algorithm2e}
 
+\lstdefinestyle{mystyle}{
+    language=Python,
+    backgroundcolor=\color{white},
+    basicstyle=\ttfamily\footnotesize,
+    keywordstyle=\color{blue}\bfseries,
+    commentstyle=\color{gray}\itshape,
+    stringstyle=\color{teal},
+    identifierstyle=\color{black},
+    emph=[1]{self,raiz,filho}, emphstyle=[1]\color{red},
+	emph=[2]{prunning_tree, len},emphstyle=[2]\color{green!70!black},
+	emph=[3]{if,else,for,in, return},emphstyle=[3]\color{cyan},
+	emph=[4]{True, False},emphstyle=[4]\color{violet},
+    numberstyle=\tiny\color{gray},
+    breaklines=true,
+    showstringspaces=false,
+    tabsize=4,
+    numbers=left,
+    numbersep=5pt,
+	inputencoding=utf8,
+	extendedchars=true,
+	literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+			 {ç}{{\c{c}}}1 {ã}{{\~a}}1 {õ}{{\~o}}1}
+\lstset{style=mystyle}
 % Pacotes de citações BibLaTeX
 % ----------------------------------------------------------
 \usepackage[style=abnt,

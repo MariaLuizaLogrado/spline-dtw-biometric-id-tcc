@@ -283,7 +283,7 @@ O próximo passo é a conversão dos contornos em grafos utilizando a matriz de 
 
 \newpage
 
-\subsection{Grafos Conexos e Desconexo  s}
+\subsection{Grafos Conexos e Desconexos}
 
 Os grafos podem ser classificados em dois tipos principais: grafos conexos e grafos desconexos. Um grafo é considerado conexo se existe pelo menos um caminho entre qualquer par de nós do grafo. Por outro lado, um grafo desconexo possui pelo menos um par de nós que não estão conectados por um caminho.
 
@@ -378,7 +378,55 @@ Para a construção adequada das splines, é essencial definir uma ordem consist
 
 Para otimizar a análise, aplicamos uma \textbf{poda da árvore} na AGM para identificar o caminho principal e eliminar os pontos que não contribuem significativamente para a forma geral do contorno. Essa poda é realizada com base em critérios de distância e relevância, garantindo que apenas os pontos mais significativos sejam mantidos na representação final.
 
-O algoritmo para a otimização da árvore encontrando o maior caminho foi feito de forma autoral em Python, foi construído da seguinte forma:
+% O algoritmo para a otimização da árvore encontrando o maior caminho foi feito de forma autoral em Python, foi construído da seguinte forma:
+
+Veja abaixo a implementação do método \texttt{prunning\_tree}. Ele percorre recursivamente a árvore para calcular a altura dos nós e determinar o caminho de maior comprimento entre dois nós folha.
+
+\begin{lstlisting}[language=Python, caption={IMPLEMENTAÇÃO DO MÉTODO \texttt{prunning\_tree}.}, label={lst:prunning_tree}]
+def prunning_tree(self, raiz):
+    # Se o nó atual não tem filhos, é uma folha
+    if len(raiz.filhos) == 0:
+        return 1, [raiz.idx], 1, [raiz.idx]
+    else:
+        # Para cada filho, executa a função recursivamente
+        for filho in raiz.filhos:
+            filho.altura, filho.caminho_altura_maxima, filho.tamanho_caminho_maximo, filho.caminho_maximo = self.prunning_tree(filho)
+
+        if len(raiz.filhos) == 1:
+            # Verifica se o caminho que passa pelo nó atual é maior que o maior caminho encontrado até o momento
+            if raiz.filhos[0].altura + 1 > raiz.filhos[0].tamanho_caminho_maximo:
+                tamanho_caminho_maximo = raiz.filhos[0].altura + 1
+                caminho_maximo = [raiz.idx] + raiz.filhos[0].caminho_altura_maxima
+            else:
+                # Usa o maior caminho já encontrado no filho
+                tamanho_caminho_maximo = raiz.filhos[0].tamanho_caminho_maximo
+                caminho_maximo = raiz.filhos[0].caminho_maximo
+        else:
+            # Ordena os filhos pela altura (do maior para o menor)
+            raiz.filhos.sort(key=lambda x: x.altura, reverse=True)
+
+            # Calcula o maior caminho passando por este nó (soma das duas maiores alturas + o nó atual)
+            tamanho_caminho_maximo = raiz.filhos[0].altura + raiz.filhos[1].altura + 1
+
+            # Monta o caminho correspondente
+            uma_parte_do_caminho = raiz.filhos[0].caminho_altura_maxima.copy()
+            uma_parte_do_caminho.reverse()
+            caminho_maximo = uma_parte_do_caminho + [raiz.idx] + raiz.filhos[1].caminho_altura_maxima
+
+            # Verifica se algum filho tem um caminho maior do que esse
+            for filho in raiz.filhos:
+                if filho.tamanho_caminho_maximo > tamanho_caminho_maximo:
+                    tamanho_caminho_maximo = filho.tamanho_caminho_maximo
+                    caminho_maximo = filho.caminho_maximo
+
+        # Pega o filho com maior altura (o primeiro da lista, já ordenada)
+        no_altura_maxima = raiz.filhos[0]
+
+        return no_altura_maxima.altura + 1, [raiz.idx] + no_altura_maxima.caminho_altura_maxima, tamanho_caminho_maximo, caminho_maximo
+
+\end{lstlisting}
+
+O funcionamento do algoritmo pode ser resumido nos seguintes passos:
 
 \begin{enumerate}
     \item \textbf{Calculando a Altura da Árvore} medindo a profundidade máxima a partir da raiz até as folhas.

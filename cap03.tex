@@ -53,6 +53,9 @@ No entanto, o DTW também possui desvantagens:
 
 Neste trabalho, o DTW foi utilizado por ser uma técnica adequada para comparar sequências que representam características espaciais extraídas de contornos faciais utilizando um algoritmo simples. As curvas resultantes dessas características podem variar em comprimento e forma devido a diferentes condições de iluminação, expressões faciais ou ângulos de captura. O DTW permite alinhar essas curvas de forma dinâmica, possibilitando uma comparação mais precisa entre elas.
 
-Além disso, este trabalho se baseia na abordagem proposta por \citet{DTW_LSTM}, que demonstrou a eficácia do uso do DTW na comparação da variação das cores dos pixels, alcançando acurácias superiores a 90\% em tarefas de reconhecimento facial. No entanto, uma limitação observada nesse estudo foi o elevado custo computacional associado ao DTW, o que o torna menos viável para aplicações em tempo real. 
+Além disso, este trabalho se fundamenta na abordagem proposta por \citet{DTW_LSTM}, que demonstrou a eficácia do uso do algoritmo DTW na comparação da variação das cores dos pixels, obtendo acurácias de 100\%, 94\% e 70\%, conforme as especificidades de cada experimento em tarefas de reconhecimento facial.
+
+Entretanto, uma limitação relevante observada nesse estudo foi o alto custo computacional do DTW, o que compromete sua aplicabilidade em cenários que exigem processamento em tempo real. Embora o tempo exato de execução dos experimentos não tenha sido reportado pelos autores, foi implementado um script com base na proposta do artigo, cujo tempo de execução estimado foi de aproximadamente 10 horas para comparar duas imagens representadas por vetores de dimensão 77.284 (correspondentes às cores dos pixels).
 
 Diante disso, uma das propostas deste trabalho é otimizar o processo de comparação por meio da utilização de curvas suaves representadas por splines, com o objetivo de reduzir a complexidade computacional sem comprometer a acurácia e a eficiência da técnica.
+
