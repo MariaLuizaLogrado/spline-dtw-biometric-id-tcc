@@ -28,6 +28,8 @@ A abordagem proposta para o reconhecimento facial baseada em \textit{splines} se
 
 É importante esclarecer que a primeira versão das 4 primeiras etapas do método proposto neste trabalho foi desenvolvida durante o Programa de Voluntariado Acadêmico (PVA) em 2024 e neste TCC será desenvolvida a última etapa, que é a classificação por DTW, além de algumas melhorias nas etapas anteriores.
 
+Por fim, trechos da pesquisa neste trabalho utilizam o banco de dados FERET \cite{FERET1,FERET2} de imagens faciais, coletado sob o programa FERET, patrocinado pelo Escritório do Programa de Desenvolvimento de Tecnologia Antidrogas do Departamento de Defesa dos EUA (DOD).
+
 \subsection{Detecção de Características Faciais}
 
 Inicialmente, são identificadas as principais regiões do rosto, como olhos, boca e nariz. Para isso, é utilizado o modelo Haar Cascades \cite{BoostedCascade, HaarAplicacao} como a técnica de detecção. O modelo é ajustado para reconhecer padrões de características faciais em imagens, permitindo a localização das regiões de interesse.
@@ -44,7 +46,7 @@ Para evitar redundância e reduzir a complexidade computacional, os pontos extra
 
 Com os pontos reduzidos, são traçadas curvas suaves utilizando \textit{splines} Catmull-Rom \cite{CatmullRom, CatRomDemonstration, RepresentationSplines}. Essa modelagem permite representar as feições faciais de forma contínua e diferenciável, garantindo uma estrutura mais compacta e interpretável.
 
-\subsection{Classificação por Dynamic Time Warping}
+\subsection{Classificação por \textit{Dynamic Time Warping}}
 
 Por fim, os pontos gerados a partir dessas curvas são utilizados como entrada para um algoritmo de DTW \cite{SAKOE, tavenard.blog.dtw}. O DTW é um algoritmo que mede a similaridade entre duas sequências temporais, permitindo o alinhamento não linear entre elas. Essa abordagem é especialmente útil para lidar com variações na velocidade e, neste trabalho, na forma das características faciais.
 

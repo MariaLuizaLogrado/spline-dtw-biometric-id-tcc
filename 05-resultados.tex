@@ -1,17 +1,16 @@
 \chapter{RESULTADOS} \label{cha:resultados}
 
-Para a avaliação dos métodos propostos neste trabalho, foi utilizada uma amostra do banco de dados FERET \cite{FERET1,FERET2}. A seleção consistiu em um total de 24 imagens, pertencentes a quatro indivíduos distintos. É importante ressaltar que há um desbalanceamento na quantidade de imagens por indivíduo e todas as imagens foram capturadas sob condições controladas em orientação frontal, sem grandes variações de ângulo ou expressões faciais.
+Para a avaliação dos métodos propostos neste trabalho, foi utilizada uma amostra do banco de dados FERET \cite{FERET1,FERET2}. A seleção consistiu em um total de 24 imagens, pertencentes a quatro indivíduos distintos. É importante ressaltar que há um desbalanceamento na quantidade de imagens por indivíduo e todas as imagens foram capturadas sob condições controladas em orientação frontal, sem grandes variações de ângulo ou expressões faciais. %detalhar imagens por indivíduo
 
-Para comparar sequências de características faciais extraídas de imagens, utilizei duas formas distintas uma de forma local e outra de global.
+Foi preciso segmentar quatro regiões distintas: olhos, nariz e boca, cada uma representada por um array bidimensional contendo as coordenadas dos pontos relevantes do contorno contendo as \textit{splines}.
 
-Foi preciso segmentar três regiões distintas: olhos, nariz e boca, cada uma representada por um array bidimensional contendo as coordenadas dos pontos relevantes do contorno contendo as \textit{splines}.
+O DTW foi aplicado separadamente para cada uma dessas quatro representações, permitindo avaliar a similaridade local (por região) e utilizando o sistema de votação para determinar a identidade do indivíduo. Além disso, uma outra versão com todas as características concatenadas foi utilizada como referência global da face.
 
-O DTW foi aplicado separadamente para cada uma dessas quatro representações, permitindo avaliar a similaridade local (por região).
+É importante ressaltar que devido a uma aleatoriedade introduzida de propósito no algoritmo para retirar alguns pontos (\autoref{sec:resultado-agm}), os resultados podem variar entre as execuções. Portanto, para garantir a consistência dos resultados, foi utilizada a semente \texttt{random.seed(42)} em todas as execuções, assegurando que os mesmos pontos fossem selecionados em cada teste.
 
-Além disso, uma outra versão com todas as características concatenadas foi utilizada como referência global da face.
+A máquina utilizada para os testes possui as seguintes especificações: processador Intel Core i7-8550U, 16 GB de memória RAM, 4 núcleos e 8 processadores lógicos.
 
 A seguir, estão apresentadas as tabelas com os resultados obtidos para cada uma das abordagens, considerando diferentes parâmetros de configuração, como o passo do spline, a translação e a tensão. Esses parâmetros influenciam diretamente na suavidade e na flexibilidade das curvas geradas, impactando a acurácia dos resultados obtidos pelo DTW.
-
 
 \begin{table}[h!]
     \centering
@@ -55,6 +54,8 @@ A seguir, estão apresentadas as tabelas com os resultados obtidos para cada uma
     1 & Não & 0.5 & 37.5 & 1min 08s \\
     1 & Não & 0.25 & 41.66 & 1min 08s \\
 
+    - & Não & - & 37.5 & 0min 21s\\
+
     0.5 & Sim & 1 & 79.16 & 2min 43s \\
     0.5 & Sim & 0.5 & 75 & 2min 39s \\
     0.5 & Sim & 0.25 & 70.83 & 2min 27s \\
@@ -62,6 +63,8 @@ A seguir, estão apresentadas as tabelas com os resultados obtidos para cada uma
     1 & Sim & 1 & 75 & 1min 04s \\
     1 & Sim & 0.5 & 79.16 & 1min 09s \\
     1 & Sim & 0.25 & 79.16 & 1min 13s \\
+
+    - & Sim & - & 70.83 & 0min 17s\\
     \hline
     \end{tabular}
 \end{table}
