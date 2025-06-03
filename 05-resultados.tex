@@ -1,6 +1,6 @@
 \chapter{RESULTADOS} \label{cha:resultados}
 
-Para a avaliação dos métodos propostos neste trabalho, foi utilizada uma amostra do banco de dados FERET \cite{FERET1,FERET2}. A seleção consistiu em um total de 24 imagens, pertencentes a quatro indivíduos distintos. É importante ressaltar que há um desbalanceamento na quantidade de imagens por indivíduo e todas as imagens foram capturadas sob condições controladas em orientação frontal, sem grandes variações de ângulo ou expressões faciais. %detalhar imagens por indivíduo
+Para a avaliação dos métodos propostos neste trabalho, foi utilizada uma amostra do banco de dados FERET \cite{FERET1,FERET2}. A seleção compreende um total de 24 imagens faciais pertencentes a quatro indivíduos distintos. Ressalta-se que há um desbalanceamento na distribuição de imagens por indivíduo, sendo 10 imagens do primeiro sujeito, 3 do segundo, 6 do terceiro e 5 do quarto. Todas as imagens foram capturadas em condições controladas, com orientação frontal e sem variações significativas de ângulo ou expressões faciais.
 
 Foi preciso segmentar quatro regiões distintas: olhos, nariz e boca, cada uma representada por um array bidimensional contendo as coordenadas dos pontos relevantes do contorno contendo as \textit{splines}.
 
@@ -10,61 +10,103 @@ O DTW foi aplicado separadamente para cada uma dessas quatro representações, p
 
 A máquina utilizada para os testes possui as seguintes especificações: processador Intel Core i7-8550U, 16 GB de memória RAM, 4 núcleos e 8 processadores lógicos.
 
-A seguir, estão apresentadas as tabelas com os resultados obtidos para cada uma das abordagens, considerando diferentes parâmetros de configuração, como o passo do spline, a translação e a tensão. Esses parâmetros influenciam diretamente na suavidade e na flexibilidade das curvas geradas, impactando a acurácia dos resultados obtidos pelo DTW.
+\section{Parâmetros de Configuração}
+\label{sec:parametros-configuracao}
+
+Para a realização dos experimentos, foram definidos alguns parâmetros de configuração que influenciam diretamente o desempenho do DTW e a qualidade das curvas geradas pelas \textit{splines}. Esses parâmetros incluem:
+\begin{itemize}
+    \item \textbf{Passo da \textit{Spline}:} Define a densidade dos pontos ao longo da curva. Um passo menor resulta em curvas mais detalhadas, mas com maior custo computacional.
+    \item \textbf{Tensão:} Controla a suavidade das curvas geradas pelas \textit{splines}. Valores mais altos resultam em curvas mais flexíveis, enquanto valores mais baixos produzem curvas mais rígidas.
+    \item \textbf{Translação:} Indica se as curvas devem ser transladadas para alinhar melhor as características faciais.
+\end{itemize}
+
+Para cada combinação desses parâmetros, foram realizados testes com as características faciais concatenadas e segmentadas, permitindo uma análise comparativa dos resultados obtidos.
+
+\section{Resultados Obtidos}
+
+ As tabelas \ref{tab:resultados-concatenados} e \ref{tab:resultados-segmentados} apresentam os resultados obtidos para cada uma das abordagens, considerando diferentes parâmetros de configuração. Esses parâmetros influenciam diretamente na suavidade, na flexibilidade e na posição das curvas geradas, impactando a acurácia dos resultados obtidos pelo DTW.
 
 \begin{table}[h!]
     \centering
     \caption{Testes realizados para as características concatenadas.}
-    \begin{tabular}{|c|c|c|c|c|c|c|}
+    \begin{tabular}{|c|c|c|c|c|c|c|c|}
     \hline
-    \textbf{Passo Spline} & \textbf{Translação} & \textbf{Tensão} & \textbf{Acurácia (\%)} & \textbf{Tempo} \\
+    \textbf{Experimento} & \textbf{Passo \textit{Spline}} & \textbf{Tensão} & \textbf{Translação} & \textbf{Acurácia (\%)} & \textbf{Tempo} \\
     \hline
-    0.5 & Não & 1 & 50 & 4min 21s\\
-    0.5 & Não & 0.5 & 54.16 & 4min 05s\\
-    0.5 & Não & 0.25 & 50 & 4min 13s\\
+    1 & 0.5 & 1 & Não & 50 & 4min 21s\\
+    2 & 0.5 & 0.5 & Não & 54.16 & 4min 05s\\
+    3 & 0.5 & 0.25 & Não & 50 & 4min 13s\\
 
-    1 & Não & 1 & 50 & 2min 02s\\
-    1 & Não & 0.5 & 54.16 & 1min 48s\\
-    1 & Não & 0.25 & 45.83 & 2min 00s\\
+    4 & 1 & 1 & Não & 50 & 2min 02s\\
+    5 & 1 & 0.5 & Não & 54.16 & 1min 48s\\
+    6 & 1 & 0.25 & Não & 45.83 & 2min 00s\\
 
-    0.5 & Sim & 1 & 16.66 & 4min 33s \\
-    0.5 & Sim & 0.5 & 41.66 & 3min 57s \\
-    0.5 & Sim & 0.25 & 37.5 & 5min 05s\\
-
-    1 & Sim & 1 & 33.33 & 1min 58s \\
-    1 & Sim & 0.5 & 33.33 & 2min 10s \\
-    1 & Sim & 0.25 & 33.33 & 2min 04s \\
+    7 & 0.5 & 1 & Sim & 16.66 & 4min 33s \\
+    8 & 0.5 & 0.5 & Sim & 41.66 & 3min 57s \\
+    9 & 0.5 & 0.25 & Sim & 37.5 & 5min 05s\\
+ 
+    10 & 1 & 1 & Sim & 33.33 & 1min 58s \\
+    11 & 1 & 0.5 & Sim & 33.33 & 2min 10s \\
+    12 & 1 & 0.25 & Sim & 33.33 & 2min 04s \\
     \hline
     \end{tabular}
+    \label{tab:resultados-concatenados}
 \end{table}
 
 \begin{table}[h!]
     \centering
     \caption{Testes realizados para as características segmentadas.}
-    \begin{tabular}{|c|c|c|c|c|c|c|}
+    \begin{tabular}{|c|c|c|c|c|c|c|c|}
     \hline
-    \textbf{Passo Spline} & \textbf{Translação} & \textbf{Tensão} & \textbf{Acurácia (\%)} & \textbf{Tempo} \\
+    \textbf{Experimento} & \textbf{Passo \textit{Spline}} & \textbf{Tensão} & \textbf{Translação} & \textbf{Acurácia (\%)} & \textbf{Tempo} \\
     \hline
 
-    0.5 & Não & 1 & 41.66 & 2min 12s \\
-    0.5 & Não & 0.5 & 41.66 & 2min 39s \\
-    0.5 & Não & 0.25 & 41.66 & 2min 21s \\
-
-    1 & Não & 1 & 45.83 & 1min 07s \\
-    1 & Não & 0.5 & 37.5 & 1min 08s \\
-    1 & Não & 0.25 & 41.66 & 1min 08s \\
-
-    - & Não & - & 37.5 & 0min 21s\\
-
-    0.5 & Sim & 1 & 79.16 & 2min 43s \\
-    0.5 & Sim & 0.5 & 75 & 2min 39s \\
-    0.5 & Sim & 0.25 & 70.83 & 2min 27s \\
+    13 & 0.5 & 1 & Não & 41.66 & 2min 12s \\
+    14 & 0.5 & 0.5 & Não & 41.66 & 2min 39s \\
+    15 & 0.5 & 0.25 & Não & 41.66 & 2min 21s \\
+    
+    16 & 1 & 1 & Não & 45.83 & 1min 07s \\
+    17 & 1 & 0.5 & Não & 37.5 & 1min 08s \\
+    18 & 1 & 0.25 & Não & 41.66 & 1min 08s \\
  
-    1 & Sim & 1 & 75 & 1min 04s \\
-    1 & Sim & 0.5 & 79.16 & 1min 09s \\
-    1 & Sim & 0.25 & 79.16 & 1min 13s \\
-
-    - & Sim & - & 70.83 & 0min 17s\\
+    19 & - & - & Não & 37.5 & 0min 21s\\
+ 
+    20 & 0.5 & 1 & Sim & 79.16 & 2min 43s \\
+    21 & 0.5 & 0.5 & Sim & 75 & 2min 39s \\
+    22 & 0.5 & 0.25 & Sim & 70.83 & 2min 27s \\
+ 
+    23 & 1 & 1 & Sim & 75 & 1min 04s \\
+    24 & 1 & 0.5 & Sim & 79.16 & 1min 09s \\
+    25 & 1 & 0.25 & Sim & 79.16 & 1min 13s \\
+ 
+    26 & - & - & Sim & 70.83 & 0min 17s\\
     \hline
     \end{tabular}
+    \label{tab:resultados-segmentados}
 \end{table}
+
+\subsection{Características Concatenadas}
+
+Na Tabela \ref{tab:resultados-concatenados}, observa-se que a introdução de translação causou uma queda significativa na acurácia. Enquanto os experimentos sem translação atingiram até 54,16\% de acurácia (Experimentos 2 e 5), aqueles com translação tiveram desempenho inferior, com valores que variaram entre 16,66\% e 41,66\%. Isso sugere que, ao utilizar características concatenadas, a translação dificulta a extração de padrões discriminativos.
+
+Além disso, ao comparar os valores de tensão, não há uma tendência clara de melhora ou piora na acurácia. No entanto, o passo da \textit{spline} igual a 1 reduziu consideravelmente o tempo de execução, com destaque para o Experimento 5 (1min 48s), mantendo a mesma acurácia de 54,16\% que o Experimento 2 (4min 05s), cujo passo era 0.5. Isso indica que um passo maior pode ser preferível por reduzir o tempo computacional sem comprometer o desempenho.
+
+\subsection{Características Segmentadas}
+
+Na Tabela \ref{tab:resultados-segmentados}, o cenário se inverte: os melhores resultados foram obtidos com a presença de translação. Os experimentos 20, 24 e 25 atingiram 79,16\% de acurácia, superando significativamente os demais. Isso indica que, no caso das características segmentadas, a translação introduz variações benéficas ao aprendizado, provavelmente por aumentar a robustez das representações faciais.
+
+Entre os experimentos sem translação, a acurácia ficou abaixo de 46\%, indicando que a segmentação sozinha não é suficiente para gerar boas representações sem esse tipo de transformação. Já o tempo de execução foi consistentemente mais baixo nas segmentadas em comparação às concatenadas, sugerindo uma vantagem adicional em termos de eficiência computacional.
+
+Os experimentos 19 e 26 utilizaram apenas os pontos extraídos automaticamente, sem aplicação de \textit{splines}. Esses testes funcionam como uma linha de base para comparação com as demais abordagens. Observa-se que, ao comparar o Experimento 19 (sem translação) com o Experimento 26 (com translação), a acurácia salta de 37,5\% para 70,83\%, evidenciando o impacto positivo da translação mesmo quando se utiliza uma representação simples baseada apenas nos pontos faciais. Isso reforça a relevância da translação como uma etapa de pré-processamento importante, especialmente no contexto das características segmentadas.
+
+\subsection{Considerações Finais}
+
+De forma geral:
+
+\begin{itemize}
+    \item A translação impacta negativamente nas características concatenadas, mas melhora significativamente os resultados nas características segmentadas.
+    \item Um passo da \textit{spline} maior (1) reduz o tempo computacional sem grandes perdas de desempenho.
+    \item As características segmentadas com translação se mostraram a melhor combinação, atingindo a maior acurácia com tempos de execução relativamente baixos.
+\end{itemize}
+
+Esses resultados indicam que a segmentação, aliada a transformações geométricas simples como a translação, pode ser uma estratégia promissora para a extração de características mais robustas em sistemas biométricos baseados em curvas \textit{spline}.
