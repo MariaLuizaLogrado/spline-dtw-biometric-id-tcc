@@ -2,7 +2,7 @@
 
 As \textit{splines} são funções definidas por partes que permitem a construção de curvas suaves a partir de um conjunto de pontos de controle. Elas são amplamente utilizadas em contextos onde é necessário representar formas complexas de maneira precisa e contínua, como na computação gráfica, modelagem geométrica e análise de dados. Dentre os diversos tipos, as \textit{splines} cúbicas se destacam por proporcionarem um bom equilíbrio entre flexibilidade e suavidade, garantindo continuidade até a segunda derivada e, consequentemente, uma transição harmoniosa entre os segmentos da curva.
 
-Na área de biometria facial, a representação precisa das características do rosto — como contornos dos olhos, nariz e lábios — é essencial para o desempenho de sistemas de reconhecimento. Utilizar \textit{splines} para descrever essas formas permite capturar variações sutis da geometria facial com suavidade e fidelidade, o que é especialmente importante na comparação entre diferentes imagens. Além disso, a estrutura matemática das \textit{splines} facilita tanto a manipulação quanto a análise das curvas faciais, tornando-as uma ferramenta eficiente e robusta nesse tipo de aplicação.
+Na área de biometria facial, a representação precisa das características do rosto -- como contornos dos olhos, nariz e lábios -- é essencial para o desempenho de sistemas de reconhecimento. Utilizar \textit{splines} para descrever essas formas permite capturar variações sutis da geometria facial com suavidade e fidelidade, o que é especialmente importante na comparação entre diferentes imagens. Além disso, a estrutura matemática das \textit{splines} facilita tanto a manipulação quanto a análise das curvas faciais, tornando-as uma ferramenta eficiente e robusta nesse tipo de aplicação.
 
 Neste capítulo, será abordado as \textit{splines} cúbicas, suas propriedades e aplicações. A sua construção envolve a definição de um conjunto de pontos de controle e a determinação dos coeficientes que definem os polinômios cúbicos entre esses pontos. A suavidade da curva é garantida pela imposição de condições de continuidade e derivabilidade, resultando em uma representação suave e flexível.
 
@@ -14,7 +14,7 @@ Uma \textit{spline} cúbica é uma função definida por partes, onde cada parte
 \end{equation}
 onde cada $c_i$ é um vetor no $\mathbb{R}^2$.
 
-A função $p$ representa uma curva parametrizada cuja variável independente é \( t \in [0,1] \). Essa função descreve a posição ao longo da curva no plano bidimensional, sendo essa posição o elemento de interesse ao desenharmos a curva, já que o processo de plotagem envolve a determinação de pontos com coordenadas $(x, y)$. As curvas de Hermite são definidas por equações paramétricas, ou seja, ambas as componentes $x$ e  $y$ são expressas como funções da variável $t$. Para ilustrar esse conceito, iniciamos definindo $x$ em função de $t$:
+A função $p(t)$ representa uma curva parametrizada cuja variável independente \( t \in [0,1] \). Essa função descreve a posição ao longo da curva no plano bidimensional, sendo essa posição o elemento de interesse ao desenharmos a curva, já que o processo de plotagem envolve a determinação de pontos com coordenadas $(x, y)$. As curvas de Hermite são definidas por equações paramétricas, ou seja, ambas as componentes $x$ e  $y$ são expressas como funções da variável $t$. Para ilustrar esse conceito, iniciamos definindo $x$ em função de $t$:
 
 \begin{equation}
     x(t) = c_0 + c_1t + c_2t^2 + c_3t^3
@@ -22,7 +22,7 @@ A função $p$ representa uma curva parametrizada cuja variável independente é
 
 A função \( y(t) \) será expressa de forma análoga à função \( x(t) \), embora possivelmente com coeficientes diferentes. A variável \( t \) representa o parâmetro que indica o progresso ao longo da curva, normalizado no intervalo \( [0,1] \), sendo \( t = 0 \) correspondente ao início da curva e \( t = 1 \) ao seu final.
 
-Expressar uma curva cúbica na forma de Hermite consiste em fornecer quatro valores fundamentais — conhecidos como valores de Hermite — que contêm todas as informações necessárias para descrever completamente a curva. Esses valores também permitem calcular os coeficientes da variável \( t \) na equação polinomial cúbica padrão, resultando assim na expressão completa da curva como um polinômio.
+Expressar uma curva cúbica na forma de Hermite consiste em fornecer quatro valores fundamentais -- conhecidos como valores de Hermite -- que contêm todas as informações necessárias para descrever completamente a curva. Esses valores também permitem calcular os coeficientes da variável \( t \) na equação polinomial cúbica padrão, resultando assim na expressão completa da curva como um polinômio.
 
 A principal motivação para utilizar a forma de Hermite é a possibilidade de determinar os coeficientes do polinômio diretamente a partir das informações das posições dos pontos inicial e final da curva, bem como das tangentes nesses pontos:
 
@@ -100,7 +100,7 @@ Escrevendo de forma matricial, temos:
 
  Supondo que existam 4 pontos e é desejado criar uma \textit{spline} que passe por todos eles. Para isso, é necessário criar 3 segmentos de curvas cúbicas, cada uma passando por dois pontos consecutivos. Assim, a \textit{spline} será composta por 3 segmentos cúbicos, cada um definido por 4 pontos de controle. \cite{CatmullRom}
 
- A primeira curva irá de $p_0$ a $p_1$, a segunda de $p_1$ a $p_2$ e a final de $p2$ a $p_3$. Então aplicaremos a fórmula que derivamos acima para $p_t$, mas em 3 variantes diferentes, cada variante com um par diferente de pontos finais. A fórmula da primeira curva tera pontos finais $p_0$ e $p_1$, a segunda em $p_1$ e $p_2$ e a terceira em $p_2$ e $p_3$, como é possível ver na \autoref{fig:spline_tangentes}. 
+ A primeira curva irá de $p_0$ a $p_1$, a segunda de $p_1$ a $p_2$ e a final de $p2$ a $p_3$. Então aplicaremos a fórmula que derivamos acima para $p_t$, mas em 3 variantes diferentes, cada variante com um par diferente de pontos finais. A fórmula da primeira curva terá pontos finais $p_0$ e $p_1$, a segunda em $p_1$ e $p_2$ e a terceira em $p_2$ e $p_3$, como é possível ver na \autoref{fig:spline_tangentes}. 
  
  Para as tangentes, Edwin Catmull e Raphael Rom descobriram que uma forma de fazer isso é subtrair o ponto anterior do ponto seguinte. Então para calcular a tangente para o ponto $p_2$ é só fazer ($p_3 - p_1$). Também é comum dividir por 2, pois tende a gerar curvas esteticamente agradáveis.
 
@@ -108,7 +108,7 @@ Escrevendo de forma matricial, temos:
     \caption{CURVAS CÚBICAS DE CATMULL-ROM.}
     \centering
     \includegraphics[width=0.8\textwidth]{fig/s1.jpg}
-    \legend{Spline cúbica com 4 pontos de controle}
+    \legend{\textit{Spline} cúbica com 4 pontos de controle}
     \vspace{0.5em} % Espaçamento vertical entre as imagens
     \includegraphics[width=0.8\textwidth]{fig/s2.jpg}
     \legend{Tangentes coincidentes nas conexões das cúbicas em cada ponto.}
@@ -211,7 +211,7 @@ Foi implementado um algoritmo autoral que gera uma \textit{spline} cúbica a par
 A seguir, são apresentados os resultados obtidos em conjuntos de pontos de controle que foram extraídos da imagem pelo processo explicado no Capítulo \ref{cha:processamento-imagem}.
 
 \begin{figure}[h!]
-    \caption{SPLINES NOS PONTOS EXTRAÍDOS.}
+    \caption{\textit{SPLINES} NOS PONTOS EXTRAÍDOS.}
     \centering
     \begin{minipage}[b]{0.45\textwidth}
         \centering
@@ -223,7 +223,7 @@ A seguir, são apresentados os resultados obtidos em conjuntos de pontos de cont
     \begin{minipage}[b]{0.45\textwidth}
         \centering
         \includegraphics[width=1\linewidth]{fig/08_spline_plot_right_eye.png}
-        \legend{Splines.}
+        \legend{\textit{Splines}.}
         \label{fig:spline}
     \end{minipage}
 \end{figure}

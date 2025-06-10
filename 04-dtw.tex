@@ -1,6 +1,6 @@
 \chapter{\textit{DYNAMIC TIME WARPING}} \label{cha:dtw}
 
-O \textit{Dynamic Time Warping} (DTW) é um algoritmo amplamente utilizado para medir a similaridade entre duas sequências temporais que podem variar em velocidade, tempo ou comprimento. Sua principal aplicação está em áreas como reconhecimento de fala, análise de séries temporais, bioinformática e visão computacional. Neste trabalho, esta técnica é utilizada para comparação entre as curvas que representam as características faciais dos indivíduos, permitindo identificar semelhanças de mesmas pessoas em diferentes momentos ou condições.
+O \textit{Dynamic Time Warping} (DTW) \cite{tavenard.blog.dtw} é um algoritmo amplamente utilizado para medir a similaridade entre duas sequências temporais que podem variar em velocidade, tempo ou comprimento. Sua principal aplicação está em áreas como reconhecimento de fala, análise de séries temporais, bioinformática e visão computacional. Neste trabalho, esta técnica é utilizada para comparação entre as curvas que representam as características faciais dos indivíduos, permitindo identificar semelhanças de mesmas pessoas em diferentes momentos ou condições.
 
 \section{Introdução ao DTW}
 
@@ -94,10 +94,12 @@ No entanto, o DTW também possui desvantagens:
 
 Neste trabalho, o DTW foi utilizado por ser uma técnica adequada para comparar sequências que representam características espaciais extraídas de contornos faciais utilizando um algoritmo simples. As curvas resultantes dessas características podem variar em comprimento e forma devido a diferentes condições de iluminação, expressões faciais ou ângulos de captura. Esse método permite alinhar essas curvas de forma dinâmica, possibilitando uma comparação mais precisa entre elas.
 
-Além disso, este trabalho baseia-se na abordagem proposta por \citet{DTW_LSTM}, que demonstraram a eficácia do uso do algoritmo DTW na comparação da variação das cores dos pixels ao longo do tempo. Os autores obtiveram acurácias de 100\%, 94\% e 70\% em diferentes cenários experimentais, evidenciando a robustez do método. Observa-se, contudo, uma diminuição progressiva na acurácia à medida que ruídos são introduzidos nas imagens, o que reforça a importância de técnicas complementares de pré-processamento.
+Além disso, este trabalho baseia-se na abordagem proposta por \citet{DTW_LSTM}, que demonstraram a eficácia do uso do algoritmo DTW na comparação da variação das cores dos \textit{pixels} ao longo do tempo. Os autores obtiveram acurácias de 100\%, 94\% e 70\% em diferentes cenários experimentais, evidenciando a robustez do método. Observa-se, contudo, uma diminuição progressiva na acurácia à medida que ruídos são introduzidos nas imagens, o que reforça a importância de técnicas complementares de pré-processamento.
 
 
-Entretanto, uma limitação relevante observada nesse estudo foi o alto custo computacional do DTW, o que compromete sua aplicabilidade em cenários que exigem processamento em tempo real. Embora o tempo exato de execução dos experimentos não tenha sido reportado pelos autores, foi implementado um script com base na proposta do artigo, cujo tempo de execução estimado foi de aproximadamente 10 horas para comparar duas imagens representadas por vetores de dimensão 77.284 (correspondentes às intensidades de cinza).
+Entretanto, uma limitação relevante observada nesse estudo foi o alto custo computacional do DTW, o que compromete sua aplicabilidade em cenários que exigem processamento em tempo real. Embora o tempo exato de execução dos experimentos não tenha sido reportado pelos autores, foi implementado um \textit{script} com base na proposta do artigo, cujo tempo de execução estimado foi de aproximadamente 10 horas para comparar duas imagens representadas por vetores de dimensão 77.284 (correspondentes às intensidades de cinza). 
 
-Diante disso, uma das propostas deste trabalho é otimizar o processo de comparação por meio da utilização de curvas suaves representadas por splines, com o objetivo de reduzir a complexidade computacional sem comprometer a acurácia e a eficiência da técnica.
+Foi utilizada a biblioteca \cite{libDTW} para a implementação do DTW para reproduzir os resultados do artigo, pois os pixels das imagens são representados como vetores unidimensionais. Porém para o nosso trabalho foi preciso adaptar o código para lidar com coordenadas, o que exigiu uma abordagem diferente, visto que as curvas não são vetores unidimensionais, mas sim representações contínuas de pontos no espaço.
+
+Diante disso, uma das propostas deste trabalho é otimizar o processo de comparação por meio da utilização de curvas suaves representadas por \textit{splines}, com o objetivo de reduzir a complexidade computacional sem comprometer a acurácia e a eficiência da técnica.
 

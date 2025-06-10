@@ -2,7 +2,7 @@
 
 Para a avaliação dos métodos propostos neste trabalho, foi utilizada uma amostra do banco de dados FERET \cite{FERET1,FERET2}. A seleção compreende um total de 24 imagens faciais pertencentes a quatro indivíduos distintos. Ressalta-se que há um desbalanceamento na distribuição de imagens por indivíduo, sendo 10 imagens do primeiro sujeito, 3 do segundo, 6 do terceiro e 5 do quarto. Todas as imagens foram capturadas em condições controladas, com orientação frontal e sem variações significativas de ângulo ou expressões faciais.
 
-Foi preciso segmentar quatro regiões distintas: olhos, nariz e boca, cada uma representada por um array bidimensional contendo as coordenadas dos pontos relevantes do contorno contendo as \textit{splines}.
+Foi preciso segmentar quatro regiões distintas: olhos, nariz e boca, cada uma representada por um \textit{array} bidimensional contendo as coordenadas dos pontos relevantes do contorno contendo as \textit{splines}.
 
 O DTW foi aplicado separadamente para cada uma dessas quatro representações, permitindo avaliar a similaridade local (por região) e utilizando o sistema de votação para determinar a identidade do indivíduo. Além disso, uma outra versão com todas as características concatenadas foi utilizada como referência global da face.
 
@@ -16,7 +16,7 @@ A máquina utilizada para os testes possui as seguintes especificações: proces
 Para a realização dos experimentos, foram definidos alguns parâmetros de configuração que influenciam diretamente o desempenho do DTW e a qualidade das curvas geradas pelas \textit{splines}. Esses parâmetros incluem:
 \begin{itemize}
     \item \textbf{Passo da \textit{Spline}:} Define a densidade dos pontos ao longo da curva. Um passo menor resulta em curvas mais detalhadas, mas com maior custo computacional.
-    \item \textbf{Tensão:} Controla a suavidade das curvas geradas pelas \textit{splines}. Valores mais altos resultam em curvas mais flexíveis, enquanto valores mais baixos produzem curvas mais rígidas.
+    \item \textbf{Tensão:} Controla a suavidade das curvas geradas pelas \textit{splines}. Valores mais altos resultam em curvas mais flexíveis, enquanto valores mais baixos produzem curvas mais rígidas. %citar figura 11
     \item \textbf{Translação:} Indica se as curvas devem ser transladadas para alinhar melhor as características faciais.
 \end{itemize}
 
@@ -97,7 +97,7 @@ Na Tabela \ref{tab:resultados-segmentados}, o cenário se inverte: os melhores r
 
 Entre os experimentos sem translação, a acurácia ficou abaixo de 46\%, indicando que a segmentação sozinha não é suficiente para gerar boas representações sem esse tipo de transformação. Já o tempo de execução foi consistentemente mais baixo nas segmentadas em comparação às concatenadas, sugerindo uma vantagem adicional em termos de eficiência computacional.
 
-Os experimentos 19 e 26 utilizaram apenas os pontos extraídos automaticamente, sem aplicação de \textit{splines}. Esses testes funcionam como uma linha de base para comparação com as demais abordagens. Observa-se que, ao comparar o Experimento 19 (sem translação) com o Experimento 26 (com translação), a acurácia salta de 37,5\% para 70,83\%, evidenciando o impacto positivo da translação mesmo quando se utiliza uma representação simples baseada apenas nos pontos faciais. Isso reforça a relevância da translação como uma etapa de pré-processamento importante, especialmente no contexto das características segmentadas.
+Os experimentos 19 e 26 utilizaram apenas os pontos extraídos automaticamente, sem aplicação de \textit{splines}. Esses testes funcionam como uma linha de base para comparação com as demais abordagens. Observa-se que, ao comparar o Experimento 19 com o Experimento 26, a acurácia salta de 37,5\% para 70,83\%, evidenciando o impacto positivo da translação mesmo quando se utiliza uma representação simples baseada apenas nos pontos faciais. Isso reforça a relevância da translação como uma etapa de pré-processamento importante, especialmente no contexto das características segmentadas.
 
 \subsection{Considerações Finais}
 

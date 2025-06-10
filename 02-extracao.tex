@@ -58,7 +58,7 @@ O método \texttt{detectMultiScale()} é utilizado para identificar faces de dif
 
 \end{itemize}
 
-Foi colocado como default para todos os classificadores os seguintes valores: 
+Foi colocado como \textit{default} para todos os classificadores os seguintes valores: 
 
 {\small \texttt{detectMultiScale(image, scaleFactor=1.1, minNeighbors=5, minSize=(40, 50))}}
 
@@ -113,11 +113,11 @@ Considere a  \autoref{fig:deteccao-caracteristicas} , onde a detecção das cara
 
 \section{Extração de Contornos}
 
-A detecção de bordas é essencial para a análise de imagens, pois permite a identificação de contornos e a segmentação de objetos em uma cena. O algoritmo \cite{Canny} é um dos métodos mais populares devido à sua eficiência e precisão. Esta parte irá explorar o funcionamento do algoritmo de Canny e demonstrará sua aplicação prática com a biblioteca OpenCV \cite{CannyAplicacao}.
+A detecção de contornos é essencial para a análise de imagens, pois permite a identificação de contornos e a segmentação de objetos em uma cena. O algoritmo \cite{Canny} é um dos métodos mais populares devido à sua eficiência e precisão. Esta parte irá explorar o funcionamento do algoritmo de Canny e demonstrará sua aplicação prática com a biblioteca OpenCV \cite{CannyAplicacao}.
 
 \subsection{Algoritmo de Canny}
 
-O algoritmo de detecção de bordas de Canny é composto por várias etapas, conforme descrito a seguir:
+O algoritmo de detecção de contornos de Canny é composto por várias etapas, conforme descrito a seguir:
 
 \begin{enumerate}
     \item \textbf{Redução de Ruído}: A imagem é suavizada com um filtro Gaussiano para minimizar a interferência do ruído na detecção de bordas.
@@ -136,18 +136,18 @@ O algoritmo de detecção de bordas de Canny é composto por várias etapas, con
     \end{itemize}
 \end{enumerate}
 
-Por exemplo, na Figura \autoref{fig:histerese}, a borda A está acima do \textit{maxVal}, sendo assim considerada uma \textit{sure-edge}. Embora a borda C esteja abaixo do \textit{maxVal}, ela está conectada à borda A, de modo que também é considerada como borda válida, resultando em uma curva completa. Já a borda B, embora esteja acima do \textit{minVal}, não está conectada a nenhuma \textit{sure-edge} e, portanto, é descartada.
+Por exemplo, na Figura \autoref{fig:histerese}, o contorno A está acima do \textit{maxVal}, sendo assim considerado um \textit{sure-edge}. Embora o contorno C esteja abaixo do \textit{maxVal}, ele está conectado ao contorno A, de modo que também é considerado como contorno válido, resultando em uma curva completa. Já o contorno B, embora esteja acima do \textit{minVal}, não está conectado a nenhum \textit{sure-edge} e, portanto, é descartado.
 
 \imagem{Rastreamento de contorno por histerese}{\includegraphics[width = 80mm]{fig/histerese}}{\cite{CannyAplicacao}}{histerese}{}{Calculada a magnitude do gradiente ao longo de uma curva parametrizada.}
 
-É crucial selecionar adequadamente os valores de \textit{minVal} e \textit{maxVal} para obter resultados precisos. Esse estágio também ajuda a remover pequenos ruídos de pixels, assumindo que as bordas são linhas longas e contínuas.
+É crucial selecionar adequadamente os valores de \textit{minVal} e \textit{maxVal} para obter resultados precisos. Esse estágio também ajuda a remover pequenos ruídos de \textit{pixels}, assumindo que as bordas são linhas longas e contínuas.
 
 \subsection{Resultado da Detecção de Bordas}
 \label{sec:resultado-deteccao-bordas}
 
-Ao aplicar o algoritmo de Canny para a detecção de bordas, obtemos um array binário onde os valores '0' e '255' representam diferentes tipos de pixels. Os pixels com valor '0' são considerados descartáveis, ou seja, não fazem parte das bordas detectadas. Em contraste, os pixels com valor '255' são os que definem as bordas, indicando regiões de mudança de intensidade significativa na imagem original.
+Ao aplicar o algoritmo de Canny para a detecção de contornos, obtemos um \textit{array} binário onde os valores '0' e '255' representam diferentes tipos de \textit{pixels}. Os \textit{pixels} com valor '0' são considerados descartáveis, ou seja, não fazem parte dos contornos detectados. Em contraste, os \textit{pixels} com valor '255' são os que definem os contornos, indicando regiões de mudança de intensidade significativa na imagem original.
 
-A seguir são apresentados os resultados da aplicação do algoritmo de Canny em imagens de exemplo. A \autoref{fig:canny-aplicacao} mostra as características com as bordas detectadas.
+A seguir são apresentados os resultados da aplicação do algoritmo de Canny em imagens de exemplo. A \autoref{fig:canny-aplicacao} mostra as características com os contornos detectados.
 
 
 \begin{figure}[h!]
@@ -185,7 +185,7 @@ A seguir são apresentados os resultados da aplicação do algoritmo de Canny em
     \label{fig:canny-aplicacao}
 \end{figure}
 % \newpage
-A detecção de bordas de Canny é uma técnica poderosa e eficiente para identificar contornos em imagens. Esses resultados demonstram como o algoritmo de Canny é eficaz para realçar as bordas em diferentes tipos de imagens, permitindo uma análise visual clara e detalhada das características principais em cada exemplo.
+Esses resultados demonstram como o algoritmo de Canny é eficaz para realçar os contornos em diferentes tipos de imagens, permitindo uma análise visual clara e detalhada das características principais em cada exemplo.
 
 \newpage
 
@@ -193,19 +193,19 @@ A detecção de bordas de Canny é uma técnica poderosa e eficiente para identi
 \label{sec:reduzindo-pontos-deteccao-bordas}
 
 
-Embora o detector de bordas de Canny seja excelente para capturar as bordas, nem sempre é necessário utilizar todos os pontos detectados ao passar uma spline. Para a modelagem de contornos suaves e contínuos, é suficiente selecionar um subconjunto representativo dos pontos detectados. Esse processo pode envolver a amostragem ou a simplificação dos pontos de borda, garantindo que a spline mantenha a forma geral do contorno sem a complexidade de lidar com todos os pontos individuais.
+Embora o algoritmo de Canny seja excelente para capturar os contornos, nem sempre é necessário utilizar todos os pontos detectados ao passar uma \textit{spline}. Para a modelagem de contornos suaves e contínuos, é suficiente selecionar um subconjunto representativo dos pontos detectados. Esse processo pode envolver a amostragem ou a simplificação de alguns desses pontos, garantindo que a \textit{spline} mantenha a forma geral do contorno sem a complexidade de lidar com todos os pontos individuais.
 
 Esta parte é realizada em quatro etapas principais:
 \begin{enumerate}
-    \item \textbf{Construção do Grafo:} Os pontos de borda detectados são organizados em um grafo, onde cada ponto é um nó e as conexões entre eles representam as arestas. Essa estrutura facilita a análise e a manipulação dos pontos.
+    \item \textbf{Construção do Grafo:} Os pontos de contorno detectados são organizados em um grafo, onde cada ponto é um nó e as conexões entre eles representam as arestas. Essa estrutura facilita a análise e a manipulação dos pontos.
     \item \textbf{Árvore Geradora Mínima:} A partir do grafo, uma árvore geradora mínima é construída. Essa árvore conecta todos os pontos de forma a minimizar o custo total das arestas, resultando em uma representação simplificada dos contornos.
     \item \textbf{Otimização com Poda da Árvore:} A árvore geradora mínima é otimizada, removendo pontos que não contribuem significativamente para a forma geral do contorno. Essa poda reduz o número de pontos, mantendo apenas os mais relevantes.
-    \item \textbf{Filtragem Aleatória:} Por fim, uma filtragem aleatória é aplicada para suavizar ainda mais a representação, mantendo apenas os pontos iniciais e finais de cada segmento. Essa etapa garante que a spline resultante seja suave e contínua.
+    \item \textbf{Filtragem Aleatória:} Por fim, uma filtragem aleatória é aplicada para suavizar ainda mais a representação, mantendo apenas os pontos iniciais e finais de cada segmento. Essa etapa garante que a \textit{spline} resultante seja suave e contínua.
 \end{enumerate}
 
 \subsection{Grafos}
 
-Para a construção do grafo, utilizamos os pontos de borda detectados pelo algoritmo de Canny. Cada ponto é representado como um nó no grafo, e as conexões entre os nós são representadas como arestas. Essa estrutura é chamada de matriz de adjacência, onde cada elemento indica a presença ou ausência de uma aresta entre dois nós.
+Para a construção do grafo, utilizamos os pontos de contorno detectados pelo algoritmo de Canny. Cada ponto é representado como um nó no grafo, e as conexões entre os nós são representadas como arestas. Essa estrutura é chamada de matriz de adjacência, onde cada elemento indica a presença ou ausência de uma aresta entre dois nós.
 
 O código foi feito de forma autoral em Python, utilizando a fórmula Manhattan para calcular a distância entre os nós. Essa fórmula é adequada para o nosso caso, pois considera apenas as distâncias horizontais e verticais, o que é suficiente para que o grafo represente adequadamente a estrutura dos contornos faciais.
 
@@ -325,12 +325,12 @@ Um grafo desconexo pode ser dividido em componentes conexos, que são subgrafos 
     \label{fig:componentes_conexos}
     \end{figure}
 
-Em problemas de processamento de imagens, frequentemente são utilizados grafos que representam os pixels da imagem. O objetivo é identificar componentes conexos, permitindo a seleção dos caminhos mais significativos e a filtragem de ruídos. Componentes com um grande número de nós indicam regiões de interesse, correspondendo a áreas com maior quantidade de pixels conectados. Por outro lado, componentes menores podem ser interpretadas como ruído ou regiões irrelevantes, que podem ser descartadas durante o processamento.
+Em problemas de processamento de imagens, frequentemente são utilizados grafos que representam os \textit{pixels} da imagem. O objetivo é identificar componentes conexos, permitindo a seleção dos caminhos mais significativos e a filtragem de ruídos. Componentes com um grande número de nós indicam regiões de interesse, correspondendo a áreas com maior quantidade de \textit{pixels} conectados. Por outro lado, componentes menores podem ser interpretadas como ruído ou regiões irrelevantes, que podem ser descartadas durante o processamento.
 
 \subsection{Resultado da Construção do Grafo}
 \label{sec:resultado-construcao-grafo}
 
-Podemos observar que a imagem original é composta por um grande número de pontos, porém utilizando a filtragem de pixels através de grafos com as componentes conexos, conseguimos reduzir a quantidade de pontos, mantendo apenas os mais relevantes. A \autoref{fig:resultado-grafo} mostra o resultado da construção do grafo e a filtragem dos pontos.
+Podemos observar que a imagem original é composta por um grande número de pontos, porém utilizando a filtragem de \textit{pixels} através de grafos com os componentes conexos, conseguimos reduzir a quantidade de pontos, mantendo apenas os mais relevantes. A \autoref{fig:resultado-grafo} mostra o resultado da construção do grafo e a filtragem dos pontos.
 
 \begin{figure}[h!]
     \caption{COMPONENTES CONEXOS OLHO DIREITO.}
@@ -369,14 +369,14 @@ Cada nó na AGM tem uma relação hierárquica com outros nós:
 
 \begin{itemize}
     \item O nó raiz é o nó inicial a partir do qual a árvore é construída ou percorrida.
-    \item Um nó filho é aquele que se origina de outro nó — chamado de pai — seguindo essa ideia de crescimento ou expansão da árvore.
-    \item É um nó que não tem filhos, ou seja, ele está no fim de um caminho na árvore
+    \item Um nó filho é aquele que se origina de outro nó -- chamado de pai -- seguindo essa ideia de crescimento ou expansão da árvore.
+    \item A folha é um nó que não tem filhos, ou seja, ela está no fim de um caminho na árvore
 \end{itemize}
 
 
-Para a construção adequada das splines, é essencial definir uma ordem consistente para os pontos que descrevem as características faciais. Sem uma ordem definida, as splines podem ser traçadas de maneira incoerente, resultando em representações visuais incorretas ou deformadas. Além disso, a ordenação contribui para evitar ciclos ou conexões redundantes entre os pontos, o que poderia comprometer a suavidade e continuidade das curvas. Foi utilizada a biblioteca \textit{Scipy} \cite{Scipy} para encontrar a AGM.
+Para a construção adequada das \textit{splines}, é essencial definir uma ordem consistente para os pontos que descrevem as características faciais. Sem uma ordem definida, as \textit{splines} podem ser traçadas de maneira incoerente, resultando em representações visuais incorretas ou deformadas. Além disso, a ordenação contribui para evitar ciclos ou conexões redundantes entre os pontos, o que poderia comprometer a suavidade e continuidade das curvas. Foi utilizada a biblioteca \textit{Scipy} \cite{Scipy} para encontrar a AGM.
 
-Para otimizar a análise, aplicamos uma \textbf{poda da árvore} na AGM para identificar o caminho principal e eliminar os pontos que não contribuem significativamente para a forma geral do contorno. Essa poda é realizada com base em critérios de distância e relevância, garantindo que apenas os pontos mais significativos sejam mantidos na representação final.
+Para otimizar a análise, aplicamos uma poda da árvore na AGM para identificar o caminho principal e eliminar os pontos que não contribuem significativamente para a forma geral do contorno. Essa poda é realizada com base em critérios de distância e relevância, garantindo que apenas os pontos mais significativos sejam mantidos na representação final.
 
 % O algoritmo para a otimização da árvore encontrando o maior caminho foi feito de forma autoral em Python, foi construído da seguinte forma:
 
@@ -505,6 +505,3 @@ A \autoref{fig:resultado-agm} mostra o resultado da AGM, onde os pontos que não
     \end{minipage}
     \label{fig:resultado-agm}
 \end{figure}
-
-
-%%% explicar melhor porque estamos usando a AGM: ordem para a construção da spline, evitar ciclos, etc.
