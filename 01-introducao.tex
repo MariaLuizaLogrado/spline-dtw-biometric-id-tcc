@@ -21,7 +21,7 @@ Métodos convencionais baseados em CNNs e aprendizado profundo apresentam altos 
 
 Diante desse cenário, a abordagem baseada no uso de \textit{splines} surge como uma alternativa para representação de características faciais de forma mais estruturada e interpretável. As \textit{splines} são funções matemáticas que permitem a modelagem de curvas suaves a partir de um conjunto reduzido de pontos de controle, garantindo uma representação eficiente das características faciais sem a necessidade de armazenar grandes quantidades de dados redundantes.
 
-Além da compactação da informação, o uso de \textit{splines} facilita a extração de características relevantes, permitindo que apenas as estruturas mais significativas do rosto sejam utilizadas como entrada para o modelo de aprendizado. Isso pode melhorar a eficiência do DTW aumentando a precisão na identificação.
+Além da compactação da informação, o uso de \textit{splines} facilita a extração de características relevantes, permitindo que apenas as estruturas mais significativas do rosto sejam utilizadas como entrada para o modelo de aprendizado. Isso pode melhorar a eficiência do DTW, aumentando a precisão na identificação.
 
 Dessa forma, este trabalho se justifica pela necessidade de explorar métodos alternativos para reconhecimento facial que combinem eficiência computacional e interpretabilidade.
 
@@ -35,23 +35,31 @@ Por fim, trechos da pesquisa neste trabalho utilizam o banco de dados FERET \cit
 
 \subsection{Detecção de Características Faciais}
 
-Inicialmente, são identificadas as principais regiões do rosto, como olhos, boca e nariz. Para isso, é utilizado o modelo Haar Cascades \cite{BoostedCascade, HaarAplicacao} como a técnica de detecção. O modelo é ajustado para reconhecer padrões de características faciais em imagens, permitindo a localização das regiões de interesse.
+Inicialmente, são identificadas as principais regiões do rosto, como olhos, boca e nariz. Para isso, é utilizado o modelo Haar Cascade \cite{BoostedCascade, HaarAplicacao} como a técnica de detecção. O modelo é ajustado para reconhecer padrões de características faciais em imagens, permitindo a localização das regiões de interesse.
 
 \subsection{Extração de Contornos} 
 
 Após a identificação das regiões faciais, são extraídos os contornos dessas características por meio da técnica de processamento de imagens de detecção de bordas utilizando o operador de Canny (segmentação baseada em gradientes) \cite{Canny,CannyAplicacao}. O objetivo é obter um conjunto inicial de pontos que descrevem as características faciais.
 
-\subsection{Redução de Pontos}
+% \subsection{Redução de Pontos}
 
-Para evitar redundância e reduzir a complexidade computacional, os pontos extraídos nos contornos são submetidos a um processo de simplificação. Estruturas de dados como grafos e árvore geradora mínima são utilizadas para manter apenas os pontos mais significativos. Nesta etapa utilizamos o algoritmo que encontra a árvore geradora mínima através da biblioteca \textit{Scipy} \cite{Scipy}.
+% Para evitar redundância e reduzir a complexidade computacional, os pontos extraídos nos contornos são submetidos a um processo de simplificação. Estruturas de dados como grafos e árvore geradora mínima são utilizadas para manter apenas os pontos mais significativos. Nesta etapa utilizamos o algoritmo que encontra a árvore geradora mínima através da biblioteca \textit{Scipy} \cite{Scipy}.
 
-\subsection{Modelagem com \textit{splines}}
+% \subsection{Modelagem com \textit{splines}}
 
-Com os pontos reduzidos, são traçadas curvas suaves utilizando \textit{splines} Catmull-Rom \cite{CatmullRom, CatRomDemonstration, RepresentationSplines}. Essa modelagem permite representar as feições faciais de forma contínua e diferenciável, garantindo uma estrutura mais compacta e interpretável.
+% Com os pontos reduzidos, são traçadas curvas suaves utilizando \textit{splines} Catmull-Rom \cite{CatmullRom, CatRomDemonstration, RepresentationSplines}. Essa modelagem permite representar as feições faciais de forma contínua e diferenciável, garantindo uma estrutura mais compacta e interpretável.
+
+\subsection{Simplificação dos Contornos com Estruturas de Grafos}
+
+Para reduzir a complexidade computacional, os pontos extraídos nos contornos são submetidos a um processo de simplificação. Estruturas de dados como grafos são utilizadas para armazenar os pontos e suas vizinhanças. A partir desses grafos, é possível aplicar algoritmos para identificação de seus componentes conexos \cite{Scipy}, mantendo aqueles que possuem os maiores nós, ou seja, os pontos mais significativos.
+
+\subsection{Otimização Estrutural com Árvore Geradora Mínima}
+
+Para garantir que as curvas não apresentem ciclos, é aplicada a técnica de árvore geradora mínima. Essa técnica permite selecionar um subconjunto de arestas que conecta todos os pontos sem formar ciclos, resultando em uma representação mais limpa e eficiente das características faciais. Após essa etapa, é implementado um algoritmo para encontrar o maior caminho entre os pontos e remover os pontos intermediários, resultando em uma curva mais simplificada.
 
 \subsection{Classificação por \textit{Dynamic Time Warping}}
 
-Por fim, os pontos gerados a partir dessas curvas são utilizados como entrada para um algoritmo de DTW \cite{SAKOE, tavenard.blog.dtw}. O DTW é um algoritmo que mede a similaridade entre duas sequências temporais, permitindo o alinhamento não linear entre elas. Essa abordagem é especialmente útil para lidar com variações na velocidade e, neste trabalho, na forma das características faciais.
+Por fim, os pontos gerados a partir dessas curvas são utilizados como entrada para um algoritmo de DTW \cite{SAKOE, tavenard.blog.dtw}. O DTW é um algoritmo que mede a similaridade entre duas sequências temporais, permitindo o alinhamento não-linear entre elas. Essa abordagem é especialmente útil para lidar com variações na velocidade e, neste trabalho, na forma das características faciais.
 
 \section{REFERENCIAL TEÓRICO}
 
@@ -61,7 +69,7 @@ O uso do algoritmo de DTW para reconhecimento facial é abordado por \citet{DTW_
 
 \section{CRONOGRAMA}
 
-A Tabela \ref{tab:crono} apresenta o cronograma de atividades para o desenvolvimento do trabalho, com as datas previstas para cada etapa.
+A Tabela \ref{tab:crono} apresenta o cronograma de atividades para o desenvolvimento do trabalho.
 
 \begin{table}[ht] 
     \centering

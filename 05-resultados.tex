@@ -2,7 +2,8 @@
 
 Para a avaliação dos métodos propostos neste trabalho, foi utilizada uma amostra do banco de dados FERET \cite{FERET1,FERET2}. A seleção compreende um total de 24 imagens faciais pertencentes a quatro indivíduos distintos. Ressalta-se que há um desbalanceamento na distribuição de imagens por indivíduo, sendo 10 imagens do primeiro sujeito, 3 do segundo, 6 do terceiro e 5 do quarto. Todas as imagens foram capturadas em condições controladas, com orientação frontal e sem variações significativas de ângulo ou expressões faciais.
 
-Foi preciso segmentar quatro regiões distintas: olhos, nariz e boca, cada uma representada por um \textit{array} bidimensional contendo as coordenadas dos pontos relevantes do contorno contendo as \textit{splines}.
+Foram segmentadas quatro regiões distintas: olhos, nariz e boca. Cada uma é representada por um \textit{array} bidimensional que armazena as coordenadas dos pontos gerados pela aplicação das \textit{splines} em cada região.
+
 
 O DTW foi aplicado separadamente para cada uma dessas quatro representações, permitindo avaliar a similaridade local (por região) e utilizando o sistema de votação para determinar a identidade do indivíduo. Além disso, uma outra versão com todas as características concatenadas foi utilizada como referência global da face.
 
@@ -24,7 +25,7 @@ Para cada combinação desses parâmetros, foram realizados testes com as caract
 
 \section{Resultados Obtidos}
 
- As tabelas \ref{tab:resultados-concatenados} e \ref{tab:resultados-segmentados} apresentam os resultados obtidos para cada uma das abordagens, considerando diferentes parâmetros de configuração. Esses parâmetros influenciam diretamente na suavidade, na flexibilidade e na posição das curvas geradas, impactando a acurácia dos resultados obtidos pelo DTW.
+ As tabelas \ref{tab:resultados-concatenados} e \ref{tab:resultados-segmentados} apresentam os resultados obtidos para cada uma das abordagens, considerando diferentes parâmetros de configuração.
 
 \begin{table}[h!]
     \centering

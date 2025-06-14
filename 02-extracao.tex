@@ -1,10 +1,10 @@
 \chapter{EXTRAÇÃO DE PONTOS DE FORMA AUTOMÁTICA} \label{cha:processamento-imagem} 
 
-Neste capítulo, será apresentado o método de extração automática de pontos de forma a facilitar a modelagem de \textit{splines} para reconhecimento facial. O método proposto consiste em um algoritmo que utiliza técnicas de processamento de imagem e otimização para extrair pontos relevantes em imagens faciais. A abordagem é baseada na detecção de características faciais, seguida pela extração de contornos e filtragem dos pontos obtidos.
+Neste capítulo será apresentado o método de extração automática de pontos, de forma a facilitar a modelagem de \textit{splines} para reconhecimento facial. O método proposto consiste em um algoritmo que utiliza técnicas de processamento de imagem e otimização para extrair pontos relevantes em imagens faciais. A abordagem é baseada na detecção de características faciais, seguida pela extração de contornos e filtragem dos pontos obtidos.
 
-Inicialmente, realizamos uma pesquisa para identificar as principais características faciais a serem extraídas, decidindo focar na detecção dos olhos, nariz e boca. Para isso, utilizamos o algoritmo Haar Cascade para detectar o rosto da pessoa na imagem, concentrando a análise nessa área específica e facilitando a detecção das características menores \cite{BoostedCascade}.
+Inicialmente, realizamos uma pesquisa para identificar as principais características faciais a serem extraídas, decidindo focar na detecção dos olhos, nariz e boca. Para isso, utilizamos o algoritmo Haar Cascade \cite{BoostedCascade} para detectar o rosto da pessoa na imagem, concentrando a análise nessa área específica e facilitando a detecção das características menores.
 
-Em seguida, utilizamos o método \texttt{Canny} do OpenCV \cite{CannyAplicacao} para extrair os contornos das características faciais. O \texttt{Canny} é um algoritmo de detecção de contornos eficiente que nos ajuda a identificar os limites das características faciais com maior precisão \cite{Canny}.
+Em seguida, utilizamos o método Canny do OpenCV \cite{CannyAplicacao, Canny} para extrair os contornos das características faciais. O Canny é um algoritmo de detecção de contornos eficiente que nos ajuda a identificar os limites das características faciais com maior precisão.
 
 Após a extração dos contornos, suprimimos alguns pontos fazendo o uso de grafos e árvores geradoras mínimas. Essa etapa é crucial para reduzir a quantidade de pontos a serem utilizados na modelagem das \textit{splines}, mantendo apenas os pontos mais significativos que representam as características faciais. A simplificação dos pontos é realizada utilizando o algoritmo construído de forma autoral e implementado em Python, que utiliza a biblioteca \textit{Scipy} \cite{Scipy} para encontrar a árvore geradora mínima. Essa abordagem garante que os pontos extraídos sejam representativos e relevantes para a modelagem das \textit{splines}.
 
@@ -38,7 +38,7 @@ O método \texttt{detectMultiScale()} é utilizado para identificar faces de dif
 \begin{itemize}
     \item \textbf{\texttt{image}}:
     \begin{itemize}
-    \item O primeiro parâmetro é a imagem em tons de cinza. Essa imagem serve como entrada para o método e com ela em tons de cinza facilita a detecção de características faciais.
+    \item O primeiro parâmetro é a imagem em tons de cinza, utilizada como entrada do método por facilitar a detecção das características faciais.
     \end{itemize}
 
 \item \textbf{\texttt{scaleFactor}}:
@@ -58,13 +58,13 @@ O método \texttt{detectMultiScale()} é utilizado para identificar faces de dif
 
 \end{itemize}
 
-Foi colocado como \textit{default} para todos os classificadores os seguintes valores: 
+Foram colocados como \textit{default} para todos os classificadores os seguintes valores: 
 
 {\small \texttt{detectMultiScale(image, scaleFactor=1.1, minNeighbors=5, minSize=(40, 50))}}
 
 \subsection{Resultado da Detecção das Características}
 
-Para realizar a detecção das características faciais, inicialmente identificamos o rosto na imagem. Este processo retorna um \textit{array} com quatro valores: as coordenadas $x$ e $y$ do ponto onde o rosto foi detectado, além de sua largura e altura. Em seguida, recortamos a imagem nessa região, de modo a isolar a face da pessoa.
+Para realizar a detecção das características faciais, inicialmente identificamos o rosto na imagem. Esse processo retorna um \textit{array} com quatro valores: as coordenadas $x$ e $y$ do ponto onde o rosto foi detectado, além de sua largura e altura. Em seguida, recortamos a imagem nessa região, de modo a isolar a face da pessoa.
 
 Com o rosto isolado, aplicamos classificadores específicos para detectar o nariz, a boca e os olhos.
 
@@ -87,7 +87,7 @@ Considere a  \autoref{fig:deteccao-caracteristicas} , onde a detecção das cara
     \begin{minipage}[b]{0.45\textwidth}
         \centering
         \includegraphics[width=0.9\linewidth]{fig/01_example_image.png}
-        \legend{FONTE: \cite{FERET1,FERET2}}
+        \legend{Imagem Original.}
         \label{fig:imagem}
     \end{minipage}
     \hfill
@@ -106,6 +106,7 @@ Considere a  \autoref{fig:deteccao-caracteristicas} , onde a detecção das cara
         \legend{2º Detecção das características.}
         \label{fig:caracteristicas}
     \end{minipage}
+    \legend{FONTE: \cite{FERET1,FERET2}}
     \label{fig:deteccao-caracteristicas}
 \end{figure}
 
@@ -113,41 +114,71 @@ Considere a  \autoref{fig:deteccao-caracteristicas} , onde a detecção das cara
 
 \section{Extração de Contornos}
 
-A detecção de contornos é essencial para a análise de imagens, pois permite a identificação de contornos e a segmentação de objetos em uma cena. O algoritmo \cite{Canny} é um dos métodos mais populares devido à sua eficiência e precisão. Esta parte irá explorar o funcionamento do algoritmo de Canny e demonstrará sua aplicação prática com a biblioteca OpenCV \cite{CannyAplicacao}.
+A detecção de contornos é essencial para a análise de imagens, pois permite a identificação de contornos e a segmentação de objetos em uma cena. O algoritmo de Canny \cite{Canny} é um dos métodos mais populares devido à sua eficiência e precisão. Esta seção irá explorar o funcionamento do algoritmo de Canny e demonstrará sua aplicação prática com a biblioteca OpenCV \cite{CannyAplicacao}.
 
 \subsection{Algoritmo de Canny}
 
 O algoritmo de detecção de contornos de Canny é composto por várias etapas, conforme descrito a seguir:
 
 \begin{enumerate}
-    \item \textbf{Redução de Ruído}: A imagem é suavizada com um filtro Gaussiano para minimizar a interferência do ruído na detecção de bordas.
+    \item \textbf{Redução de Ruído}: A imagem é suavizada com um filtro Gaussiano para minimizar a interferência do ruído na detecção de contornos.
 
-    \item \textbf{Cálculo do Gradiente de Intensidade}: Os gradientes de intensidade são calculados nas direções horizontal \(G_x\) e vertical \(G_y\) usando operadores Sobel. A magnitude do gradiente é dada por:
-    \[G_x = \frac{\partial I}{\partial x} \quad G_y = \frac{\partial I}{\partial y}\]
-    \[Borda\_Gradiente(G) = \sqrt{G_{x}^{2} + G_{y}^{2}}\]
+    \item \textbf{Cálculo do Gradiente de Intensidade}: Os gradientes de intensidade da imagem são calculados nas direções horizontal e vertical, utilizando os operadores de Sobel. As componentes do gradiente são representadas por \( G_x = \frac{\partial I}{\partial x} \) e \( G_y = \frac{\partial I}{\partial y} \), onde \( I \) denota a imagem original. A magnitude do gradiente é então dada por:
 
-    \item \textbf{Supressão Não Máxima}: Elimina \textit{pixels} que não são máximos locais no gradiente, preservando apenas os que representam bordas fortes.
+    
+    \[Contorno\_Gradiente(G) = \sqrt{G_{x}^{2} + G_{y}^{2}}\]
 
-    \item \textbf{Rastreamento de Bordas por Histerese}: Classifica as bordas detectadas usando dois limiares, \textit{minVal} e \textit{maxVal}:
+    \item \textbf{Supressão Não Máxima}: Elimina \textit{pixels} que não são máximos locais no gradiente, preservando apenas os que representam contornos fortes.
+
+    \item \textbf{Rastreamento de Contornos por Histerese}: Classifica os contornos detectados usando dois limiares, \textit{minVal} e \textit{maxVal}:
     \begin{itemize}
-        \item Bordas com gradiente maior que \textit{maxVal} são fortes.
-        \item Bordas com gradiente menor que \textit{minVal} são descartadas.
-        \item Bordas entre \textit{minVal} e \textit{maxVal} são fracas e mantidas apenas se conectadas a bordas fortes.
+        \item Contornos com gradiente maior que \textit{maxVal} são fortes.
+        \item Contornos com gradiente menor que \textit{minVal} são descartados.
+        \item Contornos entre \textit{minVal} e \textit{maxVal} são fracos e mantidos apenas se conectados a contornos fortes.
     \end{itemize}
 \end{enumerate}
 
-Por exemplo, na Figura \autoref{fig:histerese}, o contorno A está acima do \textit{maxVal}, sendo assim considerado um \textit{sure-edge}. Embora o contorno C esteja abaixo do \textit{maxVal}, ele está conectado ao contorno A, de modo que também é considerado como contorno válido, resultando em uma curva completa. Já o contorno B, embora esteja acima do \textit{minVal}, não está conectado a nenhum \textit{sure-edge} e, portanto, é descartado.
+Por exemplo, na \autoref{fig:histerese}, o contorno A está acima do \textit{maxVal}, sendo assim considerado um contorno forte. Embora o contorno C esteja abaixo do \textit{maxVal}, ele está conectado ao contorno A, de modo que também é considerado como contorno válido, resultando em uma curva completa. Já o contorno B, embora esteja acima do \textit{minVal}, não está conectado a nenhum contorno forte e, portanto, é descartado.
 
-\imagem{Rastreamento de contorno por histerese}{\includegraphics[width = 80mm]{fig/histerese}}{\cite{CannyAplicacao}}{histerese}{}{Calculada a magnitude do gradiente ao longo de uma curva parametrizada.}
+\imagem{Rastreamento de contorno por histerese}{\includegraphics[width = 80mm]{fig/histerese}}{\cite{CannyAplicacao}}{histerese}{}{No eixo horizontal estão as curvas parametrizadas e no eixo vertical estão os valores de intensidade do gradiente.}
 
-É crucial selecionar adequadamente os valores de \textit{minVal} e \textit{maxVal} para obter resultados precisos. Esse estágio também ajuda a remover pequenos ruídos de \textit{pixels}, assumindo que as bordas são linhas longas e contínuas.
+É crucial selecionar adequadamente os valores de \textit{minVal} e \textit{maxVal} para obter resultados precisos. Esse estágio também ajuda a remover pequenos ruídos de \textit{pixels}, assumindo que os contornos são linhas longas e contínuas.
 
-\subsection{Resultado da Detecção de Bordas}
-\label{sec:resultado-deteccao-bordas}
+\subsection{Resultado da Detecção de Contornos}
+\label{sec:resultado-deteccao-contornos}
 
-Ao aplicar o algoritmo de Canny para a detecção de contornos, obtemos um \textit{array} binário onde os valores '0' e '255' representam diferentes tipos de \textit{pixels}. Os \textit{pixels} com valor '0' são considerados descartáveis, ou seja, não fazem parte dos contornos detectados. Em contraste, os \textit{pixels} com valor '255' são os que definem os contornos, indicando regiões de mudança de intensidade significativa na imagem original.
+Ao aplicar o algoritmo de Canny para a detecção de contornos, obtemos um \textit{array} binário onde os valores `0' e `255' representam diferentes tipos de \textit{pixels}. Os \textit{pixels} com valor `0' são considerados descartáveis, ou seja, não fazem parte dos contornos detectados. Em contraste, os \textit{pixels} com valor `255' são os que definem os contornos, indicando regiões de mudança de intensidade significativa na imagem original.
 
-A seguir são apresentados os resultados da aplicação do algoritmo de Canny em imagens de exemplo. A \autoref{fig:canny-aplicacao} mostra as características com os contornos detectados.
+A \autoref{fig:canny-contornos} ilustra a matriz Canny e os contornos resultantes.
+
+\begin{figure}[ht]
+    \caption{MATRIZ CANNY E CONTORNOS.}
+    \label{fig:canny-contornos}
+    \centering
+    \begin{tabular}{c c c}
+        \begin{minipage}{0.4\textwidth}
+            \centering
+            \textbf{Matriz Canny}\\ [0.2cm]
+            \[
+            \begin{bmatrix}
+                255_1 & 0 & 0 & 0 & 0 \\
+                0 & 255_2 & 0 & 255_3 & 0 \\
+                255_4 & 0 & 0 & 0 & 255_5 \\
+            \end{bmatrix}
+            \]
+        \end{minipage}
+        \hspace{0.5cm}
+        
+        & $\rightarrow$ &
+        \begin{minipage}{0.4\textwidth}
+            \centering
+            \textbf{Contornos}\\ [0.2cm]
+            \includegraphics[width=0.9\textwidth]{fig/contorno_canny.jpeg}
+        \end{minipage}
+    \end{tabular}
+\end{figure}
+
+A \autoref{fig:canny-aplicacao} apresentada os resultados da aplicação do algoritmo de Canny em imagens de características faciais.
 
 
 \begin{figure}[h!]
@@ -189,56 +220,53 @@ Esses resultados demonstram como o algoritmo de Canny é eficaz para realçar os
 
 \newpage
 
-\section{Redução de Pontos em Detecção de Bordas}
-\label{sec:reduzindo-pontos-deteccao-bordas}
+\section{Redução de Pontos em Detecção de Contornos}
+\label{sec:reduzindo-pontos-deteccao-contornos}
 
 
 Embora o algoritmo de Canny seja excelente para capturar os contornos, nem sempre é necessário utilizar todos os pontos detectados ao passar uma \textit{spline}. Para a modelagem de contornos suaves e contínuos, é suficiente selecionar um subconjunto representativo dos pontos detectados. Esse processo pode envolver a amostragem ou a simplificação de alguns desses pontos, garantindo que a \textit{spline} mantenha a forma geral do contorno sem a complexidade de lidar com todos os pontos individuais.
 
-Esta parte é realizada em quatro etapas principais:
+Esta parte é realizada em cinco etapas principais:
 \begin{enumerate}
-    \item \textbf{Construção do Grafo:} Os pontos de contorno detectados são organizados em um grafo, onde cada ponto é um nó e as conexões entre eles representam as arestas. Essa estrutura facilita a análise e a manipulação dos pontos.
-    \item \textbf{Árvore Geradora Mínima:} A partir do grafo, uma árvore geradora mínima é construída. Essa árvore conecta todos os pontos de forma a minimizar o custo total das arestas, resultando em uma representação simplificada dos contornos.
-    \item \textbf{Otimização com Poda da Árvore:} A árvore geradora mínima é otimizada, removendo pontos que não contribuem significativamente para a forma geral do contorno. Essa poda reduz o número de pontos, mantendo apenas os mais relevantes.
+    \item \textbf{Construção do Grafo:} Os pontos de contorno detectados são organizados em um grafo, onde cada ponto é um nó e as vizinhanças entre eles representam as arestas. Essa estrutura facilita a análise e a manipulação dos pontos.
+    \item \textbf{Identificação de Componentes Conexos:} A partir do grafo, são identificados os componentes conexos, mantendo apenas os de maior tamanho. Isso é feito para garantir que apenas as partes mais significativas dos contornos sejam consideradas, eliminando ruídos e pontos irrelevantes.
+    \item \textbf{Árvore Geradora Mínima:} A partir dos maiores componentes conexos, uma árvore geradora mínima é construída. Essa árvore conecta todos os pontos de forma a remover ciclos, resultando em uma representação mais limpa e eficiente dos contornos.
+    \item \textbf{Otimização com Poda da Árvore:} A árvore geradora mínima é otimizada, removendo mais uma vez ruídos e mantendo apenas os pontos mais significativos.
     \item \textbf{Filtragem Aleatória:} Por fim, uma filtragem aleatória é aplicada para suavizar ainda mais a representação, mantendo apenas os pontos iniciais e finais de cada segmento. Essa etapa garante que a \textit{spline} resultante seja suave e contínua.
 \end{enumerate}
 
 \subsection{Grafos}
 
-Para a construção do grafo, utilizamos os pontos de contorno detectados pelo algoritmo de Canny. Cada ponto é representado como um nó no grafo, e as conexões entre os nós são representadas como arestas. Essa estrutura é chamada de matriz de adjacência, onde cada elemento indica a presença ou ausência de uma aresta entre dois nós.
+Para a construção do grafo, utilizamos os pontos de contorno detectados pelo algoritmo de Canny. Cada ponto é representado como um nó no grafo, e as vizinhanças entre os nós são representadas como arestas. Neste trabalho, a matriz de adjacências é utilizada para armazenar essas vizinhanças.
 
-O código foi feito de forma autoral em Python, utilizando a fórmula Manhattan para calcular a distância entre os nós. Essa fórmula é adequada para o nosso caso, pois considera apenas as distâncias horizontais e verticais, o que é suficiente para que o grafo represente adequadamente a estrutura dos contornos faciais.
+O código foi feito de forma autoral em Python, utilizando a fórmula Manhattan para calcular a distância entre os nós. Essa fórmula é adequada para o nosso caso, pois considera apenas as distâncias horizontais, verticais e diagonais, o que é suficiente para que o grafo represente adequadamente a estrutura dos contornos faciais.
 
-No processo de detecção de contornos, a matriz Canny e a matriz de adjacências são conceitos fundamentais para entender a construção dos grafos. O primeiro passo é aplicar a matriz Canny, que resulta na detecção de contornos da imagem. A seguir, apresentamos uma representação da matriz Canny e da matriz de adjacências.
+Sejam os pontos \( i = (x_1, y_1) \) e \( j = (x_2, y_2) \). Definimos a distância Manhattan \( d(i, j) \) e a vizinhança \( v(i, j) \) como:
 
-\begin{figure}[ht]
-    \caption{MATRIZ CANNY E CONTORNOS.}
-    \label{fig:canny-contornos}
-    \centering
-    \begin{tabular}{c c c}
-        \begin{minipage}{0.4\textwidth}
-            \centering
-            \textbf{Matriz Canny}\\ [0.2cm]
-            \[
-            \begin{bmatrix}
-                255_1 & 0 & 0 & 0 & 0 \\
-                0 & 255_2 & 0 & 255_3 & 0 \\
-                255_4 & 0 & 0 & 0 & 255_5 \\
-            \end{bmatrix}
-            \]
-        \end{minipage}
-        \hspace{0.5cm}
-        
-        & $\rightarrow$ &
-        \begin{minipage}{0.4\textwidth}
-            \centering
-            \textbf{Contornos}\\ [0.2cm]
-            \includegraphics[width=0.9\textwidth]{fig/contorno_canny.jpeg}
-        \end{minipage}
-    \end{tabular}
-    \end{figure}
+\begin{equation}
+    \label{eq:distancia-manhattan}
+    d(i, j) =
+    \begin{cases}
+    1, & \text{se } (x_1 = x_2 \lor y_1 = y_2) \text{ e } (x_1, y_1) \neq (x_2, y_2) \\
+    2, & \text{se } |x_1 - x_2| = 1 \text{ e } |y_1 - y_2| = 1 \\
+    \infty, & \text{caso contrário}
+    \end{cases}
+\end{equation}
 
-O próximo passo é a conversão dos contornos em grafos utilizando a matriz de adjacências.
+\begin{equation}
+    \label{eq:vizinhanca-manhattan}
+    v(i, j) =
+    \begin{cases}
+    1, & \text{se } d(i, j) = 1 \text{ ou } d(i, j) = 2 \\
+    0, & \text{caso contrário}
+    \end{cases}
+\end{equation}
+
+
+A partir da matriz resultante da detecção de bordas por Canny (\autoref{fig:canny-contornos}), é possível construir a matriz de adjacências com base na distância de Manhattan (\ref{eq:distancia-manhattan}) e na definição de vizinhança adotada (\ref{eq:vizinhanca-manhattan}). Essa matriz representa, de forma matricial, as conexões entre os pixels considerados como nós do grafo, onde cada elemento \( a_{ij} \) indica a existência (ou não) de uma aresta entre os nós \( i \) e \( j \).
+
+A \autoref{fig:adjacencias-grafo} ilustra tanto a matriz de adjacências quanto o grafo correspondente aos contornos identificados na \autoref{fig:canny-contornos}. Na matriz, cada linha e coluna correspondem a um nó, e os valores registrados indicam a presença ou ausência de conexões entre os pares de nós.
+
 
 \begin{figure}[ht]
     \caption{MATRIZ DE ADJACÊNCIAS E GRAFO.}
@@ -281,17 +309,16 @@ O próximo passo é a conversão dos contornos em grafos utilizando a matriz de 
     \end{tabular}
     \end{figure}
 
-\newpage
 
 \subsection{Grafos Conexos e Desconexos}
 
 Os grafos podem ser classificados em dois tipos principais: grafos conexos e grafos desconexos. Um grafo é considerado conexo se existe pelo menos um caminho entre qualquer par de nós do grafo. Por outro lado, um grafo desconexo possui pelo menos um par de nós que não estão conectados por um caminho.
 
-Um grafo desconexo pode ser dividido em componentes conexos, que são subgrafos conexos. Cada componente conexo é um subconjunto do grafo original onde todos os nós estão conectados entre si, mas não há conexão com os nós de outros componentes. Essa distinção é importante para entender a estrutura do grafo e como ele pode ser analisado e manipulado.
+Um grafo desconexo pode ser dividido em componentes conexos, que são subgrafos conexos. Cada componente conexo é um subconjunto do grafo original onde há pelo menos um caminho conectando cada par de nós, mas não há conexão com os nós de outros componentes. Essa distinção é importante para entender a estrutura do grafo e como ele pode ser analisado e manipulado.
 
 
 \begin{figure}[ht]
-    \caption{COMPONENTES CONEXOS REPRESENTADAS POR GRAFOS.}
+    \caption{COMPONENTES CONEXOS REPRESENTADOS POR GRAFOS.}
     \centering
     \begin{minipage}{0.45\textwidth}
         \centering
@@ -325,12 +352,15 @@ Um grafo desconexo pode ser dividido em componentes conexos, que são subgrafos 
     \label{fig:componentes_conexos}
     \end{figure}
 
-Em problemas de processamento de imagens, frequentemente são utilizados grafos que representam os \textit{pixels} da imagem. O objetivo é identificar componentes conexos, permitindo a seleção dos caminhos mais significativos e a filtragem de ruídos. Componentes com um grande número de nós indicam regiões de interesse, correspondendo a áreas com maior quantidade de \textit{pixels} conectados. Por outro lado, componentes menores podem ser interpretadas como ruído ou regiões irrelevantes, que podem ser descartadas durante o processamento.
+% Em problemas de processamento de imagens, frequentemente são utilizados grafos que representam os \textit{pixels} da imagem. O objetivo é identificar componentes conexos, permitindo a seleção dos caminhos mais significativos e a filtragem de ruídos. Componentes com um grande número de nós indicam regiões de interesse, correspondendo a áreas com maior quantidade de \textit{pixels} conectados. Por outro lado, componentes menores podem ser interpretadas como ruído ou regiões irrelevantes, que podem ser descartadas durante o processamento.
+
+ Nesta etapa do trabalho, o objetivo principal é reduzir ruídos nas imagens por meio da identificação de componentes conexas. Essa abordagem permite isolar regiões com alta densidade de \textit{pixels} conectados -- geralmente associadas a estruturas relevantes -- e descartar pequenas componentes, que tendem a representar ruído ou informações irrelevantes.
+
 
 \subsection{Resultado da Construção do Grafo}
 \label{sec:resultado-construcao-grafo}
 
-Podemos observar que a imagem original é composta por um grande número de pontos, porém utilizando a filtragem de \textit{pixels} através de grafos com os componentes conexos, conseguimos reduzir a quantidade de pontos, mantendo apenas os mais relevantes. A \autoref{fig:resultado-grafo} mostra o resultado da construção do grafo e a filtragem dos pontos.
+Podemos observar que a imagem original é composta por um grande número de pontos, porém utilizando a filtragem de \textit{pixels} através de grafos com os maiores componentes conexos, conseguimos reduzir a quantidade de pontos, mantendo apenas os mais relevantes. A \autoref{fig:resultado-grafo} mostra o resultado da construção do grafo e a filtragem dos pontos.
 
 \begin{figure}[h!]
     \caption{COMPONENTES CONEXOS OLHO DIREITO.}
@@ -373,12 +403,46 @@ Cada nó na AGM tem uma relação hierárquica com outros nós:
     \item A folha é um nó que não tem filhos, ou seja, ela está no fim de um caminho na árvore
 \end{itemize}
 
+Para este trabalho, a AGM é utilizada para conectar os pontos de contorno detectados, formando uma estrutura que representa as características faciais de forma eficiente removendo ciclos. A \autoref{fig:arvore-geradora-minima} ilustra a Ávore Geradora Mínima construída entre os pontos de contorno, removendo os ciclos.
 
-Para a construção adequada das \textit{splines}, é essencial definir uma ordem consistente para os pontos que descrevem as características faciais. Sem uma ordem definida, as \textit{splines} podem ser traçadas de maneira incoerente, resultando em representações visuais incorretas ou deformadas. Além disso, a ordenação contribui para evitar ciclos ou conexões redundantes entre os pontos, o que poderia comprometer a suavidade e continuidade das curvas. Foi utilizada a biblioteca \textit{Scipy} \cite{Scipy} para encontrar a AGM.
+\begin{figure}
+    \caption{ÁRVORE GERADORA MÍNIMA.}
+    \label{fig:arvore-geradora-minima}
+    \centering
+    \begin{tikzpicture}[scale=1.5, every node/.style={circle, draw=gray!60, fill=gray!20, thick, minimum size=10mm}, 
+    edge/.style={draw=black!70, thick},
+    highlight/.style={draw=red, thick}]
 
-Para otimizar a análise, aplicamos uma poda da árvore na AGM para identificar o caminho principal e eliminar os pontos que não contribuem significativamente para a forma geral do contorno. Essa poda é realizada com base em critérios de distância e relevância, garantindo que apenas os pontos mais significativos sejam mantidos na representação final.
+    % Nodes
+    \node (a) at (0,0) {c};
+    \node (b) at (1.5,1.5) {d};
+    \node (c) at (3,0) {e};
+    \node (d) at (1.5,-1.2) {f};
+    \node (e) at (-1.5,-1.2) {a};
+    \node (f) at (-1.5,1.5) {b};
 
-% O algoritmo para a otimização da árvore encontrando o maior caminho foi feito de forma autoral em Python, foi construído da seguinte forma:
+    % % Regular edges with weights
+    \draw[edge] (a) -- (b);
+    \draw[edge] (f) -- (e);
+    \draw[edge] (b) -- (c);
+    \draw[edge] (e) -- (d);
+    \draw[edge] (c) -- (d);
+
+    % Highlighted MST edges
+    \draw[highlight] (f) -- (b);
+    \draw[highlight] (f) -- (a);
+    \draw[highlight] (a) -- (c);
+    \draw[highlight] (a) -- (e);
+    \draw[highlight] (a) -- (d);
+
+    \end{tikzpicture}
+    \legend{Em vermelho é destacado o caminho da AGM.}
+\end{figure}
+
+\subsection{Otimização da Árvore Geradora Mínima}
+
+Para otimizar a análise, aplicamos uma poda da árvore na AGM para identificar o caminho principal e eliminar os pontos que não contribuem significativamente para a forma geral do contorno. Essa poda é realizada com base em critérios de comprimento e relevância, garantindo que apenas os pontos mais significativos sejam mantidos na representação final.
+
 
 Veja abaixo a implementação do método \texttt{prunning\_tree}. Ele percorre recursivamente a árvore para calcular a altura dos nós e determinar o caminho de maior comprimento entre dois nós folha.
 
@@ -429,8 +493,8 @@ def prunning_tree(self, raiz):
 O funcionamento do algoritmo pode ser resumido nos seguintes passos:
 
 \begin{enumerate}
-    \item \textbf{Calculando a Altura da Árvore} medindo a profundidade máxima a partir da raiz até as folhas.
-    \item \textbf{Calculando o Maior Caminho} dentro dos nós da árvore.
+    \item \textbf{Cálculo da Altura da Árvore} medindo a profundidade máxima a partir da raiz até as folhas.
+    \item \textbf{Cálculo do Maior Caminho} dentro dos nós da árvore.
     \item O maior desses dois valores é considerado o \textbf{caminho principal}, capturando a estrutura mais relevante e eliminando nós de menor importância.
 \end{enumerate}
 
@@ -476,7 +540,7 @@ Pela \autoref{fig:poda-arvore-geradora-minima} podemos observar como funciona o 
 \subsection{Resultado da AGM}
 \label{sec:resultado-agm}
 
-A \autoref{fig:resultado-agm} mostra o resultado da AGM, onde os pontos que não fazem parte do maior caminho foram removidos e logo após isso, aplicamos mais um algoritmo autoral que elimina pontos de forma aleatória, mantendo apenas os pontos iniciais e finais de cada segmento.
+A \autoref{fig:resultado-agm} mostra os pontos removidos que não fazem parte do maior caminho e logo após isso, aplicamos mais um algoritmo autoral que elimina pontos de forma aleatória, mantendo apenas os pontos iniciais e finais de cada segmento.
 
 \begin{figure}[h!]
     \caption{FILTRAGEM DE PONTOS PELA AGM.}
