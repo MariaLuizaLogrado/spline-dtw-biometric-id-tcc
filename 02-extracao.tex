@@ -19,7 +19,6 @@ O classificador Haar Cascade já foi calibrado e validado com um vasto conjunto 
 Para distinguir com precisão entre amostras que contêm ou não um rosto humano, utilizamos um classificador forte, resultante da combinação de diversos classificadores. Esta técnica envolve a utilização de uma cascata de classificadores para identificar diferentes características em uma imagem.
 
 Os seguintes classificadores foram utilizados:
-
 \begin{itemize}
     \item \texttt{haarcascade\_frontalface\_default.xml}
     \item \texttt{haarcascade\_eye.xml}
@@ -34,33 +33,28 @@ Todos os classificadores mencionados podem ser encontrados no repositório do Op
 Após carregar os classificadores, podemos utilizá-los aplicando quatro parâmetros específicos para cada um.
 
 O método \texttt{detectMultiScale()} é utilizado para identificar faces de diferentes tamanhos na imagem de entrada. Os quatro parâmetros principais deste método são detalhados a seguir:
-
 \begin{itemize}
     \item \textbf{\texttt{image}}:
     \begin{itemize}
-    \item O primeiro parâmetro é a imagem em tons de cinza, utilizada como entrada do método por facilitar a detecção das características faciais.
+        \item O primeiro parâmetro é a imagem em tons de cinza, utilizada como entrada do método por facilitar a detecção das características faciais.
     \end{itemize}
-
-\item \textbf{\texttt{scaleFactor}}:
-\begin{itemize}
-    \item Este parâmetro é usado para reduzir o tamanho da imagem de entrada, facilitando a detecção de faces maiores pelo algoritmo. Especificamos um fator de escala de 1.1, indicando que queremos reduzir o tamanho da imagem em 10\%.
+    \item \textbf{\texttt{scaleFactor}}:
+    \begin{itemize}
+        \item Este parâmetro é usado para reduzir o tamanho da imagem de entrada, facilitando a detecção de faces maiores pelo algoritmo. Especificamos um fator de escala de 1.1, indicando que queremos reduzir o tamanho da imagem em 10\%.
     \end{itemize}
-
-\item \textbf{\texttt{minNeighbors}}:
-\begin{itemize}
-    \item O classificador em cascata aplica uma janela deslizante através da imagem para detectar faces. Essas janelas são representadas como retângulos. Inicialmente, o classificador captura um grande número de falsos positivos. O parâmetro \texttt{minNeighbors} especifica o número de retângulos vizinhos que precisam ser identificados para que um objeto seja considerado uma detecção válida, ou seja, valores pequenos como 0 ou 1 resultam em muitos falsos positivos, enquanto valores grandes podem levar à perda de verdadeiros positivos. É necessário encontrar um equilíbrio que elimine falsos positivos e identifique com precisão os verdadeiros positivos.
-\end{itemize}
-
-\item \textbf{\texttt{minSize}}:
-\begin{itemize}
-    \item Este parâmetro define o tamanho mínimo do objeto a ser detectado. O modelo ignorará faces menores do que o tamanho mínimo especificado.
-\end{itemize}
-
+    \item \textbf{\texttt{minNeighbors}}:
+    \begin{itemize}
+        \item O classificador em cascata aplica uma janela deslizante através da imagem para detectar faces. Essas janelas são representadas como retângulos. Inicialmente, o classificador captura um grande número de falsos positivos. O parâmetro \texttt{minNeighbors} especifica o número de retângulos vizinhos que precisam ser identificados para que um objeto seja considerado uma detecção válida, ou seja, valores pequenos como 0 ou 1 resultam em muitos falsos positivos, enquanto valores grandes podem levar à perda de verdadeiros positivos. É necessário encontrar um equilíbrio que elimine falsos positivos e identifique com precisão os verdadeiros positivos.
+    \end{itemize}
+    \item \textbf{\texttt{minSize}}:
+    \begin{itemize}
+        \item Este parâmetro define o tamanho mínimo do objeto a ser detectado. O modelo ignorará faces menores do que o tamanho mínimo especificado.
+    \end{itemize}
 \end{itemize}
 
 Foram colocados como \textit{default} para todos os classificadores os seguintes valores: 
 
-{\small \texttt{detectMultiScale(image, scaleFactor=1.1, minNeighbors=5, minSize=(40, 50))}}
+\noindent{\small \texttt{detectMultiScale(image, scaleFactor=1.1, minNeighbors=5, minSize=(40, 50))}}
 
 \subsection{Resultado da Detecção das Características}
 
@@ -70,15 +64,13 @@ Com o rosto isolado, aplicamos classificadores específicos para detectar o nari
 
 Essa abordagem, que realiza a detecção passo a passo, garante maior precisão na identificação das características menores, pois concentra a análise na área previamente delimitada pelo rosto.
 
-Considere a  \autoref{fig:deteccao-caracteristicas} , onde a detecção das características faciais é realizada:
-
+Considere a \autoref{fig:deteccao-caracteristicas}, onde a detecção das características faciais é realizada:
 \begin{enumerate}
-\item \textbf{Detecção do Rosto:} Para identificar e isolar o rosto na imagem usamos o classificador \texttt{haarcascade\_frontalface\_default.xml}.
-\item \textbf{Detecção dos Olhos:} Aplicamos o classificador \texttt{haarcascade\_eye.xml} para localizar os olhos dentro da área do rosto previamente detectada.
-\item \textbf{Detecção do Nariz:} Utilizamos o classificador \texttt{haarcascade\_mcs\_nose.xml} para identificar o nariz na mesma área delimitada.
-\item \textbf{Detecção da Boca:} Finalmente, aplicamos o classificador 
-
-\texttt{haarcascade\_mcs\_mouth.xml} para localizar a boca.
+    \item \textbf{Detecção do Rosto:} Para identificar e isolar o rosto na imagem usamos o classificador \texttt{haarcascade\_frontalface\_default.xml}.
+    \item \textbf{Detecção dos Olhos:} Aplicamos o classificador \texttt{haarcascade\_eye.xml} para localizar os olhos dentro da área do rosto previamente detectada.
+    \item \textbf{Detecção do Nariz:} Utilizamos o classificador \texttt{haarcascade\_mcs\_nose.xml} para identificar o nariz na mesma área delimitada.
+    \item \textbf{Detecção da Boca:} Finalmente, aplicamos o classificador \\
+    \texttt{haarcascade\_mcs\_mouth.xml} para localizar a boca.
 \end{enumerate}
 
 \begin{figure}[h!]
@@ -119,17 +111,11 @@ A detecção de contornos é essencial para a análise de imagens, pois permite 
 \subsection{Algoritmo de Canny}
 
 O algoritmo de detecção de contornos de Canny é composto por várias etapas, conforme descrito a seguir:
-
 \begin{enumerate}
     \item \textbf{Redução de Ruído}: A imagem é suavizada com um filtro Gaussiano para minimizar a interferência do ruído na detecção de contornos.
-
     \item \textbf{Cálculo do Gradiente de Intensidade}: Os gradientes de intensidade da imagem são calculados nas direções horizontal e vertical, utilizando os operadores de Sobel. As componentes do gradiente são representadas por \( G_x = \frac{\partial I}{\partial x} \) e \( G_y = \frac{\partial I}{\partial y} \), onde \( I \) denota a imagem original. A magnitude do gradiente é então dada por:
-
-    
     \[Contorno\_Gradiente(G) = \sqrt{G_{x}^{2} + G_{y}^{2}}\]
-
     \item \textbf{Supressão Não Máxima}: Elimina \textit{pixels} que não são máximos locais no gradiente, preservando apenas os que representam contornos fortes.
-
     \item \textbf{Rastreamento de Contornos por Histerese}: Classifica os contornos detectados usando dois limiares, \textit{minVal} e \textit{maxVal}:
     \begin{itemize}
         \item Contornos com gradiente maior que \textit{maxVal} são fortes.
@@ -218,7 +204,7 @@ A \autoref{fig:canny-aplicacao} apresentada os resultados da aplicação do algo
 % \newpage
 Esses resultados demonstram como o algoritmo de Canny é eficaz para realçar os contornos em diferentes tipos de imagens, permitindo uma análise visual clara e detalhada das características principais em cada exemplo.
 
-\newpage
+%\newpage
 
 \section{Redução de Pontos em Detecção de Contornos}
 \label{sec:reduzindo-pontos-deteccao-contornos}
@@ -242,25 +228,19 @@ Para a construção do grafo, utilizamos os pontos de contorno detectados pelo a
 O código foi feito de forma autoral em Python, utilizando a fórmula Manhattan para calcular a distância entre os nós. Essa fórmula é adequada para o nosso caso, pois considera apenas as distâncias horizontais, verticais e diagonais, o que é suficiente para que o grafo represente adequadamente a estrutura dos contornos faciais.
 
 Sejam os pontos \( i = (x_1, y_1) \) e \( j = (x_2, y_2) \). Definimos a distância Manhattan \( d(i, j) \) e a vizinhança \( v(i, j) \) como:
-
-\begin{equation}
-    \label{eq:distancia-manhattan}
+\begin{gather}
     d(i, j) =
     \begin{cases}
     1, & \text{se } (x_1 = x_2 \lor y_1 = y_2) \text{ e } (x_1, y_1) \neq (x_2, y_2) \\
     2, & \text{se } |x_1 - x_2| = 1 \text{ e } |y_1 - y_2| = 1 \\
     \infty, & \text{caso contrário}
-    \end{cases}
-\end{equation}
-
-\begin{equation}
-    \label{eq:vizinhanca-manhattan}
+    \end{cases}\label{eq:distancia-manhattan}\\
     v(i, j) =
     \begin{cases}
     1, & \text{se } d(i, j) = 1 \text{ ou } d(i, j) = 2 \\
     0, & \text{caso contrário}
-    \end{cases}
-\end{equation}
+    \end{cases}\label{eq:vizinhanca-manhattan}
+\end{gather}
 
 
 A partir da matriz resultante da detecção de bordas por Canny (\autoref{fig:canny-contornos}), é possível construir a matriz de adjacências com base na distância de Manhattan (\ref{eq:distancia-manhattan}) e na definição de vizinhança adotada (\ref{eq:vizinhanca-manhattan}). Essa matriz representa, de forma matricial, as conexões entre os pixels considerados como nós do grafo, onde cada elemento \( a_{ij} \) indica a existência (ou não) de uma aresta entre os nós \( i \) e \( j \).
@@ -396,7 +376,6 @@ Podemos observar que a imagem original é composta por um grande número de pont
 A árvore geradora mínima (AGM) é uma estrutura de dados fundamental em teoria dos grafos, que conecta todos os nós de um grafo com o menor custo total possível. Essa estrutura é especialmente útil em aplicações de processamento de imagens, onde a simplificação de contornos e a redução do número de pontos são necessárias para facilitar a modelagem e a análise. Neste trabalho foi utilizada a biblioteca \textit{Scipy} \cite{Scipy} para encontrar a AGM.
 
 Cada nó na AGM tem uma relação hierárquica com outros nós:
-
 \begin{itemize}
     \item O nó raiz é o nó inicial a partir do qual a árvore é construída ou percorrida.
     \item Um nó filho é aquele que se origina de outro nó -- chamado de pai -- seguindo essa ideia de crescimento ou expansão da árvore.
@@ -491,7 +470,6 @@ def prunning_tree(self, raiz):
 \end{lstlisting}
 
 O funcionamento do algoritmo pode ser resumido nos seguintes passos:
-
 \begin{enumerate}
     \item \textbf{Cálculo da Altura da Árvore} medindo a profundidade máxima a partir da raiz até as folhas.
     \item \textbf{Cálculo do Maior Caminho} dentro dos nós da árvore.

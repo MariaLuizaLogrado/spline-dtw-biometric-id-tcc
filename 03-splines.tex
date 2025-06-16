@@ -22,7 +22,6 @@ A principal motivação para utilizar a forma de Hermite está na possibilidade 
 
 
 Agora que sabemos como se dão os valores de Hermite, podemos resolvê-los através do seguinte sistema de equações:
-
 \begin{align}
     p(0) &= c_0 + c_1(0) + c_2(0)^2 + c_3(0)^3 = c_0 \\
     p(1) &= c_0 + c_1 + c_2 + c_3
@@ -30,7 +29,6 @@ Agora que sabemos como se dão os valores de Hermite, podemos resolvê-los atrav
 
 
 Para encontrar $v_0$ e $v_1$ é necessário calcular a derivada da posição. Portanto:
-
 \begin{align}
     v(t) &= p'(t) = c_1 + 2c_2t + 3c_3t^2\\
     v(0) &= c_1\\
@@ -38,7 +36,6 @@ Para encontrar $v_0$ e $v_1$ é necessário calcular a derivada da posição. Po
 \end{align}
 
 Então é possível obter a fórmula:
-
 \begin{align}
     c_0 &= p_0\\
     c_1 &= v_0\\
@@ -47,7 +44,6 @@ Então é possível obter a fórmula:
 \end{align}
 
 Escrevendo de forma matricial, temos:
-
 \begin{equation}
     p(t) =  
         \left(
@@ -124,7 +120,6 @@ Então ficamos com:
 onde $\tau$ é um fator de escala que pode ser ajustado para controlar a suavidade da curva. O valor de $\tau$ pode ser definido com base na distância entre os pontos de controle ou em outras considerações geométricas.
 
 Com isso é possível chegar no formato de Catmull-Rom:
-
 \begin{equation}
     p(t) = \frac{1}{2}
        \left(

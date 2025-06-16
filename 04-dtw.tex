@@ -15,14 +15,12 @@ onde \(X\) e \(Y\) são as sequências a serem comparadas, com \(n\) e \(m\) sen
 O algoritmo de DTW constrói uma matriz de custo acumulado \(D\) de dimensão \(n \times m\), na qual cada elemento \(D(i, j)\) representa o custo mínimo acumulado para alinhar os primeiros \(i\) elementos de \(X\) com os primeiros \(j\) elementos de \(Y\).
 
 O alinhamento entre os primeiros elementos das sequências ocorre diretamente na célula \(D(1,1)\), definida como:
-
 \begin{equation}
     D(1,1) = d(x_1, y_1),
 \end{equation}
 onde \(d(x_1, y_1)\) é a distância entre os primeiros elementos de cada sequência, usualmente calculada por uma métrica como a distância Euclidiana.
 
 Em seguida, são preenchidas a primeira linha e a primeira coluna da matriz. Nessas bordas, o caminho de alinhamento é único (ou apenas vertical ou apenas horizontal), o que resulta em uma soma cumulativa de distâncias. Assim, a inicialização segue as seguintes fórmulas:
-
 \begin{align}
     D(i,1) &= d(x_i, y_1) + D(i-1,1), \quad \text{para } i = 2, \ldots, n, \\
     D(1,j) &= d(x_1, y_j) + D(1,j-1), \quad \text{para } j = 2, \ldots, m.
@@ -33,7 +31,6 @@ Essa etapa garante que todas as possíveis trajetórias de alinhamento que passa
 \subsubsection*{Preenchimento recursivo da matriz}
 
 A partir de \(i = 2\) e \(j = 2\), a matriz é preenchida utilizando a fórmula recursiva do DTW:
-
 \begin{equation}
     D(i, j) = d(x_i, y_j) + \min \begin{cases}
         D(i-1, j), \\
