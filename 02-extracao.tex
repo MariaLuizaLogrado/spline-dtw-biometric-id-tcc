@@ -98,7 +98,7 @@ Considere a \autoref{fig:deteccao-caracteristicas}, onde a detecção das caract
         \legend{2º Detecção das características.}
         \label{fig:caracteristicas}
     \end{minipage}
-    \legend{FONTE: \cite{FERET1,FERET2}}
+    \legend{Adaptado de \cite{FERET1,FERET2}}
     \label{fig:deteccao-caracteristicas}
 \end{figure}
 
@@ -164,7 +164,7 @@ A \autoref{fig:canny-contornos} ilustra a matriz Canny e os contornos resultante
     \end{tabular}
 \end{figure}
 
-A \autoref{fig:canny-aplicacao} apresentada os resultados da aplicação do algoritmo de Canny em imagens de características faciais.
+A \autoref{fig:canny-aplicacao} apresenta os resultados da aplicação do algoritmo de Canny em imagens de características faciais.
 
 
 \begin{figure}[h!]
@@ -229,12 +229,7 @@ O código foi feito de forma autoral em Python, utilizando a fórmula Manhattan 
 
 Sejam os pontos \( i = (x_1, y_1) \) e \( j = (x_2, y_2) \). Definimos a distância Manhattan \( d(i, j) \) e a vizinhança \( v(i, j) \) como:
 \begin{gather}
-    d(i, j) =
-    \begin{cases}
-    1, & \text{se } (x_1 = x_2 \lor y_1 = y_2) \text{ e } (x_1, y_1) \neq (x_2, y_2) \\
-    2, & \text{se } |x_1 - x_2| = 1 \text{ e } |y_1 - y_2| = 1 \\
-    \infty, & \text{caso contrário}
-    \end{cases}\label{eq:distancia-manhattan}\\
+    d(i, j) = |x_1 - x_2| + |y_1-y_2| \label{eq:distancia-manhattan}\\
     v(i, j) =
     \begin{cases}
     1, & \text{se } d(i, j) = 1 \text{ ou } d(i, j) = 2 \\
@@ -243,7 +238,7 @@ Sejam os pontos \( i = (x_1, y_1) \) e \( j = (x_2, y_2) \). Definimos a distân
 \end{gather}
 
 
-A partir da matriz resultante da detecção de bordas por Canny (\autoref{fig:canny-contornos}), é possível construir a matriz de adjacências com base na distância de Manhattan (\ref{eq:distancia-manhattan}) e na definição de vizinhança adotada (\ref{eq:vizinhanca-manhattan}). Essa matriz representa, de forma matricial, as conexões entre os pixels considerados como nós do grafo, onde cada elemento \( a_{ij} \) indica a existência (ou não) de uma aresta entre os nós \( i \) e \( j \).
+A partir da matriz resultante da detecção de bordas por Canny (\autoref{fig:canny-contornos}), é possível construir a matriz de adjacências com base na distância de Manhattan (\ref{eq:distancia-manhattan}) e na definição de vizinhança adotada (\ref{eq:vizinhanca-manhattan}). Essa matriz representa as conexões entre os pixels considerados como nós do grafo, onde cada elemento \( a_{ij} \) indica a existência (ou não) de uma aresta entre os nós \( i \) e \( j \).
 
 A \autoref{fig:adjacencias-grafo} ilustra tanto a matriz de adjacências quanto o grafo correspondente aos contornos identificados na \autoref{fig:canny-contornos}. Na matriz, cada linha e coluna correspondem a um nó, e os valores registrados indicam a presença ou ausência de conexões entre os pares de nós.
 
