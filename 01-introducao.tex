@@ -1,6 +1,6 @@
 \chapter{INTRODUÇÃO} \label{cha:introd}
 
-O reconhecimento facial é uma das áreas mais promissoras e desafiadoras dentro do campo da biometria. Sua aplicação abrange desde sistemas de segurança até autenticação em dispositivos móveis, tornando-se cada vez mais presente no cotidiano. Nos últimos anos, métodos baseados em aprendizado profundo, especialmente redes neurais convolucionais (CNNs), têm dominado esse campo devido à sua alta acurácia. No entanto, tais métodos apresentam algumas limitações, especialmente no que diz respeito à interpretabilidade dos modelos e à necessidade de grandes volumes de dados para treinamento.
+O reconhecimento facial é uma das áreas mais promissoras e desafiadoras dentro do campo da biometria. Sua aplicação abrange desde sistemas de segurança até autenticação em dispositivos móveis e portarias de condomínios, tornando-se cada vez mais presente no cotidiano. Nos últimos anos, métodos baseados em aprendizado profundo, especialmente redes neurais convolucionais (CNNs), têm dominado esse campo devido à sua alta acurácia. No entanto, tais métodos apresentam algumas limitações, especialmente no que diz respeito à interpretabilidade dos modelos e à necessidade de grandes volumes de dados para treinamento.
 
 Nesse contexto, a busca por alternativas mais eficientes e interpretáveis tem ganhado relevância. Uma dessas alternativas é o uso de \textit{splines}, funções matemáticas capazes de gerar curvas suaves a partir de um conjunto reduzido de pontos. Ao representar as características faciais por meio de curvas, é possível reduzir significativamente a redundância dos dados, além de tornar o processo de extração e análise mais estruturado e compreensível.
 
@@ -8,7 +8,7 @@ Este trabalho propõe uma abordagem híbrida que combina a expressividade das \t
 
 A introdução dessa nova abordagem se justifica não apenas pela busca por eficiência computacional, mas também pela necessidade de modelos que ofereçam maior transparência quanto às decisões tomadas. Dessa forma, o presente trabalho contribui para a ampliação das possibilidades de representação biométrica e propõe caminhos para o desenvolvimento de sistemas mais acessíveis, leves e explicáveis.
 
-Os códigos implementados neste trabalho estão disponíveis no repositório do GitHub \citet{MeuRepositorio} e foram desenvolvidos utilizando a linguagem de programação Python.
+O método proposto para este trabalho foi implementado em Python e está disponível no repositório do GitHub \citep{MeuRepositorio}.
 
 
 \section{OBJETIVO}
@@ -35,11 +35,13 @@ Por fim, trechos da pesquisa neste trabalho utilizam o banco de dados FERET \cit
 
 \subsection{Detecção de Características Faciais}
 
-Inicialmente, são identificadas as principais regiões do rosto, como olhos, boca e nariz. Para isso, é utilizado o modelo Haar Cascade \cite{BoostedCascade, HaarAplicacao} como a técnica de detecção. O modelo é ajustado para reconhecer padrões de características faciais em imagens, permitindo a localização das regiões de interesse.
+% Inicialmente, são identificadas as principais regiões do rosto, como olhos, boca e nariz. Para isso, é utilizado o modelo Haar Cascade \cite{BoostedCascade, HaarAplicacao} como a técnica de detecção. O modelo é ajustado para reconhecer padrões de características faciais em imagens, permitindo a localização das regiões de interesse.
+
+Inicialmente, são identificadas as principais regiões do rosto, como olhos, boca e nariz. Para isso, é utilizado o modelo Haar Cascade \cite{BoostedCascade, HaarAplicacao} um algoritmo em cascata que utiliza métodos \textit{Boosting} para a detecção das características faciais.
 
 \subsection{Extração de Contornos} 
 
-Após a identificação das regiões faciais, são extraídos os contornos dessas características por meio da técnica de processamento de imagens de detecção de bordas utilizando o operador de Canny (segmentação baseada em gradientes) \cite{Canny,CannyAplicacao}. O objetivo é obter um conjunto inicial de pontos que descrevem as características faciais.
+Após a identificação das regiões faciais, são extraídos os contornos dessas características por meio da técnica de processamento de imagens de detecção de bordas utilizando o operador de Canny (segmentação baseada em gradientes para identificar regiões onde há mudanças bruscas de intensidade na imagem) \cite{Canny,CannyAplicacao}. O objetivo é obter um conjunto inicial de pontos que descrevem as características faciais.
 
 % \subsection{Redução de Pontos}
 
@@ -69,7 +71,7 @@ O uso do algoritmo de DTW para reconhecimento facial é abordado por \citet{DTW_
 
 \section{CRONOGRAMA}
 
-A Tabela \ref{tab:crono} apresenta o cronograma de atividades para o desenvolvimento do trabalho.
+A Tabela \ref{tab:crono} apresenta o cronograma de atividades que foi planejado para o desenvolvimento do trabalho.
 
 \begin{table}[ht] 
     \centering

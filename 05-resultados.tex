@@ -16,9 +16,9 @@ A máquina utilizada para os testes possui as seguintes especificações: proces
 
 Para a realização dos experimentos, foram definidos alguns parâmetros de configuração que influenciam diretamente o desempenho do DTW e a qualidade das curvas geradas pelas \textit{splines}. Esses parâmetros incluem:
 \begin{itemize}
-    \item \textbf{Passo da \textit{Spline}:} Define a densidade dos pontos ao longo da curva. Um passo menor resulta em curvas mais detalhadas, mas com maior custo computacional.
-    \item \textbf{Tensão:} Controla a suavidade das curvas geradas pelas \textit{splines}. Valores mais altos resultam em curvas mais flexíveis, enquanto valores mais baixos produzem curvas mais rígidas. %citar figura 11
-    \item \textbf{Translação:} Indica se as curvas devem ser transladadas para alinhar melhor as características faciais.
+    \item \textbf{Passo da \textit{Spline}:} que define a densidade dos pontos ao longo da curva. Um passo menor resulta em curvas mais detalhadas, mas com maior custo computacional.
+    \item \textbf{Tensão} que controla a suavidade das curvas geradas pelas \textit{splines}. Valores mais altos resultam em curvas mais flexíveis, enquanto valores mais baixos produzem curvas mais rígidas. %citar figura 11
+    \item \textbf{Translação}, indicando se as curvas devem ser transladadas para alinhar melhor as características faciais.
 \end{itemize}
 
 Para cada combinação desses parâmetros, foram realizados testes com as características faciais concatenadas e segmentadas, permitindo uma análise comparativa dos resultados obtidos.
@@ -26,6 +26,8 @@ Para cada combinação desses parâmetros, foram realizados testes com as caract
 \section{Resultados Obtidos}
 
  As tabelas \ref{tab:resultados-concatenados} e \ref{tab:resultados-segmentados} apresentam os resultados obtidos para cada uma das abordagens, considerando diferentes parâmetros de configuração.
+
+Esses resultados foram obtidos a partir do confronto individual entre as curvas geradas pelas splines das imagens faciais do banco de dados FERET. O processo consistiu em comparar a primeira imagem com as 23 restantes, a segunda com as 22 seguintes, e assim sucessivamente, até que todas as imagens fossem comparadas. A acurácia foi então calculada como a porcentagem de acertos em relação ao total de imagens.
 
 \begin{table}[h!]
     \centering

@@ -6,7 +6,7 @@ O \textit{Dynamic Time Warping} (DTW) \cite{tavenard.blog.dtw} é um algoritmo a
 
 Este algoritmo surgiu como uma solução para o problema de comparação entre sequências temporais que apresentam distorções no eixo do tempo. Diferente da distância Euclidiana, que compara ponto a ponto, o DTW permite alinhar dinamicamente duas sequências, encontrando o menor custo de distorção temporal necessário para que elas se assemelhem.
 
-Considere duas sequências temporais:
+Considere duas sequências temporais
 \begin{equation}
     X = (x_1, x_2, \ldots, x_n) \quad \text{e} \quad Y = (y_1, y_2, \ldots, y_m),
 \end{equation}
@@ -14,13 +14,13 @@ onde \(X\) e \(Y\) são as sequências a serem comparadas, com \(n\) e \(m\) sen
 
 O algoritmo de DTW constrói uma matriz de custo acumulado \(D\) de dimensão \(n \times m\), na qual cada elemento \(D(i, j)\) representa o custo mínimo acumulado para alinhar os primeiros \(i\) elementos de \(X\) com os primeiros \(j\) elementos de \(Y\).
 
-O alinhamento entre os primeiros elementos das sequências ocorre diretamente na célula \(D(1,1)\), definida como:
+O alinhamento entre os primeiros elementos das sequências ocorre diretamente na célula \(D(1,1)\), definida
 \begin{equation}
     D(1,1) = d(x_1, y_1),
 \end{equation}
 onde \(d(x_1, y_1)\) é a distância entre os primeiros elementos de cada sequência, usualmente calculada por uma métrica como a distância Euclidiana.
 
-Em seguida, são preenchidas a primeira linha e a primeira coluna da matriz. Nessas bordas, o caminho de alinhamento é único (ou apenas vertical ou apenas horizontal), o que resulta em uma soma cumulativa de distâncias. Assim, a inicialização segue as seguintes fórmulas:
+Em seguida, são preenchidas a primeira linha e a primeira coluna da matriz. Nessas bordas, o caminho de alinhamento é único (ou apenas vertical ou apenas horizontal), o que resulta em uma soma cumulativa de distâncias. 
 \begin{align}
     D(i,1) &= d(x_i, y_1) + D(i-1,1), \quad \text{para } i = 2, \ldots, n, \\
     D(1,j) &= d(x_1, y_j) + D(1,j-1), \quad \text{para } j = 2, \ldots, m.
@@ -30,7 +30,7 @@ Essa etapa garante que todas as possíveis trajetórias de alinhamento que passa
 
 \subsubsection*{Preenchimento recursivo da matriz}
 
-A partir de \(i = 2\) e \(j = 2\), a matriz é preenchida utilizando a fórmula recursiva do DTW:
+A partir de \(i = 2\) e \(j = 2\), a matriz é preenchida utilizando a fórmula recursiva do DTW
 \begin{equation}
     D(i, j) = d(x_i, y_j) + \min \begin{cases}
         D(i-1, j), \\
@@ -57,15 +57,15 @@ A \autoref{fig:dtw_intro} ilustra o conceito de alinhamento dinâmico, mostrando
 
 O método apresenta diversas vantagens em relação a outras métricas de distância, como a distância Euclidiana. Entre elas, destacam-se:
 \begin{itemize}
-    \item \textbf{Robustez a variações de tempo}: É capaz de lidar com sequências que apresentam variações na velocidade ou no comprimento, permitindo comparações mais precisas.
-    \item \textbf{Alinhamento dinâmico}: Encontra o melhor alinhamento entre as sequências, minimizando o custo total de distorção temporal.
-    \item \textbf{Versatilidade}: Funciona bem em sinais unidimensionais e multidimensionais, sendo aplicável em diversas áreas como reconhecimento de padrões e análise de séries temporais.
+    \item \textbf{Robustez a variações de tempo}, permitindo lidar com sequências que apresentam diferenças de velocidade ou comprimento, o que possibilita comparações mais precisas.
+    \item \textbf{Alinhamento dinâmico}, ao encontrar o melhor mapeamento entre as sequências, minimizando o custo total de distorção temporal.
+    \item \textbf{Versatilidade}, com bom desempenho em sinais unidimensionais e multidimensionais, sendo aplicável em diversas áreas, como reconhecimento de padrões e análise de séries temporais.
 \end{itemize}
 
 No entanto, o DTW também possui desvantagens:
 \begin{itemize}
-    \item \textbf{Complexidade computacional}: O algoritmo tem complexidade \(O(n \cdot m)\), o que pode ser um limitante para sequências muito longas.
-    \item \textbf{Sensibilidade a ruídos}: Pode ser afetado por ruídos nas sequências, o que pode levar a alinhamentos incorretos.
+    \item \textbf{Complexidade computacional} com \(O(n \cdot m)\), o que pode ser um limitante para sequências muito longas.
+    \item \textbf{Sensibilidade a ruídos}, o que pode levar a alinhamentos incorretos.
 \end{itemize}
 
 

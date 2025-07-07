@@ -1,22 +1,22 @@
-\chapter{EXTRAÇÃO DE PONTOS DE FORMA AUTOMÁTICA} \label{cha:processamento-imagem} 
+\chapter{EXTRAÇÃO AUTOMÁTICA DE PONTOS} \label{cha:processamento-imagem} 
 
 Neste capítulo será apresentado o método de extração automática de pontos, de forma a facilitar a modelagem de \textit{splines} para reconhecimento facial. O método proposto consiste em um algoritmo que utiliza técnicas de processamento de imagem e otimização para extrair pontos relevantes em imagens faciais. A abordagem é baseada na detecção de características faciais, seguida pela extração de contornos e filtragem dos pontos obtidos.
 
-Inicialmente, realizamos uma pesquisa para identificar as principais características faciais a serem extraídas, decidindo focar na detecção dos olhos, nariz e boca. Para isso, utilizamos o algoritmo Haar Cascade \cite{BoostedCascade} para detectar o rosto da pessoa na imagem, concentrando a análise nessa área específica e facilitando a detecção das características menores.
+Inicialmente, realizou-se uma pesquisa para identificar as principais características faciais a serem extraídas, decidindo focar na detecção dos olhos, nariz e boca. Para isso, foi utilizado o algoritmo Haar Cascade \cite{BoostedCascade} para detectar o rosto da pessoa na imagem, concentrando a análise nessa área específica e facilitando a detecção das características menores.
 
-Em seguida, utilizamos o método Canny do OpenCV \cite{CannyAplicacao, Canny} para extrair os contornos das características faciais. O Canny é um algoritmo de detecção de contornos eficiente que nos ajuda a identificar os limites das características faciais com maior precisão.
+Em seguida, foi utilizado o método Canny do OpenCV \cite{CannyAplicacao, Canny} para extrair os contornos das características faciais. O Canny é um algoritmo de detecção de contornos eficiente que nos ajuda a identificar os limites das características faciais com maior precisão.
 
-Após a extração dos contornos, suprimimos alguns pontos fazendo o uso de grafos e árvores geradoras mínimas. Essa etapa é crucial para reduzir a quantidade de pontos a serem utilizados na modelagem das \textit{splines}, mantendo apenas os pontos mais significativos que representam as características faciais. A simplificação dos pontos é realizada utilizando o algoritmo construído de forma autoral e implementado em Python, que utiliza a biblioteca \textit{Scipy} \cite{Scipy} para encontrar a árvore geradora mínima. Essa abordagem garante que os pontos extraídos sejam representativos e relevantes para a modelagem das \textit{splines}.
+Após a extração dos contornos, alguns pontos foram suprimidos fazendo o uso de grafos e árvores geradoras mínimas. Essa etapa é crucial para reduzir a quantidade de pontos a serem utilizados na modelagem das \textit{splines}, mantendo apenas os pontos mais significativos que representam as características faciais. A simplificação dos pontos é realizada utilizando o algoritmo construído de forma autoral e implementado em Python, que utiliza a biblioteca \textit{Scipy} \cite{Scipy} para encontrar a árvore geradora mínima. Essa abordagem garante que os pontos extraídos sejam representativos e relevantes para a modelagem das \textit{splines}.
 
 Por fim, ainda é possível aplicar um filtro de suavização para diminuir a quantidade de pontos, fazendo isso de forma completamente aleatória, mantendo apenas os pontos iniciais e finais de cada segmento, o que pode ser útil para melhorar a qualidade da modelagem das \textit{splines}.
 
 \section{MODELOS PARA DETECÇÃO DE CARACTERÍSTICAS}
 
-Foi utilizada uma abordagem popular de detecção chamada Haar Cascade, implementada com OpenCV e Python. Este método, introduzido e estudado no artigo \cite{BoostedCascade}, permite a detecção eficaz das características faciais.
+Foi utilizada uma abordagem popular de detecção chamada Haar Cascade, implementada com OpenCV e Python. Este método, introduzido e estudado no artigo de \citet{BoostedCascade}, permite a detecção eficaz das características faciais.
 
 O classificador Haar Cascade já foi calibrado e validado com um vasto conjunto de dados de rostos humanos, eliminando a necessidade de calibração adicional. Basta carregar o classificador da biblioteca e utilizá-lo para detectar rostos em uma imagem de entrada.
 
-Para distinguir com precisão entre amostras que contêm ou não um rosto humano, utilizamos um classificador forte, resultante da combinação de diversos classificadores. Esta técnica envolve a utilização de uma cascata de classificadores para identificar diferentes características em uma imagem.
+Para distinguir com precisão entre amostras que contêm ou não um rosto humano, foi feito o uso de um classificador forte, resultante da combinação de diversos classificadores. Esta técnica envolve a utilização de uma cascata de classificadores para identificar diferentes características em uma imagem.
 
 Os seguintes classificadores foram utilizados:
 \begin{itemize}
@@ -30,7 +30,7 @@ Todos os classificadores mencionados podem ser encontrados no repositório do Op
 
 \subsection{Parâmetros}
 
-Após carregar os classificadores, podemos utilizá-los aplicando quatro parâmetros específicos para cada um.
+Após carregar os classificadores, é possível utilizá-los aplicando quatro parâmetros específicos para cada um.
 
 O método \texttt{detectMultiScale()} é utilizado para identificar faces de diferentes tamanhos na imagem de entrada. Os quatro parâmetros principais deste método são detalhados a seguir:
 \begin{itemize}
@@ -40,7 +40,7 @@ O método \texttt{detectMultiScale()} é utilizado para identificar faces de dif
     \end{itemize}
     \item \textbf{\texttt{scaleFactor}}:
     \begin{itemize}
-        \item Este parâmetro é usado para reduzir o tamanho da imagem de entrada, facilitando a detecção de faces maiores pelo algoritmo. Especificamos um fator de escala de 1.1, indicando que queremos reduzir o tamanho da imagem em 10\%.
+        \item Este parâmetro é usado para produzir janelas de detecção de diferentes tamanhos, possibilitando a detecção de faces de diferentes tamanhos. Foi especificado um fator de escala de 1.1, indicando que serão produzidas janelas com um aumento sucessivo de dimensões por um fator de 10\%.
     \end{itemize}
     \item \textbf{\texttt{minNeighbors}}:
     \begin{itemize}
@@ -58,47 +58,42 @@ Foram colocados como \textit{default} para todos os classificadores os seguintes
 
 \subsection{Resultado da Detecção das Características}
 
-Para realizar a detecção das características faciais, inicialmente identificamos o rosto na imagem. Esse processo retorna um \textit{array} com quatro valores: as coordenadas $x$ e $y$ do ponto onde o rosto foi detectado, além de sua largura e altura. Em seguida, recortamos a imagem nessa região, de modo a isolar a face da pessoa.
+Para realizar a detecção das características faciais, inicialmente é identificado o rosto na imagem. Esse processo retorna um \textit{array} com as coordenadas $x$ e $y$ do ponto onde o rosto foi detectado, além de sua largura e altura. Em seguida, a imagem é recortada nessa região, de modo a isolar a face da pessoa.
 
-Com o rosto isolado, aplicamos classificadores específicos para detectar o nariz, a boca e os olhos.
+Com o rosto isolado, classificadores específicos são aplicados para detectar o nariz, a boca e os olhos.
 
 Essa abordagem, que realiza a detecção passo a passo, garante maior precisão na identificação das características menores, pois concentra a análise na área previamente delimitada pelo rosto.
 
 Considere a \autoref{fig:deteccao-caracteristicas}, onde a detecção das características faciais é realizada:
 \begin{enumerate}
-    \item \textbf{Detecção do Rosto:} Para identificar e isolar o rosto na imagem usamos o classificador \texttt{haarcascade\_frontalface\_default.xml}.
-    \item \textbf{Detecção dos Olhos:} Aplicamos o classificador \texttt{haarcascade\_eye.xml} para localizar os olhos dentro da área do rosto previamente detectada.
-    \item \textbf{Detecção do Nariz:} Utilizamos o classificador \texttt{haarcascade\_mcs\_nose.xml} para identificar o nariz na mesma área delimitada.
-    \item \textbf{Detecção da Boca:} Finalmente, aplicamos o classificador \\
-    \texttt{haarcascade\_mcs\_mouth.xml} para localizar a boca.
+    \item \textbf{Detecção do Rosto:} Para identificar e isolar o rosto na imagem é utilizado o classificador \texttt{haarcascade\_frontalface\_default.xml}.
+    \item \textbf{Detecção dos Olhos:} O classificador \texttt{haarcascade\_eye.xml} é aplicado para localizar os olhos dentro da área do rosto previamente detectada.
+    \item \textbf{Detecção do Nariz:} O classificador \texttt{haarcascade\_mcs\_nose.xml} é aplicado para identificar o nariz na mesma área delimitada.
+    \item \textbf{Detecção da Boca:} Finalmente, o classificador \\
+    \texttt{haarcascade\_mcs\_mouth.xml} é aplicado para localizar a boca.
 \end{enumerate}
 
 \begin{figure}[h!]
     \caption{DETECÇÕES.}
     \centering
-    \begin{minipage}[b]{0.45\textwidth}
+    \begin{minipage}[b]{0.33\textwidth}
         \centering
         \includegraphics[width=0.9\linewidth]{fig/01_example_image.png}
         \legend{Imagem Original.}
         \label{fig:imagem}
-    \end{minipage}
-    \hfill
-    \begin{minipage}[b]{0.45\textwidth}
+    \end{minipage}\hfill\begin{minipage}[b]{0.33\textwidth}
         \centering
         \includegraphics[width=0.9\linewidth]{fig/02_face.png}
-        \legend{1º Detecção da face.}
+        \legend{Detecção da face.}
         \label{fig:face}
-    \end{minipage}
-
-    \vspace{1cm}
-
-    \begin{minipage}[b]{0.45\textwidth}
+    \end{minipage}\hfill\begin{minipage}[b]{0.33\textwidth}
         \centering
         \includegraphics[width=0.9\linewidth]{fig/02_detected_features.png}
-        \legend{2º Detecção das características.}
+        \legend{Detecção das características.}
         \label{fig:caracteristicas}
     \end{minipage}
-    \legend{Adaptado de \cite{FERET1,FERET2}}
+    \legend{FONTE: A autora.}
+    \legend{LEGENDA: Adaptado de \cite{FERET1,FERET2}}
     \label{fig:deteccao-caracteristicas}
 \end{figure}
 
@@ -133,7 +128,7 @@ Por exemplo, na \autoref{fig:histerese}, o contorno A está acima do \textit{max
 \subsection{Resultado da Detecção de Contornos}
 \label{sec:resultado-deteccao-contornos}
 
-Ao aplicar o algoritmo de Canny para a detecção de contornos, obtemos um \textit{array} binário onde os valores `0' e `255' representam diferentes tipos de \textit{pixels}. Os \textit{pixels} com valor `0' são considerados descartáveis, ou seja, não fazem parte dos contornos detectados. Em contraste, os \textit{pixels} com valor `255' são os que definem os contornos, indicando regiões de mudança de intensidade significativa na imagem original.
+Ao aplicar o algoritmo de Canny para a detecção de contornos, é retornado um \textit{array} binário onde os valores `0' e `255' representam diferentes tipos de \textit{pixels}. Os \textit{pixels} com valor `0' são considerados descartáveis, ou seja, não fazem parte dos contornos detectados. Em contraste, os \textit{pixels} com valor `255' são os que definem os contornos, indicando regiões de mudança de intensidade significativa na imagem original.
 
 A \autoref{fig:canny-contornos} ilustra a matriz Canny e os contornos resultantes.
 
@@ -162,22 +157,24 @@ A \autoref{fig:canny-contornos} ilustra a matriz Canny e os contornos resultante
             \includegraphics[width=0.9\textwidth]{fig/contorno_canny.jpeg}
         \end{minipage}
     \end{tabular}
+    \legend{FONTE: A autora.}
+    \legend{LEGENDA: Cada `255' representa um ponto de contorno detectado e seus subÍndices indicam a ordem dos pontos. Isto será útil para a construção da matriz de adjacências na \autoref{fig:adjacencias-grafo}}
 \end{figure}
 
-A \autoref{fig:canny-aplicacao} apresenta os resultados da aplicação do algoritmo de Canny em imagens de características faciais.
+A \autoref{fig:canny-aplicacao} apresenta os resultados da aplicação do algoritmo de Canny em imagens de características faciais, ao exemplo apresentado na \autoref{fig:deteccao-caracteristicas}. 
 
 
 \begin{figure}[h!]
     \caption{APLICAÇÃO DO ALGORITMO DE CANNY.}
     \centering
-    \begin{minipage}[b]{0.45\textwidth}
+    \begin{minipage}[b]{0.35\textwidth}
         \centering
         \includegraphics[width=0.9\linewidth]{fig/03_left_eye_edge.png}
         \legend{Olho esquerdo.}
         \label{fig:canny-esquerdo}
     \end{minipage}
-    \hfill
-    \begin{minipage}[b]{0.45\textwidth}
+    \hspace{0.5cm}
+    \begin{minipage}[b]{0.35\textwidth}
         \centering
         \includegraphics[width=0.9\linewidth]{fig/03_right_eye_edge.png}
         \legend{Olho direito.}
@@ -186,20 +183,21 @@ A \autoref{fig:canny-aplicacao} apresenta os resultados da aplicação do algori
 
     \vspace{1cm}
 
-    \begin{minipage}[b]{0.45\textwidth}
+    \begin{minipage}[b]{0.35\textwidth}
         \centering
         \includegraphics[width=0.9\linewidth]{fig/03_nose_edge.png}
         \legend{Nariz.}
         \label{fig:canny-nariz}
     \end{minipage}
-    \hfill
-    \begin{minipage}[b]{0.45\textwidth}
+    \hspace{0.5cm}
+    \begin{minipage}[b]{0.35\textwidth}
         \centering
         \includegraphics[width=0.9\linewidth]{fig/03_mouth_edge.png}
         \legend{Boca.}
         \label{fig:canny-boca}
     \end{minipage}
     \label{fig:canny-aplicacao}
+    \legend{FONTE: A autora.}
 \end{figure}
 % \newpage
 Esses resultados demonstram como o algoritmo de Canny é eficaz para realçar os contornos em diferentes tipos de imagens, permitindo uma análise visual clara e detalhada das características principais em cada exemplo.
@@ -223,22 +221,22 @@ Esta parte é realizada em cinco etapas principais:
 
 \subsection{Grafos}
 
-Para a construção do grafo, utilizamos os pontos de contorno detectados pelo algoritmo de Canny. Cada ponto é representado como um nó no grafo, e as vizinhanças entre os nós são representadas como arestas. Neste trabalho, a matriz de adjacências é utilizada para armazenar essas vizinhanças.
+Para a construção do grafo, os pontos de contorno detectados pelo algoritmo de Canny são utilizados. Cada ponto é representado como um nó no grafo, e as vizinhanças entre os nós são representadas como arestas. Neste trabalho, a matriz de adjacências é utilizada para armazenar essas vizinhanças.
 
-O código foi feito de forma autoral em Python, utilizando a fórmula Manhattan para calcular a distância entre os nós. Essa fórmula é adequada para o nosso caso, pois considera apenas as distâncias horizontais, verticais e diagonais, o que é suficiente para que o grafo represente adequadamente a estrutura dos contornos faciais.
+O código foi feito de forma autoral em Python, utilizando a norma do máximo para calcular a distância entre os nós. Essa fórmula é adequada para o nosso caso, pois considera apenas as distâncias horizontais, verticais e diagonais, o que é suficiente para que o grafo represente adequadamente a estrutura dos contornos faciais.
 
-Sejam os pontos \( i = (x_1, y_1) \) e \( j = (x_2, y_2) \). Definimos a distância Manhattan \( d(i, j) \) e a vizinhança \( v(i, j) \) como:
-\begin{gather}
-    d(i, j) = |x_1 - x_2| + |y_1-y_2| \label{eq:distancia-manhattan}\\
-    v(i, j) =
-    \begin{cases}
-    1, & \text{se } d(i, j) = 1 \text{ ou } d(i, j) = 2 \\
-    0, & \text{caso contrário}
-    \end{cases}\label{eq:vizinhanca-manhattan}
-\end{gather}
+Sejam os pontos \( i = (x_1, y_1) \) e \( j = (x_2, y_2) \). Definimos a norma do máximo
+\begin{align}
+    \begin{split}
+        d(i, j) & =|(x_1,y_1)-(x_2,y_2)|_\infty \\
+                & = |(x_1-x_2,y_1-y_2)|_\infty \\
+                & = \max(|x_1-x_2|,|y_1-y_2|).
+    \end{split}
+    \label{eq:distancia-maximo}
+\end{align}
+Dois pontos $i$ e $j$ são considerados vizinhos se $d(i, j)=1$.
 
-
-A partir da matriz resultante da detecção de bordas por Canny (\autoref{fig:canny-contornos}), é possível construir a matriz de adjacências com base na distância de Manhattan (\ref{eq:distancia-manhattan}) e na definição de vizinhança adotada (\ref{eq:vizinhanca-manhattan}). Essa matriz representa as conexões entre os pixels considerados como nós do grafo, onde cada elemento \( a_{ij} \) indica a existência (ou não) de uma aresta entre os nós \( i \) e \( j \).
+A partir da matriz resultante da detecção de bordas por Canny (\autoref{fig:canny-contornos}), é possível construir a matriz de adjacências com base na vizinhança adotada. Essa matriz representa as conexões entre os pixels considerados como nós do grafo, onde cada elemento \( a_{ij} \) indica a existência (ou não) de uma aresta entre os nós \( i \) e \( j \).
 
 A \autoref{fig:adjacencias-grafo} ilustra tanto a matriz de adjacências quanto o grafo correspondente aos contornos identificados na \autoref{fig:canny-contornos}. Na matriz, cada linha e coluna correspondem a um nó, e os valores registrados indicam a presença ou ausência de conexões entre os pares de nós.
 
@@ -281,8 +279,11 @@ A \autoref{fig:adjacencias-grafo} ilustra tanto a matriz de adjacências quanto 
                     \draw (3) -- (5);
                 \end{tikzpicture}
         \end{minipage}
+        \vspace{0.3cm}
     \end{tabular}
-    \end{figure}
+    \legend{FONTE: A autora.}
+    \legend{LEGENDA: A matriz de adjacências representa as conexões entre os nós do grafo, em que cada linha e coluna correspondem a um ponto de contorno detectado.}
+\end{figure}
 
 
 \subsection{Grafos Conexos e Desconexos}
@@ -325,6 +326,7 @@ Um grafo desconexo pode ser dividido em componentes conexos, que são subgrafos 
         \end{tikzpicture}
     \end{minipage}
     \label{fig:componentes_conexos}
+    \legend{FONTE: A autora.}
     \end{figure}
 
 % Em problemas de processamento de imagens, frequentemente são utilizados grafos que representam os \textit{pixels} da imagem. O objetivo é identificar componentes conexos, permitindo a seleção dos caminhos mais significativos e a filtragem de ruídos. Componentes com um grande número de nós indicam regiões de interesse, correspondendo a áreas com maior quantidade de \textit{pixels} conectados. Por outro lado, componentes menores podem ser interpretadas como ruído ou regiões irrelevantes, que podem ser descartadas durante o processamento.
@@ -335,34 +337,31 @@ Um grafo desconexo pode ser dividido em componentes conexos, que são subgrafos 
 \subsection{Resultado da Construção do Grafo}
 \label{sec:resultado-construcao-grafo}
 
-Podemos observar que a imagem original é composta por um grande número de pontos, porém utilizando a filtragem de \textit{pixels} através de grafos com os maiores componentes conexos, conseguimos reduzir a quantidade de pontos, mantendo apenas os mais relevantes. A \autoref{fig:resultado-grafo} mostra o resultado da construção do grafo e a filtragem dos pontos.
+A imagem original é composta por um grande número de pontos, porém utilizando a filtragem de \textit{pixels} através de grafos com os maiores componentes conexos, é possível reduzir a quantidade de pontos, mantendo apenas os mais relevantes. A \autoref{fig:resultado-grafo} mostra o resultado da construção do grafo e a filtragem dos pontos.
 
 \begin{figure}[h!]
     \caption{COMPONENTES CONEXOS OLHO DIREITO.}
     \centering
-    \begin{minipage}[b]{0.45\textwidth}
+    \begin{minipage}[b]{0.33\textwidth}
         \centering
         \includegraphics[width=0.9\linewidth]{fig/02_detected_right_eye.png}
         \legend{Olho direito identificado.}
         \label{fig:olho}
     \end{minipage}
-    \hfill
-    \begin{minipage}[b]{0.45\textwidth}
+    \begin{minipage}[b]{0.33\textwidth}
         \centering
         \includegraphics[width=0.9\linewidth]{fig/03_right_eye_edge.png}
         \legend{Ênfase nos contornos.}
         \label{fig:canny-olho}
     \end{minipage}
-
-    \vspace{1cm}
-
-    \begin{minipage}[b]{0.45\textwidth}
+    \begin{minipage}[b]{0.33\textwidth}
         \centering
         \includegraphics[width=1\linewidth]{fig/04_connected_components_right_eye.png}
         \legend{Remoção de alguns pontos através dos maiores compenentes conexos.}
         \label{fig:grafos-olho}
     \end{minipage}
     \label{fig:resultado-grafo}
+    \legend{FONTE: A autora.}
 \end{figure}
 
 \subsection{Árvore Geradora Mínima}
@@ -377,13 +376,13 @@ Cada nó na AGM tem uma relação hierárquica com outros nós:
     \item A folha é um nó que não tem filhos, ou seja, ela está no fim de um caminho na árvore
 \end{itemize}
 
-Para este trabalho, a AGM é utilizada para conectar os pontos de contorno detectados, formando uma estrutura que representa as características faciais de forma eficiente removendo ciclos. A \autoref{fig:arvore-geradora-minima} ilustra a Ávore Geradora Mínima construída entre os pontos de contorno, removendo os ciclos.
+Para este trabalho, a AGM é utilizada para conectar os pontos de contorno detectados, formando uma estrutura que representa as características faciais de forma eficiente removendo ciclos. A \autoref{fig:arvore-geradora-minima} ilustra a Árvore Geradora Mínima construída entre os pontos de contorno, removendo os ciclos.
 
 \begin{figure}
     \caption{ÁRVORE GERADORA MÍNIMA.}
     \label{fig:arvore-geradora-minima}
     \centering
-    \begin{tikzpicture}[scale=1.5, every node/.style={circle, draw=gray!60, fill=gray!20, thick, minimum size=10mm}, 
+    \begin{tikzpicture}[scale=1, every node/.style={circle, draw=gray!60, fill=gray!20, thick, minimum size=10mm}, 
     edge/.style={draw=black!70, thick},
     highlight/.style={draw=red, thick}]
 
@@ -410,12 +409,13 @@ Para este trabalho, a AGM é utilizada para conectar os pontos de contorno detec
     \draw[highlight] (a) -- (d);
 
     \end{tikzpicture}
-    \legend{Em vermelho é destacado o caminho da AGM.}
+    \legend{FONTE: A autora.}
+    \legend{LEGENDA: Em vermelho é destacado o caminho da AGM.}
 \end{figure}
 
 \subsection{Otimização da Árvore Geradora Mínima}
 
-Para otimizar a análise, aplicamos uma poda da árvore na AGM para identificar o caminho principal e eliminar os pontos que não contribuem significativamente para a forma geral do contorno. Essa poda é realizada com base em critérios de comprimento e relevância, garantindo que apenas os pontos mais significativos sejam mantidos na representação final.
+Para otimizar a análise, é aplicada uma poda da árvore na AGM para identificar o caminho principal e eliminar os pontos que não contribuem significativamente para a forma geral do contorno. Essa poda é realizada com base em critérios de comprimento e relevância, garantindo que apenas os pontos mais significativos sejam mantidos na representação final.
 
 
 Veja abaixo a implementação do método \texttt{prunning\_tree}. Ele percorre recursivamente a árvore para calcular a altura dos nós e determinar o caminho de maior comprimento entre dois nós folha.
@@ -461,7 +461,6 @@ def prunning_tree(self, raiz):
         no_altura_maxima = raiz.filhos[0]
 
         return no_altura_maxima.altura + 1, [raiz.idx] + no_altura_maxima.caminho_altura_maxima, tamanho_caminho_maximo, caminho_maximo
-
 \end{lstlisting}
 
 O funcionamento do algoritmo pode ser resumido nos seguintes passos:
@@ -505,6 +504,7 @@ O funcionamento do algoritmo pode ser resumido nos seguintes passos:
       };
     
     \end{tikzpicture}
+    \legend{FONTE: A autora.}
     \legend{LEGENDA: Em verde: nós que fazem parte do maior caminho. Em cinza: nós que não fazem parte do maior caminho.}
 \end{figure}
 
@@ -513,7 +513,9 @@ Pela \autoref{fig:poda-arvore-geradora-minima} podemos observar como funciona o 
 \subsection{Resultado da AGM}
 \label{sec:resultado-agm}
 
-A \autoref{fig:resultado-agm} mostra os pontos removidos que não fazem parte do maior caminho e logo após isso, aplicamos mais um algoritmo autoral que elimina pontos de forma aleatória, mantendo apenas os pontos iniciais e finais de cada segmento.
+A \autoref{fig:resultado-agm} ilustra os pontos removidos que não pertencem ao maior caminho identificado. Em seguida, é aplicado um algoritmo autoral adicional que realiza uma filtragem aleatória dos pontos restantes.
+
+Esse algoritmo proposto atua preservando, em cada segmento, o primeiro e o último ponto, enquanto remove aleatoriamente os pontos intermediários. Essa remoção é feita de modo a evitar que pontos consecutivos sejam mantidos, o que garante uma representação mais enxuta e eficiente dos contornos. Como resultado, obtém-se uma forma simplificada que preserva o traçado geral da estrutura, ao mesmo tempo em que reduz a complexidade da representação.
 
 \begin{figure}[h!]
     \caption{FILTRAGEM DE PONTOS PELA AGM.}
@@ -541,4 +543,6 @@ A \autoref{fig:resultado-agm} mostra os pontos removidos que não fazem parte do
         \label{fig:olho-aleatorio}
     \end{minipage}
     \label{fig:resultado-agm}
-\end{figure}
+    \legend{FONTE: A autora.}
+\end{figure} 
+
