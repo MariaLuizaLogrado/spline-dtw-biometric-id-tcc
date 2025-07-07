@@ -10,11 +10,11 @@ Considere duas sequências temporais
 \begin{equation}
     X = (x_1, x_2, \ldots, x_n) \quad \text{e} \quad Y = (y_1, y_2, \ldots, y_m),
 \end{equation}
-onde \(X\) e \(Y\) são as sequências a serem comparadas, com \(n\) e \(m\) sendo seus respectivos comprimentos.
+onde \(n\) e \(m\) são seus respectivos comprimentos.
 
 O algoritmo de DTW constrói uma matriz de custo acumulado \(D\) de dimensão \(n \times m\), na qual cada elemento \(D(i, j)\) representa o custo mínimo acumulado para alinhar os primeiros \(i\) elementos de \(X\) com os primeiros \(j\) elementos de \(Y\).
 
-O alinhamento entre os primeiros elementos das sequências ocorre diretamente na célula \(D(1,1)\), definida
+O alinhamento entre os primeiros elementos das sequências ocorre diretamente na célula \(D(1,1)\), definida por
 \begin{equation}
     D(1,1) = d(x_1, y_1),
 \end{equation}
@@ -40,7 +40,7 @@ A partir de \(i = 2\) e \(j = 2\), a matriz é preenchida utilizando a fórmula 
     \quad \text{para } i \geq 2 \text{ e } j \geq 2.
 \end{equation}
 
-Essa relação computa o custo acumulado de alinhar \(x_i\) com \(y_j\). O valor final \(D(n, m)\) representa o custo total do alinhamento ótimo entre as duas sequências temporais.
+Essa relação calcula o custo acumulado de alinhar \(x_i\) com \(y_j\). O valor final \(D(n, m)\) representa o custo total do alinhamento ótimo entre as duas sequências temporais.
 
 
 A \autoref{fig:dtw_intro} ilustra o conceito de alinhamento dinâmico, mostrando como o DTW pode distorcer o eixo do tempo para alinhar duas sequências temporais que, à primeira vista, parecem diferentes.
@@ -49,22 +49,22 @@ A \autoref{fig:dtw_intro} ilustra o conceito de alinhamento dinâmico, mostrando
     \centering
     \caption{ALINHAMENTO DINÂMICO.}
     \includegraphics[width=0.8\textwidth]{fig/dtw_vs_euc.png}
-    \legend{FONTE: \cite{tavenard.blog.dtw}}
+    \legend{FONTE: \citet{tavenard.blog.dtw}}
     \label{fig:dtw_intro}
 \end{figure}
 
 \section{Vantagens e Desvantagens}
 
-O método apresenta diversas vantagens em relação a outras métricas de distância, como a distância Euclidiana. Entre elas, destacam-se:
+O método apresenta diversas vantagens em relação a outras formas de medir distância, como a distância Euclidiana. Entre elas, destacam-se:
 \begin{itemize}
-    \item \textbf{Robustez a variações de tempo}, permitindo lidar com sequências que apresentam diferenças de velocidade ou comprimento, o que possibilita comparações mais precisas.
-    \item \textbf{Alinhamento dinâmico}, ao encontrar o melhor mapeamento entre as sequências, minimizando o custo total de distorção temporal.
+    \item \textbf{Robustez a variações de tempo}, permitindo lidar com sequências que apresentam diferenças de velocidade ou comprimento, o que possibilita comparações mais precisas;
+    \item \textbf{Alinhamento dinâmico}, ao encontrar o melhor mapeamento entre as sequências, minimizando o custo total de distorção temporal;
     \item \textbf{Versatilidade}, com bom desempenho em sinais unidimensionais e multidimensionais, sendo aplicável em diversas áreas, como reconhecimento de padrões e análise de séries temporais.
 \end{itemize}
 
 No entanto, o DTW também possui desvantagens:
 \begin{itemize}
-    \item \textbf{Complexidade computacional} com \(O(n \cdot m)\), o que pode ser um limitante para sequências muito longas.
+    \item \textbf{Complexidade computacional} \(O(n \cdot m)\), o que pode ser um limitante para sequências muito longas;
     \item \textbf{Sensibilidade a ruídos}, o que pode levar a alinhamentos incorretos.
 \end{itemize}
 
@@ -73,10 +73,7 @@ No entanto, o DTW também possui desvantagens:
 
 Neste trabalho, o DTW foi utilizado por ser uma técnica adequada para comparar sequências que representam características espaciais extraídas de contornos faciais utilizando um algoritmo simples. As curvas resultantes dessas características podem variar em comprimento e forma devido a diferentes condições de iluminação, expressões faciais ou ângulos de captura. Esse método permite alinhar essas curvas de forma dinâmica, possibilitando uma comparação mais precisa entre elas.
 
-Além disso, este trabalho baseia-se na abordagem proposta por \citet{DTW_LSTM}, que demonstraram a eficácia do uso do algoritmo DTW na comparação da variação das cores dos \textit{pixels} ao longo do vetor. Os autores obtiveram acurácias de 100\%, 94\% e 70\% em diferentes cenários experimentais, evidenciando a robustez do método. Observa-se, contudo, uma diminuição progressiva na acurácia à medida que ruídos são introduzidos nas imagens, o que reforça a importância de técnicas complementares de pré-processamento.
+Além disso, este trabalho baseia-se na abordagem proposta por \citet{DTW_LSTM}, que demonstraram a eficácia do uso do algoritmo DTW na comparação da variação das cores dos \textit{pixels} ao longo do vetor. Os autores obtiveram acurácias de 100\%, 94\% e 70\% em diferentes cenários experimentais, evidenciando a robustez do método. Observa-se, contudo, uma diminuição progressiva na acurácia à medida que ruídos são introduzidos nas imagens, o que reforça a importância de técnicas complementares de pré-processamento. Entretanto, uma limitação relevante observada nesse estudo foi o alto custo computacional do DTW, o que compromete sua aplicabilidade em cenários que exigem processamento em tempo real. Embora o tempo exato de execução dos experimentos não tenha sido reportado pelos autores, implementamos um \textit{script} com base na proposta do artigo, cujo tempo de execução foi de aproximadamente 10 horas para comparar duas imagens representadas por vetores de dimensão 77.284 (correspondentes às intensidades de cinza). 
 
-
-Entretanto, uma limitação relevante observada nesse estudo foi o alto custo computacional do DTW, o que compromete sua aplicabilidade em cenários que exigem processamento em tempo real. Embora o tempo exato de execução dos experimentos não tenha sido reportado pelos autores, implementamos um \textit{script} com base na proposta do artigo, cujo tempo de execução foi de aproximadamente 10 horas para comparar duas imagens representadas por vetores de dimensão 77.284 (correspondentes às intensidades de cinza). 
-
-Foi utilizada a biblioteca \texttt{dtaidistance}  \cite{libDTW} para a implementação do DTW para reproduzir os resultados do artigo, pois os pixels das imagens são representados como vetores unidimensionais. Porém para o nosso trabalho foi preciso adaptar o código para lidar com coordenadas, o que exigiu uma abordagem diferente, visto que as curvas não são vetores unidimensionais, mas sim representações contínuas de pontos no espaço.
+Foi utilizada a biblioteca \texttt{dtaidistance} \cite{libDTW} para a implementação do DTW para reproduzir os resultados do artigo, pois os pixels das imagens são representados como vetores unidimensionais. Porém para o nosso trabalho foi preciso adaptar o código para lidar com coordenadas, o que exigiu uma abordagem diferente, visto que as curvas não são vetores unidimensionais, mas sim representações contínuas de pontos no espaço.
 

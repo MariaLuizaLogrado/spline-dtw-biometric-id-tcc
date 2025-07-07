@@ -92,8 +92,7 @@ Considere a \autoref{fig:deteccao-caracteristicas}, onde a detecção das caract
         \legend{Detecção das características.}
         \label{fig:caracteristicas}
     \end{minipage}
-    \legend{FONTE: A autora.}
-    \legend{LEGENDA: Adaptado de \cite{FERET1,FERET2}}
+    \legend{FONTE: Adaptado de \citet{FERET1,FERET2}.}
     \label{fig:deteccao-caracteristicas}
 \end{figure}
 
@@ -101,11 +100,11 @@ Considere a \autoref{fig:deteccao-caracteristicas}, onde a detecção das caract
 
 \section{Extração de Contornos}
 
-A detecção de contornos é essencial para a análise de imagens, pois permite a identificação de contornos e a segmentação de objetos em uma cena. O algoritmo de Canny \cite{Canny} é um dos métodos mais populares devido à sua eficiência e precisão. Esta seção irá explorar o funcionamento do algoritmo de Canny e demonstrará sua aplicação prática com a biblioteca OpenCV \cite{CannyAplicacao}.
+A detecção de contornos é essencial para a análise de imagens, pois permite a identificação de contornos e a segmentação de objetos em uma cena. O algoritmo de \citet{Canny} é um dos métodos mais populares devido à sua eficiência e precisão. Esta seção irá explorar o funcionamento do algoritmo de Canny e demonstrará sua aplicação prática com a biblioteca OpenCV \cite{CannyAplicacao}.
 
 \subsection{Algoritmo de Canny}
 
-O algoritmo de detecção de contornos de Canny é composto por várias etapas, conforme descrito a seguir:
+O algoritmo de detecção de contornos de Canny é composto por várias etapas:
 \begin{enumerate}
     \item \textbf{Redução de Ruído}: A imagem é suavizada com um filtro Gaussiano para minimizar a interferência do ruído na detecção de contornos.
     \item \textbf{Cálculo do Gradiente de Intensidade}: Os gradientes de intensidade da imagem são calculados nas direções horizontal e vertical, utilizando os operadores de Sobel. As componentes do gradiente são representadas por \( G_x = \frac{\partial I}{\partial x} \) e \( G_y = \frac{\partial I}{\partial y} \), onde \( I \) denota a imagem original. A magnitude do gradiente é então dada por:
@@ -121,7 +120,7 @@ O algoritmo de detecção de contornos de Canny é composto por várias etapas, 
 
 Por exemplo, na \autoref{fig:histerese}, o contorno A está acima do \textit{maxVal}, sendo assim considerado um contorno forte. Embora o contorno C esteja abaixo do \textit{maxVal}, ele está conectado ao contorno A, de modo que também é considerado como contorno válido, resultando em uma curva completa. Já o contorno B, embora esteja acima do \textit{minVal}, não está conectado a nenhum contorno forte e, portanto, é descartado.
 
-\imagem{Rastreamento de contorno por histerese}{\includegraphics[width = 80mm]{fig/histerese}}{\cite{CannyAplicacao}}{histerese}{}{No eixo horizontal estão as curvas parametrizadas e no eixo vertical estão os valores de intensidade do gradiente.}
+\imagem{Rastreamento de contorno por histerese}{\includegraphics[width = 80mm]{fig/histerese}}{\citet{CannyAplicacao}.}{histerese}{}{No eixo horizontal estão as curvas parametrizadas e no eixo vertical estão os valores de intensidade do gradiente.}
 
 É crucial selecionar adequadamente os valores de \textit{minVal} e \textit{maxVal} para obter resultados precisos. Esse estágio também ajuda a remover pequenos ruídos de \textit{pixels}, assumindo que os contornos são linhas longas e contínuas.
 
@@ -158,10 +157,10 @@ A \autoref{fig:canny-contornos} ilustra a matriz Canny e os contornos resultante
         \end{minipage}
     \end{tabular}
     \legend{FONTE: A autora.}
-    \legend{LEGENDA: Cada `255' representa um ponto de contorno detectado e seus subÍndices indicam a ordem dos pontos. Isto será útil para a construção da matriz de adjacências na \autoref{fig:adjacencias-grafo}}
+    \legend{LEGENDA: Cada `255' representa um ponto de contorno detectado e seus sub-índices indicam a ordem dos pontos. Isto será útil para a construção da matriz de adjacências, ilustrada na \autoref{fig:adjacencias-grafo}.}
 \end{figure}
 
-A \autoref{fig:canny-aplicacao} apresenta os resultados da aplicação do algoritmo de Canny em imagens de características faciais, ao exemplo apresentado na \autoref{fig:deteccao-caracteristicas}. 
+A \autoref{fig:canny-aplicacao} apresenta os resultados da aplicação do algoritmo de Canny em imagens de características faciais obtidas do exemplo apresentado na \autoref{fig:deteccao-caracteristicas}. 
 
 
 \begin{figure}[h!]
@@ -337,27 +336,27 @@ Um grafo desconexo pode ser dividido em componentes conexos, que são subgrafos 
 \subsection{Resultado da Construção do Grafo}
 \label{sec:resultado-construcao-grafo}
 
-A imagem original é composta por um grande número de pontos, porém utilizando a filtragem de \textit{pixels} através de grafos com os maiores componentes conexos, é possível reduzir a quantidade de pontos, mantendo apenas os mais relevantes. A \autoref{fig:resultado-grafo} mostra o resultado da construção do grafo e a filtragem dos pontos.
+A imagem original é composta por um grande número de pontos. Porém, utilizando a filtragem de \textit{pixels} através de grafos com os maiores componentes conexos, é possível reduzir a quantidade de pontos, mantendo apenas os mais relevantes. A \autoref{fig:resultado-grafo} mostra o resultado da construção do grafo e a filtragem dos pontos.
 
 \begin{figure}[h!]
-    \caption{COMPONENTES CONEXOS OLHO DIREITO.}
+    \caption{COMPONENTES CONEXOS DO OLHO DIREITO.}
     \centering
-    \begin{minipage}[b]{0.33\textwidth}
+    \begin{minipage}[b]{0.32\textwidth}
         \centering
         \includegraphics[width=0.9\linewidth]{fig/02_detected_right_eye.png}
         \legend{Olho direito identificado.}
         \label{fig:olho}
     \end{minipage}
-    \begin{minipage}[b]{0.33\textwidth}
+    \begin{minipage}[b]{0.32\textwidth}
         \centering
         \includegraphics[width=0.9\linewidth]{fig/03_right_eye_edge.png}
         \legend{Ênfase nos contornos.}
         \label{fig:canny-olho}
     \end{minipage}
-    \begin{minipage}[b]{0.33\textwidth}
+    \begin{minipage}[b]{0.32\textwidth}
         \centering
         \includegraphics[width=1\linewidth]{fig/04_connected_components_right_eye.png}
-        \legend{Remoção de alguns pontos através dos maiores compenentes conexos.}
+        \legend{Remoção de alguns pontos através dos maiores componentes conexos.}
         \label{fig:grafos-olho}
     \end{minipage}
     \label{fig:resultado-grafo}
@@ -373,10 +372,10 @@ Cada nó na AGM tem uma relação hierárquica com outros nós:
 \begin{itemize}
     \item O nó raiz é o nó inicial a partir do qual a árvore é construída ou percorrida.
     \item Um nó filho é aquele que se origina de outro nó -- chamado de pai -- seguindo essa ideia de crescimento ou expansão da árvore.
-    \item A folha é um nó que não tem filhos, ou seja, ela está no fim de um caminho na árvore
+    \item A folha é um nó que não tem filhos, ou seja, ela está no fim de um caminho na árvore.
 \end{itemize}
 
-Para este trabalho, a AGM é utilizada para conectar os pontos de contorno detectados, formando uma estrutura que representa as características faciais de forma eficiente removendo ciclos. A \autoref{fig:arvore-geradora-minima} ilustra a Árvore Geradora Mínima construída entre os pontos de contorno, removendo os ciclos.
+Para este trabalho, a AGM é utilizada para conectar os pontos de contorno detectados, formando uma estrutura que representa as características faciais de forma eficiente e removendo ciclos. A \autoref{fig:arvore-geradora-minima} ilustra a Árvore Geradora Mínima construída entre os pontos de contorno.
 
 \begin{figure}
     \caption{ÁRVORE GERADORA MÍNIMA.}
@@ -465,8 +464,8 @@ def prunning_tree(self, raiz):
 
 O funcionamento do algoritmo pode ser resumido nos seguintes passos:
 \begin{enumerate}
-    \item \textbf{Cálculo da Altura da Árvore} medindo a profundidade máxima a partir da raiz até as folhas.
-    \item \textbf{Cálculo do Maior Caminho} dentro dos nós da árvore.
+    \item \textbf{Cálculo da Altura da Árvore}, medindo a profundidade máxima a partir da raiz até as folhas.
+    \item \textbf{Cálculo do Maior Caminho} entre os nós da árvore.
     \item O maior desses dois valores é considerado o \textbf{caminho principal}, capturando a estrutura mais relevante e eliminando nós de menor importância.
 \end{enumerate}
 
@@ -520,25 +519,23 @@ Esse algoritmo proposto atua preservando, em cada segmento, o primeiro e o últi
 \begin{figure}[h!]
     \caption{FILTRAGEM DE PONTOS PELA AGM.}
     \centering
-    \begin{minipage}[b]{0.45\textwidth}
+    \begin{minipage}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=0.9\linewidth]{fig/04_connected_components_right_eye.png}
+        \includegraphics[width=\linewidth]{fig/04_connected_components_right_eye.png}
         \legend{Maiores componentes conexos.}
         \label{fig:olho-grafo}
     \end{minipage}
     \hfill
-    \begin{minipage}[b]{0.45\textwidth}
+    \begin{minipage}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=0.9\linewidth]{fig/05_longest_path_right_eye.png}
+        \includegraphics[width=\linewidth]{fig/05_longest_path_right_eye.png}
         \legend{Aplicação da poda da AGM.}
         \label{fig:olho-agm}
     \end{minipage}
-
-    \vspace{1cm}
-
-    \begin{minipage}[b]{0.45\textwidth}
+    \hfill
+    \begin{minipage}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=1\linewidth]{fig/06_new_longest_path_right_eye.png}
+        \includegraphics[width=\linewidth]{fig/06_new_longest_path_right_eye.png}
         \legend{Remoção de alguns pontos de forma aleatória.}
         \label{fig:olho-aleatorio}
     \end{minipage}

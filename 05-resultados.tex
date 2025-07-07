@@ -7,27 +7,27 @@ Foram segmentadas quatro regiões distintas: olhos, nariz e boca. Cada uma é re
 
 O DTW foi aplicado separadamente para cada uma dessas quatro representações, permitindo avaliar a similaridade local (por região) e utilizando o sistema de votação para determinar a identidade do indivíduo. Além disso, uma outra versão com todas as características concatenadas foi utilizada como referência global da face.
 
-É importante ressaltar que devido a uma aleatoriedade introduzida de propósito no algoritmo para retirar alguns pontos (\autoref{sec:resultado-agm}), os resultados podem variar entre as execuções. Portanto, para garantir a consistência dos resultados, foi utilizada a semente \texttt{random.seed(42)} em todas as execuções, assegurando que os mesmos pontos fossem selecionados em cada teste.
+É importante ressaltar que devido a uma aleatoriedade introduzida de propósito no algoritmo para retirar alguns pontos (conf.\ \autoref{sec:resultado-agm}), os resultados podem variar entre as execuções. Portanto, para garantir a consistência dos resultados, foi utilizada a semente \texttt{random.seed(42)} em todas as execuções, assegurando que os mesmos pontos fossem selecionados em cada teste.
 
-A máquina utilizada para os testes possui as seguintes especificações: processador Intel Core i7-8550U, 16 GB de memória RAM, 4 núcleos e 8 processadores lógicos.
+A máquina utilizada para os testes possui processador Intel Core i7-8550U, 16 GB de memória RAM, 4 núcleos e 8 processadores lógicos.
 
 \section{Parâmetros de Configuração}
 \label{sec:parametros-configuracao}
 
 Para a realização dos experimentos, foram definidos alguns parâmetros de configuração que influenciam diretamente o desempenho do DTW e a qualidade das curvas geradas pelas \textit{splines}. Esses parâmetros incluem:
 \begin{itemize}
-    \item \textbf{Passo da \textit{Spline}:} que define a densidade dos pontos ao longo da curva. Um passo menor resulta em curvas mais detalhadas, mas com maior custo computacional.
-    \item \textbf{Tensão} que controla a suavidade das curvas geradas pelas \textit{splines}. Valores mais altos resultam em curvas mais flexíveis, enquanto valores mais baixos produzem curvas mais rígidas. %citar figura 11
-    \item \textbf{Translação}, indicando se as curvas devem ser transladadas para alinhar melhor as características faciais.
+    \item \textbf{Passo da \textit{Spline}:} define a densidade dos pontos ao longo da curva. Um passo menor resulta em curvas mais detalhadas, mas com maior custo computacional;
+    \item \textbf{Tensão:} controla a suavidade das curvas geradas pelas \textit{splines}. Valores mais altos resultam em curvas mais flexíveis, enquanto valores mais baixos produzem curvas mais rígidas (veja a \autoref{fig:tensao});
+    \item \textbf{Translação:} indica se as curvas devem ser transladadas para alinhar melhor as características faciais.
 \end{itemize}
 
 Para cada combinação desses parâmetros, foram realizados testes com as características faciais concatenadas e segmentadas, permitindo uma análise comparativa dos resultados obtidos.
 
 \section{Resultados Obtidos}
 
- As tabelas \ref{tab:resultados-concatenados} e \ref{tab:resultados-segmentados} apresentam os resultados obtidos para cada uma das abordagens, considerando diferentes parâmetros de configuração.
+ As Tabelas \ref{tab:resultados-concatenados} e \ref{tab:resultados-segmentados} apresentam os resultados obtidos para cada uma das abordagens, considerando diferentes parâmetros de configuração.
 
-Esses resultados foram obtidos a partir do confronto individual entre as curvas geradas pelas splines das imagens faciais do banco de dados FERET. O processo consistiu em comparar a primeira imagem com as 23 restantes, a segunda com as 22 seguintes, e assim sucessivamente, até que todas as imagens fossem comparadas. A acurácia foi então calculada como a porcentagem de acertos em relação ao total de imagens.
+Esses resultados foram obtidos a partir do confronto individual entre as curvas geradas pelas splines das imagens faciais selecionadas do banco de dados FERET. O processo consistiu em comparar a primeira imagem com as 23 restantes, a segunda com as 22 seguintes, e assim sucessivamente, até que todas as imagens fossem comparadas entre si. A acurácia foi então calculada como a porcentagem de acertos em relação ao total de comparações.
 
 \begin{table}[h!]
     \centering
@@ -106,8 +106,8 @@ Os experimentos 19 e 26 utilizaram apenas os pontos extraídos automaticamente, 
 
 De forma geral:
 \begin{itemize}
-    \item A translação impacta negativamente nas características concatenadas, mas melhora significativamente os resultados nas características segmentadas.
-    \item Um passo da \textit{spline} maior (1) reduz o tempo computacional sem grandes perdas de desempenho.
+    \item A translação impacta negativamente nas características concatenadas, mas melhora significativamente os resultados nas características segmentadas;
+    \item Um passo da \textit{spline} maior (1) reduz o tempo computacional sem grandes perdas de desempenho;
     \item As características segmentadas com translação se mostraram a melhor combinação, atingindo a maior acurácia com tempos de execução relativamente baixos.
 \end{itemize}
 

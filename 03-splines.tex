@@ -8,17 +8,15 @@ Neste capítulo, serão abordadas as \textit{splines} cúbicas, suas propriedade
 
 \section{Definição de \textit{Splines} Cúbicas}
 \label{sec:definicao-splines-cubicas}
-Uma \textit{spline} cúbica é uma função definida por partes, onde cada parte é um polinômio cúbico. Dão-se, então, os polinômios de grau 3, que são especificados na forma de canônica
+Uma \textit{spline} cúbica é uma função definida por partes, onde cada parte é um polinômio cúbico. Dão-se, então, os polinômios de grau 3, que são especificados na forma canônica
 \begin{equation}
     \vetor{p}(t) = \vetor{c_0} + \vetor{c_1}t + \vetor{c_2}t^2 + \vetor{c_3}t^3,
 \end{equation}
-onde cada $\vetor{c_i}$ é um vetor no $\mathbb{R}^2$.
+onde $t$ é o parâmetro de interpolação e cada $\vetor{c_i}$ é um vetor no $\mathbb{R}^2$. A função $\vetor{p}(t)$ representa uma curva parametrizada com variável independente \( t \in [0,1] \). Essa função descreve a posição ao longo da curva no plano bidimensional, sendo essa posição o elemento de interesse ao desenharmos a curva, já que o processo de plotagem envolve a determinação de pontos com coordenadas $(x, y)$. Em outras palavras, as splines cúbicas são definidas por equações paramétricas, ou seja, ambas as componentes $x$ e $y$ são expressas como funções da variável $t$.
 
-A função $\vetor{p}(t)$ representa uma curva parametrizada com variável independente \( t \in [0,1] \). Essa função descreve a posição ao longo da curva no plano bidimensional, sendo essa posição o elemento de interesse ao desenharmos a curva, já que o processo de plotagem envolve a determinação de pontos com coordenadas $(x, y)$. As curvas de Hermite são definidas por equações paramétricas, ou seja, ambas as componentes $x$ e  $y$ são expressas como funções da variável $t$.
+As curvas de Hermite são uma forma alternativa de representar curvas cúbicas. Expressar uma curva cúbica na forma de Hermite consiste em fornecer quatro valores fundamentais -- conhecidos como valores de Hermite -- que contêm todas as informações necessárias para descrever completamente a curva. Esses valores também permitem calcular os coeficientes da variável \( t \) na equação polinomial cúbica padrão, resultando assim na expressão completa da curva como um polinômio.
 
-Expressar uma curva cúbica na forma de Hermite consiste em fornecer quatro valores fundamentais -- conhecidos como valores de Hermite -- que contêm todas as informações necessárias para descrever completamente a curva. Esses valores também permitem calcular os coeficientes da variável \( t \) na equação polinomial cúbica padrão, resultando assim na expressão completa da curva como um polinômio.
-
-A principal motivação para utilizar a forma de Hermite está na possibilidade de determinar os coeficientes do polinômio diretamente a partir de informações conhecidas: a posição do ponto inicial da curva, \( \vetor{p_0} = \vetor{p}(0) \), que corresponde ao valor da curva no instante inicial; a posição do ponto final, \( \vetor{p_1} = \vetor{p}(1) \), que representa o valor da curva no instante final; além das tangentes nesses pontos, ou seja, a taxa de variação da curva em \( \vetor{p_0} \), denotada por \( \vetor{v_0} = \vetor{v}(0) \), e em \( \vetor{p_1} \), denotada por \( \vetor{v_1} = \vetor{v}(1) \).
+A principal motivação para utilizar a forma de Hermite está na possibilidade de determinar os coeficientes do polinômio diretamente a partir de informações conhecidas: a posição do ponto inicial da curva, \( \vetor{p_0} = \vetor{p}(0) \); a posição do ponto final, \( \vetor{p_1} = \vetor{p}(1) \); além das tangentes nesses pontos, ou seja, a taxa de variação da curva em \( \vetor{p_0} \), denotada por \( \vetor{v_0} = \vetor{v}(0) \), e em \( \vetor{p_1} \), denotada por \( \vetor{v_1} = \vetor{v}(1) \).
 
 
 Agora que se conhecem os valores de Hermite, é possível resolvê-los através do sistema de equações
@@ -26,24 +24,20 @@ Agora que se conhecem os valores de Hermite, é possível resolvê-los através 
     \vetor{p}(0) &= \vetor{c_0} + \vetor{c_1}(0) + \vetor{c_2}(0)^2 + \vetor{c_3}(0)^3 = \vetor{c_0}, \\
     \vetor{p}(1) &= \vetor{c_0} + \vetor{c_1} + \vetor{c_2} + \vetor{c_3}.
 \end{align}
-   
-
 Para encontrar $v_0$ e $v_1$ é necessário calcular a derivada da posição. Portanto
 \begin{align}
-    \vetor{v}(t) &= \dfrac{d}{dt}\vetor{p}(t) = \vetor{c_1} + 2\vetor{c_2}t + 3\vetor{c_3}t^2\\
-    \vetor{v}(0) &= \vetor{c_1}\\
-    \vetor{v}(1) &= \vetor{c_1} + 2\vetor{c_2} + 3\vetor{c_3}
+    \vetor{v}(t) &= \dfrac{d}{dt}\vetor{p}(t) = \vetor{c_1} + 2\vetor{c_2}t + 3\vetor{c_3}t^2,\\
+    \vetor{v}(0) &= \vetor{c_1},\\
+    \vetor{v}(1) &= \vetor{c_1} + 2\vetor{c_2} + 3\vetor{c_3}.
 \end{align}
-
 Então é possível obter a fórmula
 \begin{align}
-    \vetor{c_0} &= \vetor{p_0}\\
-    \vetor{c_1} &= \vetor{v_0}\\
-    \vetor{c_2} &= -3\vetor{p_0} - 2\vetor{v_0} - \vetor{v_1} + 3\vetor{p_1}\\
-    \vetor{c_3} &= 2\vetor{p_0} + \vetor{v_0} + \vetor{v_1} - 2\vetor{p_1} 
+    \vetor{c_0} &= \vetor{p_0},\\
+    \vetor{c_1} &= \vetor{v_0},\\
+    \vetor{c_2} &= -3\vetor{p_0} - 2\vetor{v_0} - \vetor{v_1} + 3\vetor{p_1},\\
+    \vetor{c_3} &= 2\vetor{p_0} + \vetor{v_0} + \vetor{v_1} - 2\vetor{p_1}. 
 \end{align}
-
-Escrevendo na forma matricial de Hermite, é obitda a seguinte expressão
+Escrevendo na forma matricial de Hermite, é obtida a expressão
 \begin{equation}
     \vetor{p}(t) =  
         \left(
@@ -63,16 +57,14 @@ Escrevendo na forma matricial de Hermite, é obitda a seguinte expressão
             \vetor{p_1} \\
             \vetor{v_0} \\
             \vetor{v_1}
-        \end{array}\right)
+        \end{array}\right).
  \end{equation}
 
  \subsection{Criação da \textit{Spline}}
 
  Supondo que existam 4 pontos e é desejado criar uma \textit{spline} que passe por todos eles, é necessário criar 3 segmentos de curvas cúbicas, cada uma passando por dois pontos consecutivos. Assim, a \textit{spline} será composta por 3 segmentos cúbicos, cada um definido por 4 pontos de controle \cite{CatmullRom}.
 
- A primeira curva irá de $\vetor{p_0}$ a $\vetor{p_1}$, a segunda de $\vetor{p_1}$ a $\vetor{p_2}$ e a final de $\vetor{p_2}$ a $\vetor{p_3}$. Então é aplicada a fórmula que foi derivada acima para $\vetor{p_t}$, mas em 3 variantes diferentes, cada variante com um par diferente de pontos iniciais e finais. A fórmula da primeira curva terá pontos iniciais e finais $\vetor{p_0}$ e $\vetor{p_1}$, a segunda em $\vetor{p_1}$ e $\vetor{p_2}$ e a terceira em $\vetor{p_2}$ e $\vetor{p_3}$, como é possível ver na \autoref{fig:spline_tangentes}. 
- 
- No que diz respeito às tangentes, \citet{CatmullRom} propuseram uma abordagem baseada na diferença entre pontos adjacentes: a tangente em um ponto pode ser obtida subtraindo-se o ponto anterior do ponto seguinte. Por exemplo, a tangente no ponto $\vetor{p_2}$ é dada por $(\vetor{p_3} - \vetor{p_1})$. É comum, ainda, dividir esse resultado por 2, pois essa operação tende a produzir curvas visualmente mais suaves e esteticamente agradáveis.
+ A primeira curva irá de $\vetor{p_0}$ a $\vetor{p_1}$, a segunda de $\vetor{p_1}$ a $\vetor{p_2}$ e a final de $\vetor{p_2}$ a $\vetor{p_3}$. Então é aplicada a fórmula que foi derivada acima para $\vetor{p_t}$, mas em 3 variantes diferentes, cada variante com um par diferente de pontos iniciais e finais. A fórmula da primeira curva terá pontos iniciais e finais $\vetor{p_0}$ e $\vetor{p_1}$, a segunda em $\vetor{p_1}$ e $\vetor{p_2}$ e a terceira em $\vetor{p_2}$ e $\vetor{p_3}$, como é possível ver na \autoref{fig:spline_tangentes}. No que diz respeito às tangentes, \citet{CatmullRom} propuseram uma abordagem baseada na diferença entre pontos adjacentes: a tangente em um ponto pode ser obtida subtraindo-se o ponto anterior do ponto seguinte. Por exemplo, a tangente no ponto $\vetor{p_2}$ é dada por $\vetor{p_3} - \vetor{p_1}$. É comum, ainda, dividir esse resultado por 2, pois essa operação tende a produzir curvas visualmente mais suaves e esteticamente agradáveis. Logo, é possível reescrever a equação em termos de quatro pontos ($\vetor{p_0}$ a $\vetor{p_3}$).
 
 
 \begin{figure}[h!]
@@ -87,10 +79,8 @@ Escrevendo na forma matricial de Hermite, é obitda a seguinte expressão
     \label{fig:spline_tangentes}
 \end{figure}
 
-Logo é possível reescrever a equação em termos de quatro pontos $\vetor{p_0}$ a $\vetor{p_3}$.
 
-Outra complicação que surge é que, ao se utilizar o ponto anterior e o ponto seguinte para o cálculo das tangentes, surge a dúvida sobre qual deve ser considerado o ponto anterior a $\vetor{p_i}$ e o ponto seguinte a $\vetor{p_f}$. Uma solução comum para esse problema é a adição de \textit{pontos fantasmas}, que não fazem parte da curva, mas são utilizados apenas para o cálculo das tangentes.
-
+Outra complicação que surge é que, ao se utilizar o ponto anterior e o ponto seguinte para o cálculo das tangentes, surge a dúvida sobre qual deve ser considerado o ponto anterior ao ponto inicial, $\vetor{p_i}$, e o ponto seguinte ao ponto final, $\vetor{p_f}$. Uma solução comum para esse problema é a adição de \textit{pontos fantasmas}, que não fazem parte da curva, mas são utilizados apenas para o cálculo das tangentes.
 
 
 Então ficamos com
@@ -118,9 +108,7 @@ Então ficamos com
         \end{array}
         \right),
 \end{equation}
-onde $\tau$ é um fator de escala que pode ser ajustado para controlar a suavidade da curva. O valor de $\tau$ pode ser definido com base na distância entre os pontos de controle ou em outras considerações geométricas.
-
-Com isso é possível chegar no formato de Catmull-Rom:
+onde $\tau$ é um fator de escala que pode ser ajustado para controlar a suavidade da curva. O valor de $\tau$ pode ser definido com base na distância entre os pontos de controle ou em outras considerações geométricas. Com isso é possível chegar no formato de Catmull-Rom
 \begin{equation}
     \vetor{p}(t) = \frac{1}{2}
        \left(
@@ -143,10 +131,10 @@ Com isso é possível chegar no formato de Catmull-Rom:
  		\vetor{p_2} \\
             \vetor{p_3}
  	\end{array}
-    \right)
+    \right).
 \end{equation}
 
-Na \autoref{fig:tensao} é possível observar que quanto menor a tensão $\tau$, menos suave fica a curva:
+Na \autoref{fig:tensao} é possível observar que quanto menor a tensão $\tau$, menos suave fica a curva.
 
 \begin{figure}[h!]
     \caption{TENSÃO DA CURVA.}
@@ -154,14 +142,14 @@ Na \autoref{fig:tensao} é possível observar que quanto menor a tensão $\tau$,
     \begin{minipage}[b]{0.45\textwidth}
         \centering
         \includegraphics[width=1\linewidth]{fig/cat_rom_t1.png}
-        \legend{$\tau$ = 1}
+        \legend{$\tau$ = 1.}
         \label{fig:tesao1}
     \end{minipage}
     \hfill
     \begin{minipage}[b]{0.45\textwidth}
         \centering
         \includegraphics[width=1\linewidth]{fig/cat_rom_t05.png}
-        \legend{$\tau$ = 0.5}
+        \legend{$\tau$ = 0.5.}
         \label{fig:tensao05}
     \end{minipage}
 
@@ -170,7 +158,7 @@ Na \autoref{fig:tensao} é possível observar que quanto menor a tensão $\tau$,
     \begin{minipage}[b]{0.45\textwidth}
         \centering
         \includegraphics[width=1\linewidth]{fig/cat_rom_t025.png}
-        \legend{$\tau$ = 0.25}
+        \legend{$\tau$ = 0.25.}
         \label{fig:tensao025}
     \end{minipage}
     \label{fig:tensao}
@@ -179,7 +167,7 @@ Na \autoref{fig:tensao} é possível observar que quanto menor a tensão $\tau$,
 
 \subsection{Resultados}
 
-Foi implementado um algoritmo autoral que gera uma \textit{spline} cúbica a partir de um conjunto de pontos de controle. O algoritmo porposto utiliza a fórmula de Catmull-Rom para calcular os coeficientes da curva, garantindo suavidade e continuidade. 
+Foi implementado um algoritmo autoral que gera uma \textit{spline} cúbica a partir de um conjunto de pontos de controle. O algoritmo proposto utiliza a fórmula de Catmull-Rom para calcular os coeficientes da curva, garantindo suavidade e continuidade. 
 
 A \autoref{fig:splines_resultados} apresenta os resultados obtidos a partir de conjuntos de pontos de controle extraídos da imagem, conforme o processo descrito no \autoref{cha:processamento-imagem}. É importante ressaltar que os pontos foram reordenados de modo a garantir que a curva resultante seja traçada sempre da esquerda para a direita, o que é essencial para o bom desempenho do algoritmo de DTW.
 
